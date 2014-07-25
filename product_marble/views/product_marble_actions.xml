@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+        <!-- - - - - - - - - - - - - - Products - - - - -  - - - - - - - - - - - - -->
+
+        <!-- Action: All Products -->
+        <record id="act_open_product_marble_all_view" model="ir.actions.act_window">
+            <field name="name">All Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_id"           ref="view_product_marble_tree"/>
+            <field name="search_view_id"    ref="view_product_marble_search_all"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new product.
+              </p><p>
+                You must define a product for everything you buy or sell,
+                whether it's a physical product, a consumable or service.
+              </p>
+            </field>
+        </record>
+
+        <!-- Action: Raw Material Products -->
+        <record id="act_open_product_marble_raw_material_view"      model="ir.actions.act_window">
+            <field name="name">Raw Material Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="domain">[('categ_name','ilike','raw')]</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_id"           ref="view_product_marble_tree"/>
+            <field name="search_view_id"    ref="view_product_marble_search_others"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new product.
+              </p><p>
+                You must define a product for everything you buy or sell,
+                whether it's a physical product, a consumable or service.
+              </p>
+            </field>
+        </record>
+
+        <!-- Action: Bachas Products -->
+        <record id="act_open_product_marble_bachas_view"      model="ir.actions.act_window">
+            <field name="name">Bachas Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="domain">[('categ_name','ilike','bacha')]</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_id"           ref="view_product_marble_tree"/>
+            <field name="search_view_id"    ref="view_product_marble_search_others"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new product.
+              </p><p>
+                You must define a product for everything you buy or sell,
+                whether it's a physical product, a consumable or service.
+              </p>
+            </field>
+        </record>
+         
+        <!-- Action: Inputs Products -->
+        <record id="act_open_product_marble_inputs_view"      model="ir.actions.act_window">
+            <field name="name">Inputs Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="domain">[('categ_name','ilike','input')]</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_id"           ref="view_product_marble_tree"/>
+            <field name="search_view_id"    ref="view_product_marble_search_others"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new product.
+              </p><p>
+                You must define a product for everything you buy or sell,
+                whether it's a physical product, a consumable or service.
+              </p>
+            </field>
+        </record>
+        
+        <!-- Action: Services Products -->
+        <record id="act_open_product_marble_services_view"      model="ir.actions.act_window">
+            <field name="name">Services Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="domain">[('categ_name','ilike','service')]</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="view_id"           ref="view_product_marble_tree"/>
+            <field name="search_view_id"    ref="view_product_marble_search_others"/>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new product.
+              </p><p>
+                You must define a product for everything you buy or sell,
+                whether it's a physical product, a consumable or service.
+              </p>
+            </field>
+        </record>
+        
+        <!-- - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - -->
+
+        <!-- Action: Dimensions -->
+		<record model="ir.actions.act_window" id="act_open_product_marble_dimension_view">
+			<field name="name">Dimensions</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.marble.dimension</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_product_marble_dimension_tree"/>
+			<field name="search_view_id" ref="view_product_marble_dimension_search" />
+			<field name="domain">[]</field>
+			<field name="context">{}</field>
+		</record>
+
+		<record model="ir.actions.act_window.view" id="act_open_product_marble_dimension_view_form">
+			<field name="act_window_id" ref="act_open_product_marble_dimension_view" />
+			<field name="sequence" eval="20" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="view_product_marble_dimension_form" />
+		</record>
+
+		<record model="ir.actions.act_window.view" id="act_open_product_marble_dimension_view_tree">
+			<field name="act_window_id" ref="act_open_product_marble_dimension_view" />
+			<field name="sequence" eval="10" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="view_product_marble_dimension_tree" />
+		</record>
+
+        <!-- Action: Dimension >> Plaque -->
+        <record model="ir.actions.act_window" id="act_open_product_marble_dim_plaque_view">
+			<field name="name">Plaque Dimensions</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.marble.dimension</field>
+			<field name="domain">[('type','=','pla')]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_product_marble_dimension_tree"/>
+			<field name="search_view_id" ref="view_product_marble_dimension_search" />
+	        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new Plaque Dimension.
+              </p>
+            </field>
+        </record>
+
+        <!-- Action: Dimension >> Marmeta -->
+        <record model="ir.actions.act_window" id="act_open_product_marble_dim_marmeta_view">
+			<field name="name">Marmeta Dimensions</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.marble.dimension</field>
+			<field name="domain">[('type','=','mar')]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_product_marble_dimension_tree"/>
+			<field name="search_view_id" ref="view_product_marble_dimension_search" />
+	        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new Marmeta Dimension.
+              </p>
+            </field>
+        </record>
+
+        <!-- Action: Dimension >> Leftover -->
+        <record model="ir.actions.act_window" id="act_open_product_marble_dim_leftover_view">
+			<field name="name">Leftover Dimensions</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.marble.dimension</field>
+			<field name="domain">[('type','=','lef')]</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_product_marble_dimension_tree"/>
+			<field name="search_view_id" ref="view_product_marble_dimension_search" />
+	        <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to define a new Leftover Dimension.
+              </p>
+            </field>
+        </record>
+
+        <!-- - - - - - - - - - - - - - xxx - - - - - - - - - - - - - - - - - -->
+
+	</data>
+</openerp>

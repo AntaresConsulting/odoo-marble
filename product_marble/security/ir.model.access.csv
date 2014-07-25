@@ -1,0 +1,91 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_marble_incoterms_all,stock.incoterms all,stock.model_stock_incoterms,,1,0,0,0
+access_marble_incoterms_manager,stock.incoterms manager,stock.model_stock_incoterms,product_marble.group_marble_manager,1,1,1,1
+
+access_marble_warehouse_manager,stock.warehouse.manager,stock.model_stock_warehouse,product_marble.group_marble_manager,1,1,1,1
+access_marble_warehouse_user,stock.warehouse.user,stock.model_stock_warehouse,base.group_user,1,0,0,0
+
+access_marble_location__partner_manager,stock.location.partner.manager,stock.model_stock_location,base.group_partner_manager,1,1,1,1
+access_marble_location_manager,stock.location.manager,stock.model_stock_location,product_marble.group_marble_manager,1,1,1,1
+access_marble_location_user,stock.location.user,stock.model_stock_location,base.group_user,1,0,0,0
+
+access_marble_journal_user,stock.journal.user,stock.model_stock_journal,base.group_user,1,0,0,0
+access_marble_journal_manager,stock.journal.manager,stock.model_stock_journal,product_marble.group_marble_manager,1,1,1,1
+
+access_marble_tracking_user,stock.tracking user,stock.model_stock_tracking,product_marble.group_marble_user,1,1,1,1
+access_marble_tracking_manager,stock.tracking manager,stock.model_stock_tracking,product_marble.group_marble_manager,1,0,0,0
+access_marble_tracking_sales_user,stock.tracking sales.user,stock.model_stock_tracking,base.group_sale_salesman,1,1,1,0
+
+access_marble_picking_user,stock.picking user,stock.model_stock_picking,product_marble.group_marble_user,1,1,1,1
+access_marble_picking_in_user,stock.picking.in,stock.model_stock_picking_in,product_marble.group_marble_user,1,1,1,1
+access_marble_picking_out_user,stock.picking.out,stock.model_stock_picking_out,product_marble.group_marble_user,1,1,1,1
+access_marble_picking_manager,stock.picking manager,stock.model_stock_picking,product_marble.group_marble_manager,1,1,0,0
+access_marble_picking_in_manager,stock.picking.in manager,stock.model_stock_picking_in,product_marble.group_marble_manager,1,0,0,0
+access_marble_picking_out_manager,stock.picking.out manager,stock.model_stock_picking_out,product_marble.group_marble_manager,1,0,0,0
+
+access_marble_production_lot_manager,stock.production.lot manager,stock.model_stock_production_lot,product_marble.group_marble_manager,1,0,0,0
+access_marble_production_lot_user,stock.production.lot user,stock.model_stock_production_lot,product_marble.group_marble_user,1,1,1,1
+access_marble_production_lot_revision,stock.production.lot.revision,stock.model_stock_production_lot_revision,product_marble.group_marble_user,1,1,1,1
+
+access_marble_move_manager,stock.move manager,stock.model_stock_move,product_marble.group_marble_manager,1,1,1,1
+access_marble_move_user,stock.move user,stock.model_stock_move,product_marble.group_marble_user,1,1,1,0
+
+access_marble_inventory_user,stock.inventory user,stock.model_stock_inventory,product_marble.group_marble_user,1,1,1,0
+access_marble_inventory_manager,stock.inventory manager,stock.model_stock_inventory,product_marble.group_marble_manager,1,1,1,1
+access_marble_inventory_line_user,stock.inventory.line user,stock.model_stock_inventory_line,product_marble.group_marble_user,1,1,1,0
+access_marble_inventory_line_manager,stock.inventory.line manager,stock.model_stock_inventory_line,product_marble.group_marble_manager,1,1,1,1
+
+access_marble_report_prodlots,stock.report.prodlots,stock.model_stock_report_prodlots,product_marble.group_marble_manager,1,0,0,0
+
+access_marble_location_sale_manager,stock.location sale manager,stock.model_stock_location,base.group_sale_manager,1,0,0,0
+access_marble_location_stock_manager,stock.location stock manager,stock.model_stock_location,product_marble.group_marble_manager,1,0,0,0
+
+access_marble_lines_date_user,report.stock.lines.date user,stock.model_report_stock_lines_date,product_marble.group_marble_user,1,0,0,0
+access_marble_lines_date_manager,report.stock.lines.date manager,stock.model_report_stock_lines_date,product_marble.group_marble_manager,1,1,1,1
+
+access_marble_report_tracklots,stock.report.tracklots,stock.model_stock_report_tracklots,product_marble.group_marble_user,1,1,1,1
+
+access_report_marble_move_user,report.stock.move user,stock.model_report_stock_move,product_marble.group_marble_user,1,0,0,0
+access_report_marble_move_manager,report.stock.move manager,stock.model_report_stock_move,product_marble.group_marble_manager,1,1,1,1
+access_report_marble_inventory_user,report.stock.inventory user,stock.model_report_stock_inventory,product_marble.group_marble_user,1,1,1,1
+
+access_product_product_marble_user,product_product_stock_user,product.model_product_product,product_marble.group_marble_user,1,1,0,0
+access_product_template_marble_user,product.template stock user,product.model_product_template,product_marble.group_marble_user,1,1,0,0
+
+access_account_invoice_user,account.invoice stock user,account.model_account_invoice,product_marble.group_marble_user,1,1,1,0
+access_account_invoice_line_user,account.invoice.line stock user,account.model_account_invoice_line,product_marble.group_marble_user,1,1,1,0
+access_account_invoice_tax_user,account.invoice.tax stock user,account.model_account_invoice_tax,product_marble.group_marble_user,1,1,1,0
+access_account_journal_user,account.journal stock user,account.model_account_journal,product_marble.group_marble_user,1,0,0,0
+access_account_fiscalyear,account.fiscalyear stock user,account.model_account_fiscalyear,product_marble.group_marble_user,1,0,0,0
+
+access_product_pricelist_item_sale_manager,product.pricelist.item salemanager,product.model_product_pricelist_item,base.group_sale_manager,1,1,1,1
+
+access_product_uom_categ_marble_manager,product.uom.categ stock_manager,product.model_product_uom_categ,product_marble.group_marble_manager,1,1,1,1
+access_product_uom_marble_manager,product.uom stock_manager,product.model_product_uom,product_marble.group_marble_manager,1,1,1,1
+
+access_product_ul_marble_manager,product.ul stock_manager,product.model_product_ul,product_marble.group_marble_manager,1,1,1,1
+access_product_category_marble_manager,product.category stock_manager,product.model_product_category,product_marble.group_marble_manager,1,1,1,1
+access_product_template_marble_manager,product.template stock_manager,product.model_product_template,product_marble.group_marble_manager,1,1,1,1
+access_product_product_marble_manager,product.product stock_manager,product.model_product_product,product_marble.group_marble_manager,1,1,1,1
+access_product_packaging_marble_manager,product.packaging stock_manager,product.model_product_packaging,product_marble.group_marble_manager,1,1,1,1
+access_product_supplierinfo_marble_manager,product.supplierinfo stock_manager,product.model_product_supplierinfo,product_marble.group_marble_manager,1,1,1,1
+
+access_pricelist_partnerinfo_marble_manager,pricelist.partnerinfo stock_manager,product.model_pricelist_partnerinfo,product_marble.group_marble_manager,1,1,1,1
+access_product_price_type_marble_manager,product.price.type stock_manager,product.model_product_price_type,product_marble.group_marble_manager,1,1,1,1
+
+access_product_pricelist_type_marble_manager,product.pricelist.type stock_manager,product.model_product_pricelist_type,product_marble.group_marble_manager,1,1,1,1
+access_product_pricelist_marble_manager,product.pricelist stock_manager,product.model_product_pricelist,product_marble.group_marble_manager,1,1,1,1
+access_ir_property_group_marble_manager,ir_property group_stock_manager,base.model_ir_property,product_marble.group_marble_manager,1,1,1,1
+access_product_group_res_partner_marble_manager,res_partner group_stock_manager,base.model_res_partner,product_marble.group_marble_manager,1,1,1,0
+access_product_pricelist_version_marble_manager,product.pricelist.version stock_manager,product.model_product_pricelist_version,product_marble.group_marble_manager,1,1,1,1
+access_product_pricelist_item_marble_manager,product.pricelist.item stock_manager,product.model_product_pricelist_item,product_marble.group_marble_manager,1,1,1,1
+access_account_account_marble_manager,account.account stock manager,account.model_account_account,product_marble.group_marble_manager,1,0,0,0
+access_board_marble_user,board.board user,board.model_board_board,product_marble.group_marble_user,1,1,0,0
+
+access_dimension_u,product.marble.dimension user,model_product_marble_dimension,product_marble.group_marble_user,1,0,0,0
+access_dimension_m,product.marble.dimension manager,model_product_marble_dimension,product_marble.group_marble_manager,1,1,1,1
+
+access_stock_warehouse_orderpoint_u,stock.warehouse.orderpoint user,procurement.model_stock_warehouse_orderpoint,product_marble.group_marble_user,1,0,0,0
+access_stock_warehouse_orderpoint_m,stock.warehouse.orderpoint manager,procurement.model_stock_warehouse_orderpoint,product_marble.group_marble_manager,1,0,0,0
+

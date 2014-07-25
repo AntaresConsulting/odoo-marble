@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+       
+       <record id="product_marble_view_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="replace">
+                     <field name="name" filter_domain="['|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|',
+                        ('name','ilike',self),
+                        ('parent_id','ilike',self),
+                        ('ref','=',self),
+
+                        ('title','ilike',self),
+                        ('vat','ilike',self),
+                        ('bank_ids','ilike',self),
+                        ('comment','ilike',self),
+                        ('category_id','ilike',self),
+                        ('ean13','ilike',self),
+                        ('function','ilike',self),
+                        ('type','ilike',self),
+                        ('street','ilike',self),
+                        ('street2','ilike',self),
+                        ('zip','ilike',self),
+                        ('city','ilike',self),
+                        ('state_id','ilike',self),
+                        ('country_id','ilike',self),
+                        ('country','ilike',self),
+                        ('email','ilike',self),
+                        ('phone','ilike',self),
+                        ('fax','ilike',self),
+                        ('mobile','ilike',self),
+                        ('birthdate','ilike',self),
+                        ('user_ids','ilike',self),
+ 
+                        ('website','ilike',self),
+                    ]" />
+               </field>
+           </field>
+        </record>
+
+  </data>
+</openerp>

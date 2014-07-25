@@ -1,0 +1,3 @@
+# Ignores
+*.pyc
+# models/*.pyc

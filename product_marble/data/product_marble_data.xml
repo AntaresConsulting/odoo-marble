@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <!-- setting: Company -->
+        <record id="base.main_company" model="res.company">
+            <field name="name">Marmoles Anton S. A.</field>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="currency_id" ref="base.ARS"/>
+        </record>
+
+       <!-- user: David (Admin) -->
+        <record id="anton_david" model="res.partner">
+            <field name="name">David (Admin)</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="customer" eval="False"/>
+            <field name="email">david@anton.com.ar</field>
+            <field name="lang">es_AR</field>
+        </record>
+
+        <record id="user_david" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_david"/>
+            <field name="login">david</field>
+            <field name="password">david</field>
+            <field name="signature">Sr David</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_user'), 
+                                                 ref('product_marble.group_marble_manager'),
+                                                 ref('product.group_uom')
+                                                ])]"/>
+       </record>
+
+        <!-- user: Pepe (User) -->
+        <record id="anton_pepe" model="res.partner">
+            <field name="name">Pepe (User)</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="customer" eval="False"/>
+            <field name="email">pepe@anton.com.ar</field>
+            <field name="lang">es_AR</field>
+        </record>
+
+        <record id="user_pepe" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_pepe"/>
+            <field name="login">pepe</field>
+            <field name="password">pepe</field>
+            <field name="signature">Sr Pepe</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_user'),
+                                                 ref('product.group_uom')
+                                                ])]"/>
+       </record>
+
+
+        <!-- add UOM Category Surface / Area -->
+        <record id="product_uom_categ_area" model="product.uom.categ">
+            <field name="name">Surface / Area</field>
+        </record>
+
+        <!-- add UOM square meter (m2)  -->
+        <record id="product_uom_square_meter" model="product.uom">
+            <field name="category_id" ref="product_marble.product_uom_categ_area"/>
+            <field name="name">m2</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+
+        <!-- add Product Category -->
+
+        <record id="prod_categ_raw_material" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">Raw Material</field>
+        </record>
+ 
+        <record id="prod_categ_bachas" model="product.category">
+            <field name="parent_id" ref="product.product_category_1"/>
+            <field name="name">Bachas</field>
+        </record>
+ 
+         <record id="prod_categ_services" model="product.category">
+            <field name="parent_id" ref="product.product_category_1"/>
+            <field name="name">Services</field>
+        </record>
+ 
+        <record id="prod_categ_inputs" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">Inputs</field>
+        </record>
+ 
+        <!-- add Product Marble Generic -->
+
+        <!--record id="product_product_marble_generic" model="product.product">
+            <field name="list_price">0.0</field>
+            <field name="standard_price">0.0</field>
+            <field name="uom_id" ref="product_marble.product_uom_square_meter"/>
+            <field name="uom_po_id" ref="product_marble.product_uom_square_meter"/>
+            <field name="name">Marble Work (Generic)</field>
+            <field name="categ_id" ref="product_marble.product_category_marble"/>
+            <field name="type">product</field>
+            <field name="active">1</field>
+        </record-->
+ 
+ </data>
+</openerp>
+
