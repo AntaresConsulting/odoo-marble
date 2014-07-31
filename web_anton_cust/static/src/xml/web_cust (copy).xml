@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="Login">
+        <t t-jquery="div[class=oe_login_logo]" t-operation="replace">
+            <div class="oe_login_logo"><img width="260" src='/web_anton_cust/static/src/img/logo.png'/></div>
+        </t>
+    	<t t-jquery="div.oe_login_footer" t-operation="replace">
+            <div class="oe_login_footer">
+                <a href="http://www.antaresconsulting.com.ar" target="_blank">Powered by <span>Antares</span></a>
+            </div>
+        </t>
+    </t>
+</templates>
