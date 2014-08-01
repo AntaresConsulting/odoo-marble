@@ -27,7 +27,7 @@
     'category'   : 'Product Marble',
     'website'    : 'http:antaresconsulting.com.ar',
     'depends'    :[
-            'stock',
+            'stock','hr',
     ],
     'data'       :[
         'security/product_marble_security.xml',
