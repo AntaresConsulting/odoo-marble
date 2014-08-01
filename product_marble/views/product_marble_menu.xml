@@ -7,6 +7,10 @@
                 groups="group_marble_manager,group_marble_user" sequence="70" 
         />
 
+        <menuitem   id="base.menu_reporting"                      name="Reporting" 
+                groups="group_marble_manager,group_marble_user" sequence="170" 
+        />
+
        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
         <!-- menu: Warehouse > Customer/Supplier -->
@@ -31,52 +35,47 @@
 
         <!-- menu: Warehouse > ... by Orders  -->
         <menuitem   id="stock.menu_stock_warehouse_mgmt"            name="Receive/Deliver By Orders" 
-                parent="stock.menu_stock_root"                  sequence="1" 
+                parent="stock.menu_stock_root"                  sequence="2" 
                 groups="group_marble_manager,group_marble_user" 
         />
-        <!--
-                groups="stock.group_stock_manager,stock.group_stock_user" 
-                groups="group_marble_manager,group_marble_user" 
-        -->
 
-        <!-- menu: Warehouse > ... Moves  -->
-        <menuitem   id="stock.menu_stock_products_moves"            name="Receive/Deliver Products" 
-                parent="stock.menu_stock_root"                  sequence="3" 
-                groups="stock.group_stock_manager,stock.group_stock_user" 
+         <menuitem   id="stock.menu_stock_products_moves"            name="Receive/Deliver Products" 
+                parent="stock.menu_stock_root"                  sequence="2" 
+                groups="stock.group_stock_manager" 
         />
 
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
         <!-- menu: Warehouse > Product > Product -->
         <menuitem   id="stock.menu_stock_products_menu" 
-                parent="stock.menu_stock_product"               sequence="4"
+                parent="stock.menu_stock_product"               sequence="3"
                 action="act_open_product_marble_all_view"
         />
 
         <!-- menu: Warehouse > Product > Raw Material -->
         <menuitem   id="menu_product_marble_raw_material"           name="- Raw Material" 
-                parent="stock.menu_stock_product"               sequence="5" 
+                parent="stock.menu_stock_product"               sequence="4" 
                 action="act_open_product_marble_raw_material_view" 
                 groups="group_marble_manager,group_marble_user" 
         />
 
         <!-- menu: Warehouse > Product > Bachas -->
         <menuitem   id="menu_product_marble_bachas"                 name="- Bachas" 
-                parent="stock.menu_stock_product"               sequence="6" 
+                parent="stock.menu_stock_product"               sequence="5" 
                 action="act_open_product_marble_bachas_view" 
                 groups="group_marble_manager,group_marble_user" 
         />
 
         <!-- menu: Warehouse > Product > Inputs -->
         <menuitem   id="menu_product_marble_inputs"                 name="- Inputs" 
-                parent="stock.menu_stock_product"               sequence="7" 
+                parent="stock.menu_stock_product"               sequence="6" 
                 action="act_open_product_marble_inputs_view" 
                 groups="group_marble_manager,group_marble_user" 
         />
 
         <!-- menu: Warehouse > Product > Services -->
         <menuitem   id="menu_product_marble_services"               name="- Services" 
-                parent="stock.menu_stock_product"               sequence="8" 
+                parent="stock.menu_stock_product"               sequence="7" 
                 action="act_open_product_marble_services_view" 
                 groups="group_marble_manager,group_marble_user" 
         />
@@ -85,33 +84,43 @@
 
         <!-- menu: Warehouse > Product > Dimensions -->
         <menuitem   id="menu_product_marble_dimensions"             name="Dimensions" 
-                parent="stock.menu_stock_product"               sequence="10" 
+                parent="stock.menu_stock_product"               sequence="8" 
                 action="act_open_product_marble_dimension_view" 
                 groups="group_marble_manager,group_marble_user" 
         />
 
         <!-- menu: Warehouse > Dimension > Plaque -->
         <menuitem   id="menu_product_marble_dimension_plaque"      name="- Plaque" 
-                parent="stock.menu_stock_product"               sequence="12" 
+                parent="stock.menu_stock_product"               sequence="9" 
                 action="act_open_product_marble_dim_plaque_view" 
                 groups="group_marble_manager,group_marble_user" 
         />
 
         <!-- menu: Warehouse > Dimension > Marmeta -->
         <menuitem   id="menu_product_marble_dimension_marmeta"      name="- Marmeta" 
-                parent="stock.menu_stock_product"               sequence="14" 
+                parent="stock.menu_stock_product"               sequence="10" 
                 action="act_open_product_marble_dim_marmeta_view" 
                 groups="group_marble_manager,group_marble_user" 
         />
 
         <!-- menu: Warehouse > Dimension > Leftover -->
         <menuitem   id="menu_product_marble_dimension_leftover"     name="- Leftover" 
-                parent="stock.menu_stock_product"               sequence="16" 
+                parent="stock.menu_stock_product"               sequence="11" 
                 action="act_open_product_marble_dim_leftover_view" 
                 groups="group_marble_manager,group_marble_user" 
         />
 
+        <!-- menu: Report > Warehouse -->
+        <menuitem   id="stock.menu_report_warehouse"     name="Warehouse" 
+                parent="base.menu_reporting"               sequence="3" 
+                groups="group_marble_manager" 
+        />
 
+        <!-- menu: Report > Warehouse dashboard -->
+        <menuitem   id="stock.menu_board_warehouse"     name="Warehouse" 
+                parent="base.menu_reporting_dashboard"               sequence="88" 
+                groups="group_marble_manager" 
+        />
  
 	</data>
 </openerp>
