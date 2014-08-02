@@ -1688,7 +1688,7 @@ msgstr "Dividir"
 #. module: stock
 #: model:ir.actions.report.xml,name:stock.report_picking_list_out
 msgid "Delivery Slip"
-msgstr "Vale de entrega"
+msgstr "Remito"
 
 #. module: stock
 #: model:ir.actions.act_window,name:stock.open_board_warehouse
@@ -4927,7 +4927,7 @@ msgstr "Opcional: Siguiente movimiento de existencias, cuando se encadenan."
 #. module: stock
 #: view:stock.picking.out:0
 msgid "Print Delivery Slip"
-msgstr "Imprimir vale de entrega"
+msgstr "Imprimir Remito"
 
 #. module: stock
 #: view:report.stock.inventory:0
