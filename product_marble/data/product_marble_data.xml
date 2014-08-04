@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data noupdate="1">
+    <data noupdate="0">
 
         <!-- setting: Company -->
         <record id="base.main_company" model="res.company">
@@ -25,7 +25,7 @@
             <field name="signature">Sr David</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_user'), 
-                                                 ref('product_marble.group_marble_manager'),
+                                                 ref('product_marble.group_marble_mger'),
                                                  ref('product.group_uom')
                                                 ])]"/>
        </record>

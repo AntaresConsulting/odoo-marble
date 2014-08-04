@@ -21,8 +21,6 @@
 
 from openerp.osv import osv
 from openerp.osv import fields
-import time
-
 import logging
 _logger = logging.getLogger(__name__)
 

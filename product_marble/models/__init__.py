@@ -24,7 +24,7 @@ import product_marble_dimension
 import product_marble_dimension_balance
 import product_category
 import product_product
-from stock import *
+import stock
 import partner
 
 

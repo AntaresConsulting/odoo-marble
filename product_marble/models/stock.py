@@ -45,23 +45,24 @@ class stock_picking(osv.osv):
     }
 
 stock_picking()
-class stock_picking_in(osv.osv):
-    _inherit = "stock.picking.in"
 
-    _tipo_de_move = [
-            ('raw', 'Raw'),
-            ('insu', 'Input'),
-            ('bac', 'Bacha'),
-    ]
-
-    def _get_tipo_de_move(self, cr, uid, context=None):
-        return sorted(self._tipo_de_move, key=itemgetter(1))
-
-    _columns = {
-        'move_prod_type': fields.selection(_get_tipo_de_move, string='Product Type picking', select=True),
-    }
-
-stock_picking_in()
+# class stock_picking_in(osv.osv):
+#     _inherit = "stock.picking.in"
+#
+#    _tipo_de_move = [
+#            ('raw', 'Raw'),
+#            ('insu', 'Input'),
+#            ('bac', 'Bacha'),
+#    ]
+#
+#    def _get_tipo_de_move(self, cr, uid, context=None):
+#        return sorted(self._tipo_de_move, key=itemgetter(1))
+#
+#    _columns = {
+#        'move_prod_type': fields.selection(_get_tipo_de_move, string='Product Type picking', select=True),
+#    }
+#
+# stock_picking_in()
 
 class stock_move(osv.osv):
     _inherit = "stock.move"
@@ -81,7 +82,6 @@ class stock_move(osv.osv):
             return -1
 
         return 0
-
 
     def _get_sign_qty(self, cr, uid, ids, field_name, arg, context=None):
         # _logger.info(">> _get_field_with_sign >> 0 >> ids = %s", ids)

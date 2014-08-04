@@ -5,11 +5,14 @@
         <!-- views -->
         <record id="view_product_marble_tree" model="ir.ui.view">
             <field name="name">product.marble.tree</field>
-            <field name="model">product.product</field>
+            <!--field name="model">product.product</field-->
+            <field name="model">product.template</field>
             <field eval="7" name="priority"/>
-            <field name="inherit_id" ref="product.product_product_tree_view"/>
+            <!--field name="inherit_id" ref="product.product_product_tree_view"/-->
+            <field name="inherit_id" ref="product.product_template_tree_view"/>
             <field name="arch" type="xml">
-                <tree string="Products" position="replace">
+                <field name="id" />
+                <!--tree string="Products" position="replace">
                 <tree colors="red:virtual_available&lt;0;blue:virtual_available&gt;=0 and state in ('draft', 'end', 'obsolete');black:virtual_available&gt;=0 and state not in ('draft', 'end', 'obsolete')" string="Products">
                     <field name="default_code"/>
                     <field name="categ_name"/>
@@ -26,7 +29,7 @@
                     <field name="state"/>
                     <field name="company_id" groups="base.group_multi_company" invisible="1" position="replace"/>
                 </tree>
-                </tree>
+                </tree-->
             </field>
         </record>
 
