@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<openerp>
+<data noupdate="1">
+
+    <record id="remito_report_aeroo" model="ir.actions.report.xml">
+	<field name="name">Remito Aeroo</field>
+        <field name="type">ir.actions.report.xml</field>
+        <field name="model">stock.picking.out</field>
+        <field name="report_name">stock.picking.list.out</field>
+        <field name="report_type">aeroo</field>
+        <field name="in_format">oo-odt</field>
+	<field name="out_format" eval="ref('report_aeroo_ooo.report_mimetypes_pdf_odt')"/>
+	<field name="parser_loc">product_marble/report/general_parser.py</field>
+	<field name="report_rml">product_marble/report/remito.odt</field>
+        <field name="parser_state">loc</field>
+        <field name="tml_source">file</field>
+	<field name='multi' eval='False'/>	
+    </record>
+
+    <ir_set>
+        <field eval="'action'" name="key"/>
+        <field eval="'client_print_multi'" name="key2"/>
+        <field eval="'stock.picking.out'" name="model"/>
+        <field name="name">Remito Aeroo</field>
+        <field eval="'ir.actions.report.xml,'+str(remito_report_aeroo)" name="value"/>
+        <field eval="True" name="object"/>
+        <field eval="True" name="replace"/>
+    </ir_set>
+
+</data>
+</openerp>
