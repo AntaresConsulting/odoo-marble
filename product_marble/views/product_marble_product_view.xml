@@ -128,6 +128,9 @@
                         >
                             <field name="bacha_marca"    attrs="{'required':[('is_bacha','=',True)]}" />
                             <field name="bacha_material" attrs="{'required':[('is_bacha','=',True)]}" />
+							<field name="bacha_tipo" attrs="{'required':[('is_bacha','=',True)]}" />
+							<field name="bacha_colocacion" attrs="{'required':[('is_bacha','=',True)]}" />
+							<field name="bacha_acero" attrs="{'required':[('is_bacha','=',True)]}" />															                            
                         </group>
                         </group>
 

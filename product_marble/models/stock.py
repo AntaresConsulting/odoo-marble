@@ -298,6 +298,8 @@ class stock_move(osv.osv):
         'dimension_qty': fields.integer('Quantity', size=3, states={'done': [('readonly', True)]}),
         'is_raw': fields.function(_is_raw, type='boolean', string='Is Marble'),
 
+        'employee': fields.many2one('hr.employee', 'Empleado', select=True, states={'done': [('readonly', True)]}, domain=[('active','=',True)]),
+
         'partner_picking_id': fields.related('picking_id', 'partner_id', type='many2one', relation='res.partner', string='Patern', store=False),
 
         'qty_dimension': fields.function(_get_sign_qty, string='Dimension Qty', multi="sign"),

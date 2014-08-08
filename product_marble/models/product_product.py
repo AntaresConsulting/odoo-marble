@@ -52,6 +52,7 @@ class product_product(osv.osv):
             ('ama', 'Amarillo'),
             ('roj', 'Rojo'),
             ('gri', 'Gris'),
+            ('mar', 'Marron'),
             ('bei', 'Beige'),
     ]
 
@@ -72,8 +73,30 @@ class product_product(osv.osv):
     _bacha_marca = [
             ('joh', 'Johnson Acero'),
             ('mip', 'Mi Pileta'),
+            ('roc', 'Roca'),
+            ('fer', 'Ferrum'),
+            ('cer', 'Cerart'),
+            ('fra', 'Franke'),
+            ('ari', 'Ariel Del Plata'),
+            ('dec', 'Deca Piazza'),                                       
     ]
 
+    _bacha_acero = [
+            ('403', 'Acero 403'),
+            ('304', 'Acero 304'),
+    ]
+
+    _bacha_tipo = [
+            ('sim', 'Simple'),
+            ('dob', 'Doble'),
+            ('red', 'Redonda'),
+    ]
+    
+    _bacha_colocacion = [
+            ('enc', 'Encastre'),
+            ('peg', 'Pegar de Abajo'),
+    ]
+    
     def _get_material(self, cr, uid, context=None):
         return sorted(self._material, key=itemgetter(1))
 
@@ -82,6 +105,15 @@ class product_product(osv.osv):
 
     def _get_finished(self, cr, uid, context=None):
         return sorted(self._finished, key=itemgetter(1))
+
+    def _get_bacha_tipo(self, cr, uid, context=None):
+        return sorted(self._bacha_tipo, key=itemgetter(1))
+
+    def _get_bacha_colocacion(self, cr, uid, context=None):
+        return sorted(self._bacha_colocacion, key=itemgetter(1))
+
+    def _get_bacha_acero(self, cr, uid, context=None):
+        return sorted(self._bacha_acero, key=itemgetter(1))
 
     def _get_bacha_material(self, cr, uid, context=None):
         return sorted(self._bacha_material, key=itemgetter(1))
@@ -351,7 +383,15 @@ class product_product(osv.osv):
 
         'bacha_material': fields.selection(_get_bacha_material, string='Material', select=True),
         'bacha_marca': fields.selection(_get_bacha_marca, string='Marca', select=True),
-
+        'bacha_acero': fields.selection(_get_bacha_acero, string='Acero', select=True),
+        'bacha_colocacion': fields.selection(_get_bacha_colocacion, string='Colocaicon', select=True),
+        'bacha_tipo': fields.selection(_get_bacha_tipo, string='Tipo', select=True),
+        'bacha_ancho': fields.float('Bacha Ancho', digits=(5, 2), type="float"),
+        'bacha_largo': fields.float('Bacha Largo', digits=(5, 2), type="float"),
+        'bacha_prof': fields.float('Bacha Profundidad', digits=(5, 2), type="float"),
+        'bacha_diam': fields.float('Bacha Profundidad', digits=(5, 2), type="float"),
+        
+        
         'categ_name': fields.related('categ_id', 'name', relation='product.category', type='char', readonly=True, string='Category'),
         'is_raw': fields.function(_is_raw_material, type='boolean', string='Is Raw Material'),
         'is_bacha': fields.function(_is_bacha, type='boolean', string='Is Bacha'),
