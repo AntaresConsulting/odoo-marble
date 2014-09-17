@@ -36,12 +36,12 @@
         'data/product_marble_data.xml',
 
         'views/product_marble_dimension_view.xml',
-#        'views/product_marble_product_view.xml',
-#        'views/stock_view.xml',
+        'views/product_marble_product_view.xml',
+        'views/stock_view.xml',
         'views/res_partner_view.xml',
 
-#        'views/product_marble_actions.xml',
-#        'views/product_marble_menu.xml',
+        'views/product_marble_actions.xml',
+        'views/product_marble_menu.xml',
     ],
     'application': True,
     'installable': True,

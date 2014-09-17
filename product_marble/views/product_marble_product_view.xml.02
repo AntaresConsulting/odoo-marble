@@ -84,7 +84,6 @@
         
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
-        <!-- Muevo 'categ_id' de page 'Accounting' a page 'Information' -->
         <record id="product_template_form_view" model="ir.ui.view">
             <field name="name">product.template.form.inherit</field>
             <field name="model">product.template</field>
@@ -112,32 +111,23 @@
                 </page>
             </field>
         </record>
-
+        
         <record id="view_product_marble_form" model="ir.ui.view">
             <field name="name">product.marble.form</field>
             <field name="model">product.product</field>
-            <!--field name="inherit_id" ref="product.product_template_form_view"/-->
-            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <!--field name="inherit_id" ref="product.product_template_form_view" /-->
             <!--field name="inherit_id" ref="stock.product_form_view_procurement_button" /-->
-            <!--field name="inherit_id" ref="purchase.view_product_normal_purchase_buttons_from" /-->
-            <!--field name="mode">primary</field-->
-            <field name="arch" type="xml">
- 
-                <div name="options" position="before">
-                    <separator class="oe_edit_only"/>
-                </div>
+            <field name="inherit_id" ref="product.product_normal_form_view" />
+            <!--field eval="1" name="priority"/-->
+            <field name="arch" type="xml" >
 
                 <page string="Information" position="replace">
                 <page string="Information">
                     <group colspan="4">
                         <group>
                             <field name="categ_id"/>
-                            <field name="type" attrs="{'readonly':['|',('is_raw','=',True),('is_bacha','=',True)]}"/>
-                            <field name="uom_id" 
-                                  attrs="{'readonly':[('uom_readonly','=',True)]}" 
-                              on_change="onchange_uom(uom_id,uom_po_id)"
-                                 groups="product.group_uom"
-                            />
+                            <field name="type"/>
+                            <field name="uom_id" on_change="onchange_uom(uom_id,uom_po_id)" groups="product.group_uom"/>
                         </group>
                         <group>
                             <field name="active"/>
@@ -147,89 +137,42 @@
                         </group>
                     </group>
 
+                    <field name="is_raw" invisible="0"/> 
+                    <field name="is_bacha" invisible="0"/> 
+                    <field name="uom_readonly" invisible="0"/> 
+
+                    <group string="Raw Material" colspan="4">
+                        <group>
+                            <field name="material"  attrs="{'required':[('is_raw','=',True)]}" />
+                            <field name="color"     attrs="{'required':[('is_raw','=',True)]}" />
+                        </group>
+                        <group>
+                            <field name="finished"  attrs="{'required':[('is_raw','=',True)]}" />
+                        </group>
+                    </group>
+                    <group string="Bacha" colspan="4">
+                        <group>
+                            <field name="bacha_tipo" on_change="onchange_category_id(categ_id)" />
+                            <field name="bacha_marca" />
+                            <field name="bacha_material" />
+                            <field name="bacha_acero" />
+                            <field name="bacha_colocacion" />
+                        </group>
+                        <group>
+                            <field name="bacha_ancho" />
+                            <field name="bacha_largo" />
+                            <field name="bacha_prof" />
+                            <field name="bacha_diam" />
+                        </group>
+                    </group>
+
                     <group colspan="4">
                         <field name="company_id" groups="base.group_multi_company" widget="selection"/>
                     </group>
                     <field name="description" placeholder="describe the product characteristics..."/>
- 
-                    <field name="is_raw" invisible="1"/>
-                    <field name="is_bacha" invisible="1"/>
-                    <field name="uom_readonly" invisible="1"/>
                 </page>
-               
-                <page string="Raw Material" attrs="{'invisible':[('is_raw','=',False)]}">
-                    <group colspan="4">
-                        <group>
-                            <field name="raw_material"/>
-                            <field name="raw_color"/>
-                        </group>
-                        <group>
-                            <field name="raw_finished"/>
-                        </group>
-                    </group>
-
-                    <notebook>
-                        <!--page string="Dimensions">
-                            <field name="dimension_ids" context="{'product_id':id}">
-                                <tree string="Dimensions">
-                                    <field name="dimension"/>
-                                    <field name="total_units"/>
-                                    <field name="total_m2"/>
-                                    <field name="type"/>
-                                    <field name="state"/>
-                                </tree>
-                            </field>
-                        </page-->
-                        <page string="Dimensions">
-                            <field name="balance_ids">
-                                <!--tree string="Dimensions">
-                                    <field name="dimension"/>
-                                    <field name="total_units"/>
-                                    <field name="total_m2"/>
-                                    <field name="type"/>
-                                    <field name="state"/>
-                                </tree-->
-                            </field>
-                        </page>
-                        <page string="Stock Moves">
-                            <field name="stock_move_ids">
-                                <tree string="Stock Moves">
-                                    <field name="date"/>
-                                    <field name="is_raw" invisible="1"/>
-                                    <field name="name"/>
-
-                                    <field name="qty_dimension" string="Units"/>
-                                    <field name="qty_product"/>
-                                    <field name="qty_balance"/>
-
-                                    <field name="product_uom" string="UOM"/>
-                                    <field name="state"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
                 </page>
-
-                <page string="Bacha" attrs="{'invisible':[('is_bacha','=',False)]}">
-                    <group colspan="4">
-                        <group>
-                            <field name="bacha_tipo"/>
-                            <field name="bacha_marca"/>
-                            <field name="bacha_material"/>
-                            <field name="bacha_acero"/>
-                            <field name="bacha_colocacion"/>
-                        </group>
-                        <group>
-                            <field name="bacha_ancho"/>
-                            <field name="bacha_largo"/>
-                            <field name="bacha_prof"/>
-                            <field name="bacha_diam"/>
-                        </group>
-                    </group>
-              </page>
-
-            </page>
-               <!--
+                <!--
                     <group>
                         <group string="Base">
                             <field name="is_raw" invisible="1"/> 

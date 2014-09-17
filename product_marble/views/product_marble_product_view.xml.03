@@ -116,16 +116,50 @@
         <record id="view_product_marble_form" model="ir.ui.view">
             <field name="name">product.marble.form</field>
             <field name="model">product.product</field>
-            <!--field name="inherit_id" ref="product.product_template_form_view"/-->
-            <field name="inherit_id" ref="product.product_normal_form_view" />
+
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <!--field name="inherit_id" ref="product.product_normal_form_view" /-->
             <!--field name="inherit_id" ref="stock.product_form_view_procurement_button" /-->
             <!--field name="inherit_id" ref="purchase.view_product_normal_purchase_buttons_from" /-->
-            <!--field name="mode">primary</field-->
-            <field name="arch" type="xml">
- 
-                <div name="options" position="before">
-                    <separator class="oe_edit_only"/>
-                </div>
+
+            <field name="mode">primary</field>
+            <field name="arch" type="xml" >
+
+               <!--div name="options" position="after">
+                    <newline/>
+                </div-->
+
+                <!--field name="image_medium" position="replace">
+                    <div style="background-color:red; width:100px; height: 100px;">
+                        <field name="image_medium" widget="image" class="oe_avatar oe_left " style="background-color:red;" />
+                    </div>
+                </field-->
+
+                <!--field name="image_medium" position="replace">
+                    <field name="image_medium" widget="image" class="oe_avatar oe_left " style="background-color:red; width:100px; height: 100px;" />
+                </field-->
+
+                <!--xpath expr="//div[@style='width: 500px;']" position="replace">
+                        <div class="oe_left" style="width: 800px; background-color: red;">
+                            <field name="image_medium" widget="image" class="oe_avatar oe_left"/>
+                            <div class="oe_title" style="width: 390px;">
+                                <label class="oe_edit_only" for="name" string="Product Name"/>
+                                <h1><field name="name" class="oe_inline"/></h1>
+                            </div>
+                            <div class="oe_left" name="options" groups="base.group_user">
+                                <div>
+                                    <field name="sale_ok"/>
+                                    <label for="sale_ok"/>
+                                </div>
+                            </div>
+                        </div>
+                </xpath-->
+
+                <!--div name="buttons" position="replace">
+                    <div class="oe_right oe_button_box" style="width: 300px; border-style: dotted solid;" name="buttons" position="replace">
+                        <field name="image_medium" widget="image" class="oe_avatar oe_left"/>
+                    </div>
+                </div-->
 
                 <page string="Information" position="replace">
                 <page string="Information">
@@ -160,54 +194,13 @@
                 <page string="Raw Material" attrs="{'invisible':[('is_raw','=',False)]}">
                     <group colspan="4">
                         <group>
-                            <field name="raw_material"/>
-                            <field name="raw_color"/>
+                            <field name="material"/>
+                            <field name="color"/>
                         </group>
                         <group>
-                            <field name="raw_finished"/>
+                            <field name="finished"/>
                         </group>
                     </group>
-
-                    <notebook>
-                        <!--page string="Dimensions">
-                            <field name="dimension_ids" context="{'product_id':id}">
-                                <tree string="Dimensions">
-                                    <field name="dimension"/>
-                                    <field name="total_units"/>
-                                    <field name="total_m2"/>
-                                    <field name="type"/>
-                                    <field name="state"/>
-                                </tree>
-                            </field>
-                        </page-->
-                        <page string="Dimensions">
-                            <field name="balance_ids">
-                                <!--tree string="Dimensions">
-                                    <field name="dimension"/>
-                                    <field name="total_units"/>
-                                    <field name="total_m2"/>
-                                    <field name="type"/>
-                                    <field name="state"/>
-                                </tree-->
-                            </field>
-                        </page>
-                        <page string="Stock Moves">
-                            <field name="stock_move_ids">
-                                <tree string="Stock Moves">
-                                    <field name="date"/>
-                                    <field name="is_raw" invisible="1"/>
-                                    <field name="name"/>
-
-                                    <field name="qty_dimension" string="Units"/>
-                                    <field name="qty_product"/>
-                                    <field name="qty_balance"/>
-
-                                    <field name="product_uom" string="UOM"/>
-                                    <field name="state"/>
-                                </tree>
-                            </field>
-                        </page>
-                    </notebook>
                 </page>
 
                 <page string="Bacha" attrs="{'invisible':[('is_bacha','=',False)]}">
@@ -226,8 +219,8 @@
                             <field name="bacha_diam"/>
                         </group>
                     </group>
-              </page>
-
+                </page>
+            
             </page>
                <!--
                     <group>

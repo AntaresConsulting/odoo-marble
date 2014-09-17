@@ -19,7 +19,7 @@
 #
 ##############################################################################
 
-from openerp import models, api, registry, _
+from openerp import models, api, _
 from openerp.osv import osv
 from openerp.osv import fields
 # from openerp.tools.translate import _
@@ -47,7 +47,29 @@ class product_marble_dimension(osv.osv):
 
 # --- Migracion -------------------------
 #
-    def _compute_totals(self, cr, uid, ids, field_name, arg, context=None):
+#    def _compute_totals(self, cr, uid, ids, field_name, arg, context=None):
+#        _logger.info(">> _compute_totals >> 1 >> ids = %s", ids)
+#
+#        res = {}.fromkeys(ids, {'total_units':0, 'total_m2':0.000})
+#        if not ids:
+#            return res
+#
+#        pid = context.get('product_id') if context else 0
+#
+#        obj = self.pool.get('product.marble.dimension.balance')
+#        bids = obj.search(cr, uid, [('marble_id','=',pid),('dimension_id','in', ids)], context=context)
+#        data = obj.browse(cr, uid, bids)
+#
+#        _logger.info(">> _compute_totals >> 2 >> bds = %s", bids)
+#        _logger.info(">> _compute_totals >> 3 >> data = %s", data)
+#        for d in data:
+#            res[d.dimension_id.id] = {'total_units': d.qty_unit, 'total_m2': d.qty_m2}
+#
+#        _logger.info(">> _compute_totals >> 4 >> res = %s", res)
+#        return res
+
+    @api.model
+    def _compute_totals(self,field_name):
         _logger.info(">> _compute_totals >> 1 >> ids = %s", ids)
 
         res = {}.fromkeys(ids, {'total_units':0, 'total_m2':0.000})
@@ -67,42 +89,6 @@ class product_marble_dimension(osv.osv):
 
         _logger.info(">> _compute_totals >> 4 >> res = %s", res)
         return res
-
-#    @api.multi
-#    def _compute_totals(self, field_name):
-#        _logger.info(">> _compute_totals >> 1 >> ids = %s", self.ids)
-#
-#        if len(self) == 0:
-#            return
-#
-#        ids = self.ids
-#        pid = self._context.get('product_id') if self._context else 0
-#
-#        model = registry['product.marble.dimension.balance']
-#        assert isinstance(model, Model)
-#
-#        data = model.search([('marble_id','=',pid),('dimension_id','in', ids)])
-#        for d in data:
-#
-#        # -------------------------------
-#
-#        res = {}.fromkeys(ids, {'total_units':0, 'total_m2':0.000})
-#        if not ids:
-#            return res
-#
-#        pid = context.get('product_id') if context else 0
-#
-#        obj = self.pool.get('product.marble.dimension.balance')
-#        bids = obj.search(cr, uid, [('marble_id','=',pid),('dimension_id','in', ids)], context=context)
-#        data = obj.browse(cr, uid, bids)
-#
-#        _logger.info(">> _compute_totals >> 2 >> bds = %s", bids)
-#        _logger.info(">> _compute_totals >> 3 >> data = %s", data)
-#        for d in data:
-#            res[d.dimension_id.id] = {'total_units': d.qty_unit, 'total_m2': d.qty_m2}
-#
-#        _logger.info(">> _compute_totals >> 4 >> res = %s", res)
-#        return res
 
 
 #        sql = "SELECT dimension_id, SUM(dimension_qty), SUM(product_qty) FROM stock_move" \
@@ -221,13 +207,14 @@ class product_marble_dimension(osv.osv):
 
         'dimension': fields.char('Dimension', type='char', size=50),
         'thickness': fields.float('Thickness', digits=(5, 3), required=True, states={'done':[('readonly', True)]}),
-        'type': fields.selection(_get_type, string='Type', required=False, states={'done':[('readonly', True)]}),
+        'type': fields.selection(_get_type, string='Type', states={'done':[('readonly', True)]}),
 
         'state': fields.selection([('draft', 'Draft'),('done', 'Dimensioned')],'Status', readonly=True),
 
         'total_units': fields.function(_compute_totals, string='Units', type='integer', multi='compute_totals'),
         'total_m2': fields.function(_compute_totals, string='Area [m2]', type='float', multi='compute_totals'),
     }
+
 
     _defaults = {
         'hight': lambda *a: 0.000,

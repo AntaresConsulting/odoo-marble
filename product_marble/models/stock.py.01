@@ -155,29 +155,71 @@ class stock_move(osv.osv):
         name = "%s >> %s" % (name, d.dimension)
         return name
 
-    # ------------------------------------------------------------------------
     def onchange_product_id(self, cr, uid, ids, prod_id=False, loc_id=False, loc_dest_id=False, partner_id=False):
-
-        res = super(stock_move, self).onchange_product_id(cr, uid, ids, prod_id, loc_id, loc_dest_id, partner_id)
-        # _logger.info(">> onchange_product_id >> 1- res = %s", res)
+        _logger.info(">> onchange_product_id >> 111- prod_id = %s", prod_id)
 
         v = {}
+        res = super(stock_move, self).onchange_product_id(cr, uid, ids, prod_id, loc_id, loc_dest_id, partner_id)
         if (not res) or (not prod_id):
             return v
 
-        no_prod_id = ('product_id' not in res['value'])
-        if no_prod_id:
-            res['value'].update({'product_id':prod_id})
+#        v['name'] = self._get_move_name(cr, uid, pro_id=prod_id, dim_id=False)
+#        v['is_raw'] = comm.is_raw_material_by_product_id(self, cr, uid, [prod_id])[prod_id]
+#        if not v['is_raw']:
+#            v.update({'dimension_id': False})
+#            v.update({'dimension_qty': 0})
+#            v.update({'product_qty': 0})
 
-        v = self.calculate_dim(cr, uid, res['value'])
+        _logger.info(">> onchange_product_id >> 112- res = %s", res)
 
-        if no_prod_id:
-            del v['product_id']
-
+        v = self.calculate_dim(cr, uid, ids, res['value'])
+        _logger.info(">> onchange_product_id >> 113- v = %s", v)
         res['value'].update(v)
-        _logger.info(">> onchange_product_id >> 2- res = %s", res)
+
+        _logger.info(">> onchange_product_id >> 114- res = %s", res)
         return res
 
+#    def onchange_dimension_id(self, cr, uid, ids, pro_id=False, dim_id=False, dim_qty=False):
+#        v = {}
+#        v['name'] = self._get_move_name(cr, uid, pro_id, dim_id)
+#        _logger.info("1 >> onchange_dimension_id >> v = %s", v)
+#
+#        res = self.onchange_dimension_qty(cr, uid, ids, dim_id, dim_qty)
+#        _logger.info("2 >> onchange_diemnsion_id >> res = %s", res)
+#
+#        if res and res['value']:
+#            res['value'].update(v)
+#        elif v:
+#            res['value'] = v
+#
+#
+#        _logger.info(">> onchange_diemnsion_id >> res = %s", res)
+#        return res
+#        return {}
+
+#    def onchange_dimension_qty(self, cr, uid, ids, dimension_id=False, dimension_qty=False):
+#        v = {}
+#        if not dimension_id:
+#            return v
+#
+#        # defino m2
+#        obj = self.pool.get('product.marble.dimension')
+#        data = obj.read(cr, uid, [dimension_id], ['m2'], context=None)
+#
+#        m2 = 0.00
+#        if len(data) > 0 and len(data[0]) > 0:
+#            m2 = data[0]['m2']
+#
+#        m2 = m2 * dimension_qty
+#        v.update({'product_uom_qty': m2})
+#
+#        # prod_id = obj
+#        # v['name'] = self._get_move_name(cr, uid, pro_id, dim_id)
+#
+#        _logger.info(">> onchange_dimension_qty >> 1- v = %s", v)
+#        return {'value': v}
+
+    # ------------------------------------------------------------------------
     def onchange_calculate_dim(self, cr, uid, ids, pro_id, pro_uom, pro_qty, dim_id, dim_qty):
         v = {
             'product_id'      : pro_id,
@@ -188,13 +230,12 @@ class stock_move(osv.osv):
             'is_raw'          : False,
         }
 
-        val = self.calculate_dim(cr, uid, v)
+        val = self.calculate_dim(cr, uid, ids, v)
 
-        # _logger.info(">> onchange_calculate_dim >> 1- val = %s", val)
+        _logger.info(">> onchange_calculate_dim >> 1- val = %s", val)
         return {'value': val}
 
-    def calculate_dim(self, cr, uid, val):
-        # _logger.info(" >> calculate_dim >> 100- val = %s", val)
+    def calculate_dim(self, cr, uid, ids, val):
 
         pro_id  = val.get('product_id', False)
         pro_uom = val.get('product_uom', False)
@@ -206,22 +247,19 @@ class stock_move(osv.osv):
         if not pro_id:
             return val
 
+        _logger.info(" >> calculate_dim >> 100- v = %s", val)
+
         m2 = 0.00
-        is_raw = comm.is_raw_material_by_product_id(self, cr, uid, [pro_id])[pro_id]
+        is_raw = is_raw or comm.is_raw_material_by_product_id(self, cr, uid, [pro_id])[pro_id]
 
-        if not is_raw:
-            val['description'] = self._get_move_name(cr, uid, pro_id, dim_id)
-            val['is_raw'] = False
-            return val
-
-        # is_raw
-        if dim_id:
-            obj  = self.pool.get('product.marble.dimension')
-            data = obj.read(cr, uid, [dim_id], ['m2'], context=None)
-            m2   = data[0]['m2'] if (len(data) > 0 and len(data[0]) > 0) else 0.00
+        if is_raw:
+            pro_uom = comm.get_uom_m2_id(self,cr,uid)
+            if dim_id:
+                obj  = self.pool.get('product.marble.dimension')
+                data = obj.read(cr, uid, [dim_id], ['m2'], context=None)
+                m2   = data[0]['m2'] if (len(data) > 0 and len(data[0]) > 0) else 0.00
 
         pro_qty = dim_qty * m2
-        pro_uom = comm.get_uom_m2_id(self,cr,uid)
 
         v = {}
         v['product_id']      = pro_id
@@ -230,81 +268,98 @@ class stock_move(osv.osv):
         v['dimension_id']    = dim_id
         v['dimension_qty']   = dim_qty
         v['is_raw']          = is_raw
-        v['description']     = self._get_move_name(cr, uid, pro_id, dim_id)
+        v['name'] = self._get_move_name(cr, uid, pro_id, dim_id)
 
-        # _logger.info(" >> calculate_dim >> 101- v = %s", v)
+        _logger.info(" >> calculate_dim >> 101- v = %s", v)
         return v
 
     # ------------------------------------------------------------------------
-    def _check_data_before_save(self, cr, uid, sm_id, val):
-        # _logger.info(">> _check_data_before_save >> 1- val = %s", val)
-        to_update = {}
-        no_update = {}
-        obj = (sm_id and self.pool.get('stock.move').browse(cr, uid, sm_id)) or None
 
-        # divido [info suministrada por actuatizar] e [info calculada, no para actualizar, requerida]
-        for field in ['product_id','product_uom','product_uom_qty','dimension_id','dimension_qty','is_raw', 'description']:
+    def _check_data_before_save(self, cr, uid, data, is_new=False):
+        val = self.calculate_dim(cr, uid, [], data)
+        data.update(val)
 
-            if (field in val):
-                to_update[field] = val[field]
-                continue
+    def _check_data_before_savei_old(self, cr, uid, data, is_new=False):
+        """
+        Si el Producto es del tipo Marble >> debo incorporar/validar:
+            - product_uom
+            - product_qty
+        Estos datos no son incorporados en 'data' por ser
+        campos de solo lectura en la vista.
+        """
+        _logger.info(">> _check_data_before_save >> 50 >> data = %s", data)
 
-            # >> si (field es 'read-only') >> la data no viaja...
-            elif (field in ['product_uom', 'product_uom_qty', 'description']):
-                to_update[field] = val.get(field,'')
-                continue
+        # pro = 'product_id'  in data
+        # uom = 'product_uom' in data
+        # qty = 'product_qty' in data
 
-            else:
-                no_update[field] = (obj and (obj[0][field].id if ('class' in str(type(obj[0][field]))) else obj[0][field])) or False
+        # process = is_new or (pro and uom and qty)
+        # if not process:
+        #     return None
 
-        param = dict(to_update.items() + no_update.items())
-        v = self.calculate_dim(cr, uid, param)
+        pid = 'product_id'  in data
+        did = 'dimension_id' in data
+        qty = 'dimension_qty' in data
 
-        # actualizo valores de retorno
-        for field in to_update:
-            val[field] = v[field]
+        if not (pid or did or qty):
+            return
 
-        # _logger.info(">> _check_data_before_save >> 23 >> val = %s", val)
+        # get stock-move (TODO interpreto un unico id)
+        # obj = self.pool.get('stock.move')
+        # mov = obj.browse(cr, uid, ids, context=None)[0]
+
+        pid = data.get('product_id', False)
+        if not pid:
+            return
+
+        is_raw = comm.is_raw_material_by_product_id(self, cr, uid, [pid])[pid]
+        if not is_raw:
+            return
+
+        # set uom...
+        # uom_m2 = comm.get_uom_m2_id(self, cr, uid)
+        # prod_uom = data.get('product_uom', -1)
+        # if prod_uom != uom_m2:
+        #     prod_uom = uom_m2
+        #     if is_new:
+        #         data.update({'product_uom': uom_m2})
+
+        # prod_qty = data.get('product_qty', False)
+
+        # set qty...
+        dim_id = data.get('dimension_id', False)
+        dim_qty = data.get('dimension_qty', False)
+        if dim_id:
+        # qty = self.onchange_dimension_qty(cr, uid, [], dimension_id, dimension_qty)
+            dim = self.onchange_dimension_id(cr, uid, [], pid, dim_id, dim_qty)
+            # _logger.info(">> _check_data_before_save >> 51 >> dim = %s", dim)
+
+            data.update({'name': dim['value']['name']})
+            data.update({'product_qty': dim['value']['product_qty']})
+
+        # _logger.info(">> _check_data_before_save >> 52 >> data = %s", data)
         return
 
     def create(self, cr, uid, data, context=None):
-        self._check_data_before_save(cr, uid, [], data)
+        # _logger.info(">> create >> antes >> 20 >> data = %s", data)
+        self._check_data_before_save(cr, uid, data, True)
+
+        # _logger.info(">> create >> despues >> 30 >> data = %s", data)
         return super(stock_move, self).create(cr, uid, data, context=context)
 
 
     def write(self, cr, uid, ids, vals, context=None):
-        for ms_id in ids:
-            self._check_data_before_save(cr, uid, ms_id, vals)
+        # x = self.pool.get('stock.picking.in')._search(cr, uid, 'assigned', 'raw')
+        # _logger.info(">> test_search >> xxx = %s", x)
+
+        # _logger.info(">> write >> antes >> 1 >> ids = %s", ids)
+        # _logger.info(">> write >> antes >> 2 >> vals = %s", vals)
+        self._check_data_before_save(cr, uid, vals, False)
+
+        # _logger.info(">> write >> despues >> 3 >> vals = %s", vals)
         return super(stock_move, self).write(cr, uid, ids, vals, context=context)
 
-    # --- overwriter: registro en balance ---
-    def action_done(self, cr, uid, ids, context=None):
-
-
-        if not super(stock_move, self).action_done(cr, uid, ids, context=context):
-            return False
-
-        obj_bal = self.pool.get('product.marble.dimension.balance')
-        obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
-
-        _logger.info(">> _action_done >> 1- obj_mov = %s", obj_mov)
-
-        for mov in obj_mov:
-            val = {
-                'prod_id': mov.product_id.id,
-                'dim_id': mov.dimension_id.id,
-                'dimension_qty': mov.dimension_qty,  # Units
-                'dimension_m2': mov.product_uom_qty,  # M2
-                'typeMove': 'definir type_move'
-            }
-
-            _logger.info(">> _action_done >> 2- val = %s", val)
-            obj_bal.register_balance(cr, uid, val, context)
-
-        return True
-
     _columns = {
-        'description': fields.char('Description'),
         'dimension_id': fields.many2one('product.marble.dimension', 'Dimension', select=True, states={'done': [('readonly', True)]}, domain=[('state','=','done')]),
         'dimension_qty': fields.integer('Units', size=3, states={'done': [('readonly', True)]}),
         'is_raw': fields.function(_is_raw, type='boolean', string='Is Marble'),

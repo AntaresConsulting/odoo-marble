@@ -35,7 +35,7 @@ class product_marble_dimension_balance(osv.osv):
     _name = 'product.marble.dimension.balance'
     _description = "Balance between Marble - Dimension"
 
-    def register_balance000(self, cr, uid,data,context=None):
+    def register_balance_000(self, cr, uid,data,context=None):
         prod_id = data.get('prod_id')
         dimension_id = data.get('dim_id')
         dimension_qty = data.get('dimension_qty')
@@ -45,29 +45,29 @@ class product_marble_dimension_balance(osv.osv):
         bal_ids = balance_obj.search(cr,uid,[('dimension_id','=',dimension_id),('marble_id','=',prod_id)])
 
         if not bal_ids:
-            balance_obj.create(cr,uid,{'dimension_id':dimension_id,'marble_id':prod_id,'qty_m2':0,'qty_unit':dimension_qty})
+            balance_obj.create(cr,uid,{'dimension_id':dimension_id,'marble_id':prod_id,'qty_m2':0.000,'qty_unit':dimension_qty})
             if typeMove == 'in':
                 qval = dimension_qty+dimension_qty
-                balance_obj.write(cr,uid,bal_ids,{'qty_m2':0,'qty_unit':qval})
+                balance_obj.write(cr,uid,bal_ids,{'qty_m2':0.000,'qty_unit':qval})
             if typeMove == 'out':
                 qval = dimension_qty-dimension_qty
-                balance_obj.write(cr,uid,bal_ids,{'qty_m2':0,'qty_unit':qval})
+                balance_obj.write(cr,uid,bal_ids,{'qty_m2':0.000,'qty_unit':qval})
         else:
             qty_bal = balance_obj.read(cr,uid,bal_ids,['qty_unit'])
             if typeMove == 'in':
                 qval = qty_bal[0]['qty_unit']+dimension_qty
-                balance_obj.write(cr,uid,bal_ids,{'qty_m2':0,'qty_unit':qval})
+                balance_obj.write(cr,uid,bal_ids,{'qty_m2':0.000,'qty_unit':qval})
             if typeMove == 'out':
                 qval = qty_bal[0]['qty_unit']-dimension_qty
-                balance_obj.write(cr,uid,bal_ids,{'qty_m2':0,'qty_unit':qval})
+                balance_obj.write(cr,uid,bal_ids,{'qty_m2':0.000,'qty_unit':qval})
         return 1
 
-    # refactory sources...
-    def register_balance(self, cr, uid, data, context=None):
+    # refactory sourcesi v1...
+    def register_balance_001(self, cr, uid, data, context=None):
         pro_id = data.get('prod_id', 0)
         dim_id = data.get('dim_id', 0)
-        dim_qty = data.get('dimension_qty', 0.00)
-        dim_m2 = data.get('dimension_m2', 0)
+        dim_qty = data.get('dimension_qty', 0)
+        dim_m2 = data.get('dimension_m2', 0.000)
         tyMove = data.get('typeMove', '')
 
         bid = self.search(cr,uid,[('dimension_id','=',dim_id),('marble_id','=',pro_id)])
@@ -92,17 +92,63 @@ class product_marble_dimension_balance(osv.osv):
             self.create(cr, uid, {'dimension_id':dim_id, 'marble_id':pro_id, 'qty_unit':dim_qty, 'qty_m2':dim_m2})
         return 1
 
+    # refactory sources v2...
+    def register_balance(self, cr, uid, data, context=None):
+        _logger.info(">> register_balance >> 1- data = %s", data)
+
+        pro_id = data.get('prod_id', 0)
+        dim_id = data.get('dim_id', 0)
+
+        dim_qty = data.get('dimension_qty', 0)
+        dim_m2 = data.get('dimension_m2', 0.000)
+
+        tyMove = data.get('typeMove','')
+        if (tyMove not in ['in','out']):
+            raise osv.except_osv(_('Error!'), _('Type-Move is not [\'in\',\'out\'].'))
+
+        operacion = ' + ' if (tyMove == 'in') else ' - '
+        bid = self.search(cr,uid,[('dimension_id','=',dim_id),('marble_id','=',pro_id)])
+
+        if bid:
+            # Update...
+            for bal in self.browse(cr, uid, bid):
+                sQty = str(dim_qty) + operacion + str(bal.qty_unit)
+                sM2 = str(dim_m2) + operacion + str(bal.qty_m2)
+
+                _logger.info(">> register_balance >> Update >> 4- sQty = %s", sQty)
+                _logger.info(">> register_balance >> Update >> 5- sM2 = %s", sM2)
+
+                val = {'qty_unit': eval(sQty), 'qty_m2': eval(sM2)}
+                _logger.info(">> register_balance >> Update >> 6- val = %s", val)
+
+                self.write(cr, uid, bid, val)
+        else:
+            # New...
+            sQty = operacion + str(dim_qty)
+            sM2 = operacion + str(dim_m2)
+
+            _logger.info(">> register_balance >> New >> 7- sQty = %s", sQty)
+            _logger.info(">> register_balance >> New >> 8- sM2 = %s", sM2)
+
+            val = {'dimension_id': dim_id, 'marble_id': pro_id, 'qty_unit': eval(sQty), 'qty_m2': eval(sM2)}
+            _logger.info(">> register_balance >> New >> 9- val = %s", val)
+
+            self.create(cr, uid, val)
+
+        return True
+
+
     _columns = {
         'marble_id': fields.many2one('product.product', 'Product Marble ID', select=True, readonly=True),
-        'dimension_id': fields.many2one('product.marble.dimension', 'Product Marble Dimension ID', select=True, readonly=True),
+        'dimension_id': fields.many2one('product.marble.dimension', 'Dimension', select=True, readonly=True),
 
         'qty_unit': fields.float('Qty Unit', type="integer", readonly=True),
-        'qty_m2': fields.float('Qty M2', digits=(5, 2), type="float", readonly=True),
+        'qty_m2': fields.float('Qty M2', digits=(5, 3), type="float", readonly=True),
     }
 
     _defaults = {
-        'qty_unit': lambda *a: 0.00,
-        'qty_m2': lambda *a: 0.00,
+        'qty_unit': lambda *a: 0,
+        'qty_m2': lambda *a: 0.000,
     }
 
     _sql_constraints = [

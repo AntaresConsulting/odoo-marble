@@ -4,7 +4,6 @@
         <!-- - - - - - - - - - - - - - Products - - - - -  - - - - - - - - - - - - -->
 
         <!-- Action: All Products -->
-        <!--
         <record id="act_open_product_marble_all_view" model="ir.actions.act_window">
             <field name="name">All Products</field>
             <field name="type">ir.actions.act_window</field>
@@ -22,10 +21,8 @@
               </p>
             </field>
         </record>
-        -->
 
         <!-- Action: Raw Material Products -->
-        <!--
         <record id="act_open_product_marble_raw_material_view"      model="ir.actions.act_window">
             <field name="name">Raw Material Products</field>
             <field name="type">ir.actions.act_window</field>
@@ -44,10 +41,8 @@
               </p>
             </field>
         </record>
-        -->
 
         <!-- Action: Bachas Products -->
-        <!--
         <record id="act_open_product_marble_bachas_view"      model="ir.actions.act_window">
             <field name="name">Bachas Products</field>
             <field name="type">ir.actions.act_window</field>
@@ -66,10 +61,8 @@
               </p>
             </field>
         </record>
-        -->
          
         <!-- Action: Inputs Products -->
-        <!--
         <record id="act_open_product_marble_inputs_view"      model="ir.actions.act_window">
             <field name="name">Inputs Products</field>
             <field name="type">ir.actions.act_window</field>
@@ -88,10 +81,8 @@
               </p>
             </field>
         </record>
-        -->
         
         <!-- Action: Services Products -->
-        <!--
         <record id="act_open_product_marble_services_view"      model="ir.actions.act_window">
             <field name="name">Services Products</field>
             <field name="type">ir.actions.act_window</field>
@@ -110,7 +101,6 @@
               </p>
             </field>
         </record>
-        -->
         
         <!-- - - - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - -->
 
@@ -142,7 +132,6 @@
 		</record>
 
         <!-- Action: Dimension >> Plaque -->
-        <!--
         <record model="ir.actions.act_window" id="act_open_product_marble_dim_plaque_view">
 			<field name="name">Plaque Dimensions</field>
 			<field name="type">ir.actions.act_window</field>
@@ -158,10 +147,8 @@
               </p>
             </field>
         </record>
-        -->
 
         <!-- Action: Dimension >> Marmeta -->
-        <!--
         <record model="ir.actions.act_window" id="act_open_product_marble_dim_marmeta_view">
 			<field name="name">Marmeta Dimensions</field>
 			<field name="type">ir.actions.act_window</field>
@@ -177,10 +164,8 @@
               </p>
             </field>
         </record>
-        -->
 
         <!-- Action: Dimension >> Leftover -->
-        <!--
         <record model="ir.actions.act_window" id="act_open_product_marble_dim_leftover_view">
 			<field name="name">Leftover Dimensions</field>
 			<field name="type">ir.actions.act_window</field>
@@ -196,7 +181,6 @@
               </p>
             </field>
         </record>
-        -->
 
         <!-- - - - - - - - - - - - - - xxx - - - - - - - - - - - - - - - - - -->
 

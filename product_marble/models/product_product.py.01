@@ -39,18 +39,6 @@ _logger = logging.getLogger(__name__)
 #
 # product_template()
 
-#
-# http://sajjadhossain.com/2013/06/30/openerp-7-creating-report-using-sql-query/
-#
-# class product_marble_dimension_report(osv.osv):
-#    _name        = 'product.marble.dimension.report'
-#    _description = 'Product Marble Dimension Report'
-#    _auto        = False
-#    _column      = {
-#
-#    }
-#
-
 class product_product(osv.osv):
     _name = 'product.product'
     _inherit = 'product.product'
@@ -116,35 +104,35 @@ class product_product(osv.osv):
             ('peg', 'Pegar de Abajo'),
     ]
 
-    @api.model
+    @api.multi
     def _get_material(self):
         return sorted(self._material, key=itemgetter(1))
 
-    @api.model
+    @api.multi
     def _get_color(self):
         return sorted(self._color, key=itemgetter(1))
 
-    @api.model
+    @api.multi
     def _get_finished(self):
         return sorted(self._finished, key=itemgetter(1))
 
-    @api.model
+    @api.multi
     def _get_bacha_tipo(self):
         return sorted(self._bacha_tipo, key=itemgetter(1))
 
-    @api.model
+    @api.multi
     def _get_bacha_colocacion(self):
         return sorted(self._bacha_colocacion, key=itemgetter(1))
 
-    @api.model
+    @api.multi
     def _get_bacha_acero(self):
         return sorted(self._bacha_acero, key=itemgetter(1))
 
-    @api.model
+    @api.multi
     def _get_bacha_material(self):
         return sorted(self._bacha_material, key=itemgetter(1))
 
-    @api.model
+    @api.multi
     def _get_bacha_marca(self):
         return sorted(self._bacha_marca, key=itemgetter(1))
 
@@ -296,9 +284,9 @@ class product_product(osv.osv):
         self.is_bacha         = False
         self.uom_readonly     = False
 
-        self.raw_material     = False
-        self.raw_color        = False
-        self.raw_finished     = False
+        self.material         = False
+        self.color            = False
+        self.finished         = False
 
         self.bacha_material   = False
         self.bacha_marca      = False
@@ -327,7 +315,6 @@ class product_product(osv.osv):
 
         elif comm.is_services(self, cid):
             self.type         = 'service'
-#
 # ----------------------------------------
 
 # --- Migracion -------------------------
@@ -361,81 +348,62 @@ class product_product(osv.osv):
 #                elif comm.is_services(self, cr, uid, cid):
 #                    data['type'] = 'service'
 #
-# #                data['material'] = False
-# #                data['color'] = False
-# #                data['finished'] = False
-# #                data['bacha_material'] = False
-# #                data['bacha_marca'] = False
+##                data['material'] = False
+##                data['color'] = False
+##                data['finished'] = False
+##                data['bacha_material'] = False
+##                data['bacha_marca'] = False
 #
 #        # _logger.info(">> check_before >> 2 >> data = %s", data)
-
-#    @api.model
-    def _validate_data_movile(self, data):
-        # _logger.info(">> _validate_data_movile >> 1 >> data = %s", data)
-
-        # --- determino categ_id ---
-        categ_list = [comm.RAW, comm.BACHAS, comm.SERVICES, comm.INPUTS]
-        field_inp  = 'movile_categ_name'
-        field_out  = 'categ_id'
-
-        if data.get(field_inp, False) in categ_list:
-            field_val = data.pop(field_inp)
-            cid = comm.get_prop(self, field_val)
-            data.update({field_out:cid})
-
-        # _logger.info(">> _validate_data_movile >> 2 >> data = %s", data)
-        return
 
     @api.model
     def _check_data_before_save(self, data):
         _logger.info(">> check_before >> 1 >> data = %s", data)
+        if 'categ_id' in data:
+            cid = self.categ_id.id
+            if comm.is_raw_material(self, cid):
+                data['type'] = 'product'
+                data['uom_id'] = comm.get_uom_m2_id(self, cr, uid)
+                data['uom_po_id'] = comm.get_uom_m2_id(self, cr, uid)
+                data['bacha_material'] = False
+                data['bacha_marca'] = False
 
-        # valido datos proveniente de 'disp. movi'
-        self._validate_data_movile(data)
+            elif comm.is_bachas(self, cr, uid, cid):
+                data['type'] = 'product'
+                data['uom_id'] = comm.get_uom_units_id(self, cr, uid)
+                data['uom_po_id'] = comm.get_uom_units_id(self, cr, uid)
+                data['material'] = False
+                data['color'] = False
+                data['finished'] = False
 
-        if ('categ_id' not in data):
-            return
-
-        res = {}
-        cid = data['categ_id']
+            else:
+                if comm.is_inputs(self, cr, uid, cid):
+                    data['type'] = 'consu'
+                elif comm.is_services(self, cr, uid, cid):
+                    data['type'] = 'service'
 
         if comm.is_raw_material(self, cid):
-            res['type']   = data.get('type', 'product')
-            res['uom_id'] = data.get('uom_id', comm.get_uom_m2_id(self))
-            res['uom_po_id'] = data.get('uom_po_id', comm.get_uom_m2_id(self))
+            self.type         = 'product'
+            self.uom_id       = comm.get_uom_m2_id(self)
+            self.uom_id       = comm.get_uom_m2_id(self)
 
         elif comm.is_bachas(self, cid):
-            res['type']   = data.get('type', 'product')
-            res['uom_id'] = data.get('uom_id', comm.get_uom_units_id(self))
-            res['uom_po_id'] = data.get('uom_po_id', comm.get_uom_units_id(self))
+            self.type         = 'product'
+            self.is_bacha     = True
+            self.uom_readonly = True
+            self.uom_id       = comm.get_uom_units_id(self)
 
         elif comm.is_inputs(self, cid):
-            res['type']   = data.get('type', 'consu')
+            self.type         = 'consu'
 
         elif comm.is_services(self, cid):
-            res['type']   = data.get('type', 'service')
-
-        is_raw   = comm.is_raw_material(self, cid)
-        is_bacha = comm.is_bachas(self, cid)
-
-        res['raw_material']     = (is_raw or is_bacha) and is_raw and data.get('raw_material',False)
-        res['raw_color']        = (is_raw or is_bacha) and is_raw and data.get('raw_color',False)
-        res['raw_finished']     = (is_raw or is_bacha) and is_raw and data.get('raw_finished',False)
-
-        res['bacha_material']   = (is_raw or is_bacha) and is_bacha and data.get('bacha_material',False)
-        res['bacha_marca']      = (is_raw or is_bacha) and is_bacha and data.get('bacha_marca',False)
-        res['bacha_acero']      = (is_raw or is_bacha) and is_bacha and data.get('bacha_acero',False)
-        res['bacha_colocacion'] = (is_raw or is_bacha) and is_bacha and data.get('bacha_colocacion',False)
-        res['bacha_tipo']       = (is_raw or is_bacha) and is_bacha and data.get('bacha_tipo',False)
-        res['bacha_ancho']      = (is_raw or is_bacha) and is_bacha and data.get('bacha_ancho',False)
-        res['bacha_largo']      = (is_raw or is_bacha) and is_bacha and data.get('bacha_largo',False)
-        res['bacha_prof']       = (is_raw or is_bacha) and is_bacha and data.get('bacha_prof',False)
-        res['bacha_diam']       = (is_raw or is_bacha) and is_bacha and data.get('bacha_diam',False)
-
-        data.update(res)
-
-        _logger.info(">> check_before >> 2 >> data = %s", data)
-        return
+            self.type         = 'service'
+#
+#                data['material'] = False
+#                data['color'] = False
+#                data['finished'] = False
+#                data['bacha_material'] = False
+#                data['bacha_marca'] = False
 #
 # ----------------------------------------
 
@@ -449,32 +417,19 @@ class product_product(osv.osv):
 #        return super(product_product, self).create(cr, uid, data, context=context)
 
     @api.model
-    def create(self, val):
-        self._check_data_before_save(val)
-        return super(product_product, self).create(val)
+    def create(self, values):
+        _logger.info(">> create >> 0 >> self = %s", self)
+        _logger.info(">> create >> 1 >> values = %s", values)
+        return super(product_product, self).create(values)
 #
 # --------------------------------------
 
-# --- Migracion -------------------------
-#
     def write(self, cr, uid, ids, vals, context=None):
-        self._check_data_before_save(cr, uid, vals)
-        return super(product_product, self).write(cr, uid, ids, vals, context=context)
+        if 'categ_id' in vals:
+            self._check_data_before_save(cr, uid, vals)
 
-#    @api.multi
-#    def write(self, val):
-#        _logger.info(">> write >> 1 >> self = %s", self)
-#        # _logger.info(">> write >> 2 >> val = %s", val)
-#
-#        self._check_data_before_save(val)
-#        # for rec in self:
-#        #    _logger.info(">> write >> 3 >> rec = %s", rec)
-#        #    _logger.info(">> write >> 4 >> val = %s", val)
-#        #    rec._check_data_before_save(val[rec.id])
-#
-#        return super(product_product, self).write(val)
-#
-# --------------------------------------
+        # _logger.info(">> write >> 3 >> vals = %s", vals)
+        return super(product_product, self).write(cr, uid, ids, vals, context=context)
 
 
     def _get_attrs(self, cr, uid, ids, context=None):
@@ -487,9 +442,9 @@ class product_product(osv.osv):
             attrs = ""
             if comm.is_raw_material(self, cr, uid, p.categ_id.id):
 #            if comm.is_raw_material(self, p.categ_id.id):
-                mat = dict(self._material).get(p.raw_material)
-                col = dict(self._color).get(p.raw_color)
-                fin = dict(self._finished).get(p.raw_finished)
+                mat = dict(self._material).get(p.material)
+                col = dict(self._color).get(p.color)
+                fin = dict(self._finished).get(p.finished)
                 attrs = "%s - %s - %s" % (mat, col, fin)
 
             elif comm.is_bachas(self, cr, uid, p.categ_id.id):
@@ -532,14 +487,14 @@ class product_product(osv.osv):
         results = product_obj.get_product_available(cr, uid, product_ids, context=context)
         return dict((str(key), value) for key, value in results.items())
 
-#    def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=10):
-#        ids = []
-#        ids = self.search(cr, uid, ids, context=context)
-#        return self.name_get(cr, uid, ids, context=context)
+    def name_search(self, cr, uid, name='', args=None, operator='ilike', context=None, limit=10):
+        ids = []
+        ids = self.search(cr, uid, ids, context=context)
+        return self.name_get(cr, uid, ids, context=context)
 
 
-#    def _search_marble(self, cr, uid, obj=None, name=None, args=None, context=None):
-#        return [('is_raw_material','=',True)]
+    def _search_marble(self, cr, uid, obj=None, name=None, args=None, context=None):
+        return [('is_raw_material','=',True)]
 
 #    # ----- xxx -----
 #
@@ -610,15 +565,15 @@ class product_product(osv.osv):
 
 #    material
     _columns = {
-        'raw_material': fields.selection(_get_material, string='Category'),
-        'raw_color': fields.selection(_get_color, string='Color'),
-        'raw_finished': fields.selection(_get_finished, string='Finished'),
+        'material': fields.selection(_get_material, string='Category', select=True),
+        'color': fields.selection(_get_color, string='Color', select=True),
+        'finished': fields.selection(_get_finished, string='Finished', select=True),
 
-        'bacha_material': fields.selection(_get_bacha_material, string='Material'),
-        'bacha_marca': fields.selection(_get_bacha_marca, string='Marca'),
-        'bacha_acero': fields.selection(_get_bacha_acero, string='Acero'),
-        'bacha_colocacion': fields.selection(_get_bacha_colocacion, string='Colocacion'),
-        'bacha_tipo': fields.selection(_get_bacha_tipo, string='Tipo'),
+        'bacha_material': fields.selection(_get_bacha_material, string='Material', select=True),
+        'bacha_marca': fields.selection(_get_bacha_marca, string='Marca', select=True),
+        'bacha_acero': fields.selection(_get_bacha_acero, string='Acero', select=True),
+        'bacha_colocacion': fields.selection(_get_bacha_colocacion, string='Colocacion', select=True),
+        'bacha_tipo': fields.selection(_get_bacha_tipo, string='Tipo', select=True),
         'bacha_ancho': fields.float('Ancho', digits=(5, 2), type="float"),
         'bacha_largo': fields.float('Largo', digits=(5, 2), type="float"),
         'bacha_prof': fields.float('Profundidad', digits=(5, 2), type="float"),
@@ -629,8 +584,6 @@ class product_product(osv.osv):
         'is_bacha': fields.function(_is_bacha, type='boolean', string='Is Bacha'),
         'uom_readonly': fields.function(_get_uom_readonly, type='boolean', string='Is Raw or Bacha'),
         'attrs_material': fields.function(_attrs_material, type='char', string='Details'),
-
-        'balance_ids': fields.many2one('product.marble.dimension.balance', string='Balance', readonly=True),
 
         'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
         'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
