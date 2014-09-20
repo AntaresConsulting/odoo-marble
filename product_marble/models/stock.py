@@ -175,7 +175,7 @@ class stock_move(osv.osv):
             del v['product_id']
 
         res['value'].update(v)
-        _logger.info(">> onchange_product_id >> 2- res = %s", res)
+        # _logger.info(">> onchange_product_id >> 2- res = %s", res)
         return res
 
     def onchange_calculate_dim(self, cr, uid, ids, pro_id, pro_uom, pro_qty, dim_id, dim_qty):
@@ -198,6 +198,7 @@ class stock_move(osv.osv):
 
         pro_id  = val.get('product_id', False)
         pro_uom = val.get('product_uom', False)
+        pro_uos = val.get('product_uos', False)
         pro_qty = val.get('product_uom_qty', 0.00)
         dim_id  = val.get('dimension_id', False)
         dim_qty = val.get('dimension_qty', 0.00)
@@ -225,6 +226,7 @@ class stock_move(osv.osv):
 
         v = {}
         v['product_id']      = pro_id
+        v['product_uos']     = pro_uos
         v['product_uom']     = pro_uom
         v['product_uom_qty'] = pro_qty
         v['dimension_id']    = dim_id
@@ -238,12 +240,20 @@ class stock_move(osv.osv):
     # ------------------------------------------------------------------------
     def _check_data_before_save(self, cr, uid, sm_id, val):
         # _logger.info(">> _check_data_before_save >> 1- val = %s", val)
+
+        # defino campos a evaluar
+        fields_list = ['product_id','product_uom','product_uom_qty','dimension_id','dimension_qty','is_raw', 'description']
+
+        # si (NO existe algun elemento de [fields_list] en [val]) >> me voy, no precesar...
+        if not any(e in fields_list for e in val.keys()):
+            return
+
         to_update = {}
         no_update = {}
         obj = (sm_id and self.pool.get('stock.move').browse(cr, uid, sm_id)) or None
 
         # divido [info suministrada por actuatizar] e [info calculada, no para actualizar, requerida]
-        for field in ['product_id','product_uom','product_uom_qty','dimension_id','dimension_qty','is_raw', 'description']:
+        for field in fields_list:
 
             if (field in val):
                 to_update[field] = val[field]
@@ -279,15 +289,16 @@ class stock_move(osv.osv):
 
     # --- overwriter: registro en balance ---
     def action_done(self, cr, uid, ids, context=None):
-
+        # _logger.info(">> _action_done >> 00 >> ok - ids = %s", ids)
 
         if not super(stock_move, self).action_done(cr, uid, ids, context=context):
+            # _logger.info(">> _action_done >> 01 >> Error - ids = %s", ids)
             return False
 
         obj_bal = self.pool.get('product.marble.dimension.balance')
         obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
 
-        _logger.info(">> _action_done >> 1- obj_mov = %s", obj_mov)
+        # _logger.info(">> _action_done >> 02- obj_mov = %s", obj_mov)
 
         for mov in obj_mov:
             val = {
@@ -298,7 +309,7 @@ class stock_move(osv.osv):
                 'typeMove': 'definir type_move'
             }
 
-            _logger.info(">> _action_done >> 2- val = %s", val)
+            # _logger.info(">> _action_done >> 03- val = %s", val)
             obj_bal.register_balance(cr, uid, val, context)
 
         return True

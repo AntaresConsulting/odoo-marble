@@ -75,8 +75,17 @@ def set_prop(self):
 @api.model
 def get_prop(self, key):
     global _prop
+
+    # valido db...
+    db = 'db_name'
+    db_name = _prop.get(db,False)
+    if (not db_name or db_name != self._cr.dbname):
+        _prop.clear()
+        _prop[db] = self._cr.dbname
+    #
     if not _prop.get(key):
         set_prop(self)
+
     return _prop[key]
 # ----------------------------------------
 
