@@ -188,6 +188,7 @@ class stock_move(osv.osv):
             'is_raw'          : False,
         }
 
+        # _logger.info(">> onchange_calculate_dim >> 0- val = %s", val)
         val = self.calculate_dim(cr, uid, v)
 
         # _logger.info(">> onchange_calculate_dim >> 1- val = %s", val)
@@ -239,7 +240,7 @@ class stock_move(osv.osv):
 
     # ------------------------------------------------------------------------
     def _check_data_before_save(self, cr, uid, sm_id, val):
-        # _logger.info(">> _check_data_before_save >> 1- val = %s", val)
+        _logger.info(">> _check_data_before_save >> 1- val = %s", val)
 
         # defino campos a evaluar
         fields_list = ['product_id','product_uom','product_uom_qty','dimension_id','dimension_qty','is_raw', 'description']
@@ -289,16 +290,13 @@ class stock_move(osv.osv):
 
     # --- overwriter: registro en balance ---
     def action_done(self, cr, uid, ids, context=None):
-        # _logger.info(">> _action_done >> 00 >> ok - ids = %s", ids)
+        _logger.info(">> _action_done >> 00 >> ok - ids = %s", ids)
 
         if not super(stock_move, self).action_done(cr, uid, ids, context=context):
-            # _logger.info(">> _action_done >> 01 >> Error - ids = %s", ids)
             return False
 
         obj_bal = self.pool.get('product.marble.dimension.balance')
         obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
-
-        # _logger.info(">> _action_done >> 02- obj_mov = %s", obj_mov)
 
         for mov in obj_mov:
             val = {
@@ -309,7 +307,7 @@ class stock_move(osv.osv):
                 'typeMove': 'definir type_move'
             }
 
-            # _logger.info(">> _action_done >> 03- val = %s", val)
+            _logger.info(">> _action_done >> 03- val = %s", val)
             obj_bal.register_balance(cr, uid, val, context)
 
         return True

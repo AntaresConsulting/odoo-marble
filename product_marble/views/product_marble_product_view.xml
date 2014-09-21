@@ -122,12 +122,14 @@
             <!--field name="inherit_id" ref="purchase.view_product_normal_purchase_buttons_from" /-->
             <!--field name="mode">primary</field-->
             <field name="arch" type="xml">
- 
-                <div name="options" position="before">
-                    <separator class="oe_edit_only"/>
-                </div>
 
-                <page string="Information" position="replace">
+                <!-- 2014.09.21 - arosenbrock - bug in v8.0 Final -->
+                <field name="is_product_variant" position="after">
+                    <field name="product_variant_count" invisible="1"/> 
+                </field>
+                <!-- -->
+
+               <page string="Information" position="replace">
                 <page string="Information">
                     <group colspan="4">
                         <group>

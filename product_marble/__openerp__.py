@@ -28,6 +28,9 @@
     'website'    : 'http:antaresconsulting.com.ar',
     'depends'    :[
             'stock',
+            'sale',
+            'purchase',
+            'hr',
     ],
     'data'       :[
         'security/product_marble_security.xml',
