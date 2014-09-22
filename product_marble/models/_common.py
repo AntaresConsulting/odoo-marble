@@ -36,6 +36,7 @@ INPUTS      = 'inputs'
 M2          = 'm2'
 AREA        = 'area'
 UNITS       = 'units'
+LOC_STOCK   = 'stock'
 
 _xml_data   = {
     # ---- Prod Categ -----
@@ -47,6 +48,8 @@ _xml_data   = {
     M2      : 'product_marble.product_uom_square_meter',
     AREA    : 'product_marble.product_uom_categ_area',
     UNITS   : 'product.product_uom_categ_unit',
+    # ---- Warehouse location Stock -----
+    LOC_STOCK   : 'stock.stock_location_stock',
 }
 _prop   = {}
 
@@ -132,6 +135,10 @@ def get_uom_m2_id(self):
 @api.model
 def get_uom_units_id(self):
     return get_prop(self, UNITS)
+
+@api.model
+def get_location_stock(self):
+    return get_prop(self, LOC_STOCK)
 # ----------------------------------------
 
 # --- Migracion -------------------------

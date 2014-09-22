@@ -112,8 +112,8 @@ class product_marble_dimension_balance(osv.osv):
         if bid:
             # Update...
             for bal in self.browse(cr, uid, bid):
-                sQty = str(dim_qty) + operacion + str(bal.qty_unit)
-                sM2 = str(dim_m2) + operacion + str(bal.qty_m2)
+                sQty = str(bal.qty_unit) + operacion + str(dim_qty)
+                sM2 = str(bal.qty_m2) + operacion + str(dim_m2)
 
                 _logger.info(">> register_balance >> Update >> 4- sQty = %s", sQty)
                 _logger.info(">> register_balance >> Update >> 5- sM2 = %s", sM2)

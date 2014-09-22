@@ -298,16 +298,28 @@ class stock_move(osv.osv):
         obj_bal = self.pool.get('product.marble.dimension.balance')
         obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
 
-        for mov in obj_mov:
+        _logger.info(">> _action_done >> 01 >> obj_mov = %s", obj_mov)
+        if not obj_mov:
+            return True
+
+        # obj_mov is raw -> verifico:
+        # >> si (move.location = stock_loc or move.location_dest = stock_loc)
+        #    >> registro en Balance.
+        stock_loc = comm.get_location_stock(self, cr, uid)
+        bal_list = [mov for mov in obj_mov if stock_loc in [mov.location_id.id, mov.location_dest_id.id]]
+
+        _logger.info(">> _action_done >> 02 >> stock_loc = %s", stock_loc)
+        _logger.info(">> _action_done >> 03 >> bal_list = %s", bal_list)
+        for mov in bal_list:
             val = {
                 'prod_id': mov.product_id.id,
                 'dim_id': mov.dimension_id.id,
-                'dimension_qty': mov.dimension_qty,  # Units
-                'dimension_m2': mov.product_uom_qty,  # M2
-                'typeMove': 'definir type_move'
+                'dimension_qty': mov.dimension_qty,
+                'dimension_m2': mov.product_uom_qty,
+                'typeMove': 'in' if stock_loc == mov.location_dest_id.id else 'out'
             }
 
-            _logger.info(">> _action_done >> 03- val = %s", val)
+            _logger.info(">> _action_done >> 04- val = %s", val)
             obj_bal.register_balance(cr, uid, val, context)
 
         return True
