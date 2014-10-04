@@ -26,7 +26,7 @@
     'description': 'Definicion de Productos para Marmoleria.',
     'category'   : 'Product Marble',
     'website'    : 'http:antaresconsulting.com.ar',
-    'depends'    :[
+    'depends'    :['web',
             'stock',
             'sale',
             'purchase',
@@ -45,10 +45,15 @@
 
         'views/product_marble_actions.xml',
         'views/product_marble_menu.xml',
+        'views/product_marble.xml',
+        
     ],
-    'application': True,
+    'css': [
+        'static/src/css/style.css',
+    ],   
+    'auto_install':False,
     'installable': True,
-    'active'     : False,
+    'active'     : True,
 }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -1,0 +1,21 @@
+
+body.oe_single_form .oe_single_form_container {
+padding: 10px;
+position: absolute;
+left: 50%;
+top: 50%;
+width:500px;
+margin-top: -200px;
+margin-left: -200px;
+}
+
+.btn-primary {
+color: #fff;
+background-color: #9C5229;
+border-color: #357ebd;
+}
+
+a {
+color: #9C5229;
+text-decoration: none;
+}
