@@ -57,23 +57,21 @@
                                                 ])]"/>
        </record>
         <!-- user: Pepe (User) -->
-        <record id="anton_pepe" model="res.partner">
-            <field name="name">Pepe (User)</field>
+        <record id="anton_rosa" model="res.partner">
+            <field name="name">Rosa</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="customer" eval="False"/>
-            <field name="email">pepe@anton.com.ar</field>
+            <field name="email">rosa@marmolesanton.com.ar</field>
             <field name="lang">es_AR</field>
         </record>
 
-        <record id="user_pepe" model="res.users">
-            <field name="partner_id" ref="product_marble.anton_pepe"/>
-            <field name="login">pepe</field>
-            <field name="password">pepe</field>
-            <field name="signature">Sr Pepe</field>
+        <record id="user_rosa" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_rosa"/>
+            <field name="login">rosa</field>
+            <field name="password">rosa</field>
+            <field name="signature">Sra Rosa</field>
             <field name="company_id" ref="base.main_company"/>
-            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_user'),
-                                                 ref('product.group_uom')
-                                                ])]"/>
+            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_adminis') ])]"/>
        </record>
 
 

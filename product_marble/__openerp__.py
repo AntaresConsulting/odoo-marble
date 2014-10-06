@@ -25,8 +25,9 @@
     'author'     : 'Antares Consulting',
     'description': 'Definicion de Productos para Marmoleria.',
     'category'   : 'Product Marble',
-    'website'    : 'http:antaresconsulting.com.ar',
-    'depends'    :['web',
+    'website'    : 'http://www.antaresconsulting.com.ar',
+    'depends'    :[
+                   'web',
             'stock',
             'sale',
             'purchase',
@@ -43,8 +44,8 @@
         'views/stock_view.xml',
         'views/res_partner_view.xml',
 
-        'views/product_marble_actions.xml',
-        'views/product_marble_menu.xml',
+       'views/product_marble_actions.xml',
+      'views/product_marble_menu.xml',
         'views/product_marble.xml',
         
     ],

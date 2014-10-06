@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
-
+        <!-- menu: Sales-->
+        <menuitem   id="base.menu_sale_root"                      name="Sales" 
+                groups="group_marble_adminis" sequence="20" 
+        />
+        <!-- menu: Purchase-->
+        <menuitem   id="base.menu_purchase_root"                      name="Purchases" 
+                groups="group_marble_adminis" sequence="60" 
+        />	    
+        <menuitem   id="hr.menu_hr_root"                      name="Human Resources" 
+                groups="group_marble_adminis" sequence="50" 
+        />	    
+        
         <!-- menu: Warehouse (Root) -->
         <!--
         <menuitem   id="stock.menu_stock_root"                      name="Warehouse" 
@@ -10,7 +21,9 @@
         -->
 
        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <!-- menu: Warehouse > Customer/Supplier -->
 
+                
         <!-- menu: Warehouse > Customer/Supplier -->
         <!--
         <menuitem id="menu_marble_customer_supplier"                name="Customer / Supplier" 
