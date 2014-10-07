@@ -1,47 +1,57 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-,,,,,,,
 access_dimension_u,product_marble_dimension user,model_product_marble_dimension,product_marble.group_marble_user,1,0,0,0
 access_dimension_c,product_marble_dimension cutt,model_product_marble_dimension,product_marble.group_marble_cutt,1,0,0,0
 access_dimension_r,product_marble_dimension resp,model_product_marble_dimension,product_marble.group_marble_resp,1,0,0,0
 access_dimension_m,product_marble_dimension mger,model_product_marble_dimension,product_marble.group_marble_mger,1,1,1,1
-,,,,,,,
 access_balance_u,product_marble_dimension_balance user,model_product_marble_dimension_balance,product_marble.group_marble_user,1,0,0,0
 access_balance_c,product_marble_dimension_balance cutt,model_product_marble_dimension_balance,product_marble.group_marble_cutt,1,0,0,0
 access_balance_r,product_marble_dimension_balance resp,model_product_marble_dimension_balance,product_marble.group_marble_resp,1,0,0,0
 access_balance_m,product_marble_dimension_balance mger,model_product_marble_dimension_balance,product_marble.group_marble_mger,1,1,1,1
-,,,,,,,
 board.access_board_board all,board.board,board.model_board_board,,0,0,0,0
-base.access_ir_attachment_group_user,ir_attachment group_user,base.model_ir_attachment,product_marble.group_marble_user,1,1,1,1
-base.access_ir_cron_user,ir_cron user,base.model_ir_cron,product_marble.group_marble_user,1,0,0,0
-base.access_ir_exports_group_system,ir_exports group_system,base.model_ir_exports,product_marble.group_marble_user,1,1,1,1
-base.access_ir_exports_line_group_system,ir_exports_line group_system,base.model_ir_exports_line,product_marble.group_marble_user,1,1,1,1
-base.access_ir_fields_converter_group_system,ir_fields_converter,base.model_ir_fields_converter,product_marble.group_marble_user,1,1,1,1
-base.access_ir_model_data_user,ir_model_data user,base.model_ir_model_data,product_marble.group_marble_user,1,0,1,0
-base.access_ir_sequence_group_user,ir_sequence group_user,account.model_ir_sequence,product_marble.group_marble_user,1,0,0,0
-base.access_ir_ui_menu_group_user,ir_ui_menu group_user,base.model_ir_ui_menu,product_marble.group_marble_user,1,0,0,0
-base.access_res_groups_group_user,res_groups group_user,base.model_res_groups,product_marble.group_marble_user,1,0,0,0
-base.access_res_partner_group_user,res_partner group_user,account.model_res_partner,product_marble.group_marble_user,1,0,0,0
-base.access_res_partner_bank_group_user,res_partner_bank group_user,account.model_res_partner_bank,product_marble.group_marble_user,1,0,0,0
-base.access_res_partner_category_group_user,res_partner_category group_user,base.model_res_partner_category,product_marble.group_marble_user,1,0,0,0
-base.access_res_bank_user,res_bank user,base.model_res_bank,product_marble.group_marble_user,1,0,0,0
-mail.access_mail_message_user,mail.message.user,mail.model_mail_message,product_marble.group_marble_user,1,1,1,1
-mail.access_mail_mail_user,mail.mail.user,fetchmail.model_mail_mail,product_marble.group_marble_user,1,1,1,0
-mail.access_mail_followers_user,mail.followers.user,mail.model_mail_followers,product_marble.group_marble_user,1,1,0,0
-mail.access_mail_notification_user,mail.notification.user,mail.model_mail_notification,product_marble.group_marble_user,1,1,1,0
-mail.access_mail_group_user,mail.group.user,mail.model_mail_group,product_marble.group_marble_user,1,1,1,1
-mail.access_mail_alias_user,mail.alias.user,mail.model_mail_alias,product_marble.group_marble_user,1,1,1,0
-email_template.access_email_template,email.template,email_template.model_email_template,product_marble.group_marble_user,1,1,1,0
-sales_team.access_crm_case_section,crm.case.section,sale.model_crm_case_section,product_marble.group_marble_user,1,0,0,0
-ir_model_access_380,res.partner.category,base.model_res_partner_category,product_marble.group_marble_user,1,1,1,1
-resource.access_resource_calendar_leaves_user,resource.calendar.leaves,resource.model_resource_calendar_leaves,product_marble.group_marble_user,1,0,0,0
-hr.access_hr_employee_category_emp,hr.employee.category.emp,hr.model_hr_employee_category,product_marble.group_marble_user,1,1,1,1
-hr.access_hr_employee_system_user,hr.employee system user,hr.model_hr_employee,product_marble.group_marble_user,1,1,1,1
-hr.access_hr_department_employee,hr.department.employee,hr.model_hr_department,product_marble.group_marble_user,1,1,1,1
-hr.access_hr_job,hr.job,hr.model_hr_job,product_marble.group_marble_user,1,1,1,1
-base.access_res_partner,base.res.partner,base.model_res_partner,product_marble.group_marble_user,1,1,1,1
-account.payment_term,account.payment.term,account.model_account_payment_term,product_marble.group_marble_user,1,1,1,1
-account.fiscal_position,account.piscal.position,account.model_account_fiscal_position,product_marble.group_marble_user,1,1,1,1
-account.move_line,account.move.line,account.model_account_move_line,product_marble.group_marble_user,1,1,1,1
-account.fiscalyear,account.fiscalyear,account.model_account_fiscalyear,product_marble.group_marble_user,1,1,1,1
-account.analytic_account,account.analytic.account,account.model_account_analytic_account,product_marble.group_marble_user,1,1,1,1
-resource.resource,resource.resource,resource.model_resource_resource,product_marble.group_marble_user,1,1,1,1
+base.access_ir_attachment_group_user,ir_attachment group_user,base.model_ir_attachment,product_marble.group_marble_adminis,1,1,1,1
+base.access_ir_cron_user,ir_cron user,base.model_ir_cron,product_marble.group_marble_adminis,1,0,0,0
+base.access_ir_exports_group_system,ir_exports group_system,base.model_ir_exports,product_marble.group_marble_adminis,1,1,1,1
+base.access_ir_exports_line_group_system,ir_exports_line group_system,base.model_ir_exports_line,product_marble.group_marble_adminis,1,1,1,1
+base.access_ir_fields_converter_group_system,ir_fields_converter,base.model_ir_fields_converter,product_marble.group_marble_adminis,1,1,1,1
+base.access_ir_model_data_user,ir_model_data user,base.model_ir_model_data,product_marble.group_marble_adminis,1,0,1,0
+base.access_ir_sequence_group_user,ir_sequence group_user,account.model_ir_sequence,product_marble.group_marble_adminis,1,0,0,0
+base.access_ir_ui_menu_group_user,ir_ui_menu group_user,base.model_ir_ui_menu,product_marble.group_marble_adminis,1,0,0,0
+base.access_res_groups_group_user,res_groups group_user,base.model_res_groups,product_marble.group_marble_adminis,1,0,0,0
+base.access_res_partner_group_user,res_partner group_user,account.model_res_partner,product_marble.group_marble_adminis,1,1,1,1
+base.access_res_partner_bank_group_user,res_partner_bank group_user,account.model_res_partner_bank,product_marble.group_marble_adminis,1,1,1,1
+base.access_res_partner_category_group_user,res_partner_category group_user,base.model_res_partner_category,product_marble.group_marble_adminis,1,1,1,1
+base.access_res_bank_user,res_bank user,base.model_res_bank,product_marble.group_marble_adminis,1,0,0,0
+mail.access_mail_message_user,mail.message.user,mail.model_mail_message,product_marble.group_marble_adminis,1,1,1,1
+mail.access_mail_mail_user,mail.mail.user,fetchmail.model_mail_mail,product_marble.group_marble_adminis,1,1,1,0
+mail.access_mail_followers_user,mail.followers.user,mail.model_mail_followers,product_marble.group_marble_adminis,1,1,0,0
+mail.access_mail_notification_user,mail.notification.user,mail.model_mail_notification,product_marble.group_marble_adminis,1,1,1,0
+mail.access_mail_group_user,mail.group.user,mail.model_mail_group,product_marble.group_marble_adminis,1,1,1,1
+mail.access_mail_alias_user,mail.alias.user,mail.model_mail_alias,product_marble.group_marble_adminis,1,1,1,0
+email_template.access_email_template,email.template,email_template.model_email_template,product_marble.group_marble_adminis,1,1,1,0
+sales_team.access_crm_case_section,crm.case.section,sale.model_crm_case_section,product_marble.group_marble_adminis,1,0,0,0
+ir_model_access_380,res.partner.category,base.model_res_partner_category,product_marble.group_marble_adminis,1,1,1,1
+resource.access_resource_calendar_leaves_user,resource.calendar.leaves,resource.model_resource_calendar_leaves,product_marble.group_marble_adminis,1,0,0,0
+hr.access_hr_employee_category_emp,hr.employee.category.emp,hr.model_hr_employee_category,product_marble.group_marble_adminis,1,1,1,1
+hr.access_hr_employee_system_user,hr.employee system user,hr.model_hr_employee,product_marble.group_marble_adminis,1,1,1,1
+hr.access_hr_department_employee,hr.department.employee,hr.model_hr_department,product_marble.group_marble_adminis,1,1,1,1
+hr.access_hr_job,hr.job,hr.model_hr_job,product_marble.group_marble_adminis,1,1,1,1
+account.payment_term,account.payment.term,account.model_account_payment_term,product_marble.group_marble_adminis,1,1,1,1
+account.fiscal_position,account.piscal.position,account.model_account_fiscal_position,product_marble.group_marble_adminis,1,1,1,1
+account.move_line,account.move.line,account.model_account_move_line,product_marble.group_marble_adminis,1,1,1,1
+account.fiscalyear,account.fiscalyear,account.model_account_fiscalyear,product_marble.group_marble_adminis,1,1,1,1
+account.analytic_account,account.analytic.account,analytic.model_account_analytic_account,product_marble.group_marble_adminis,1,1,1,1
+resource.resource,resource.resource,resource.model_resource_resource,product_marble.group_marble_adminis,1,1,1,1
+base.access_res_font_group_user,res_res_font group_user,base.model_res_font,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_char,base.import.tests.models.char,base_import.model_base_import_tests_models_char,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_char_required,base.import.tests.models.char.required,base_import.model_base_import_tests_models_char_required,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_char_readonly,base.import.tests.models.char.readonly,base_import.model_base_import_tests_models_char_readonly,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_char_states,base.import.tests.models.char.states,base_import.model_base_import_tests_models_char_states,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_char_noreadonly,base.import.tests.models.char.noreadonly,base_import.model_base_import_tests_models_char_noreadonly,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_char_stillreadonly,base.import.tests.models.char.stillreadonly,base_import.model_base_import_tests_models_char_stillreadonly,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_m2o,base.import.tests.models.m2o,base_import.model_base_import_tests_models_m2o,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_m2o_related,base.import.tests.models.m2o.related,base_import.model_base_import_tests_models_m2o_related,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_m2o_required,base.import.tests.models.m2o.required,base_import.model_base_import_tests_models_m2o_required,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_m2o_required_related,base.import.tests.models.m2o.required.related,base_import.model_base_import_tests_models_m2o_required_related,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_o2m,base.import.tests.models.o2m,base_import.model_base_import_tests_models_o2m,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_o2m_child,base.import.tests.models.o2m.child,base_import.model_base_import_tests_models_o2m_child,product_marble.group_marble_adminis,1,1,1,1
+base_import.access_base_import_tests_models_preview,base.import.tests.models.preview,base_import.model_base_import_tests_models_preview,product_marble.group_marble_adminis,1,1,1,1

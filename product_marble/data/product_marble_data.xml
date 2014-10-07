@@ -56,7 +56,7 @@
                                                  ref('product.group_uom')
                                                 ])]"/>
        </record>
-        <!-- user: Pepe (User) -->
+        <!-- user: Rosa (User) -->
         <record id="anton_rosa" model="res.partner">
             <field name="name">Rosa</field>
             <field name="company_id" ref="base.main_company"/>
