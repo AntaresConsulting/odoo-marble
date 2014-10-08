@@ -73,7 +73,24 @@
             <field name="company_id" ref="base.main_company"/>
             <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_adminis') ])]"/>
        </record>
+        <!-- user: Ana (User) -->
+        <record id="anton_ana" model="res.partner">
+            <field name="name">Ana</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="customer" eval="False"/>
+            <field name="email">ana@marmolesanton.com.ar</field>
+            <field name="lang">es_AR</field>
+        </record>
 
+        <record id="user_rosa" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_rosa"/>
+            <field name="login">ana</field>
+            <field name="password">ana</field>
+            <field name="signature">Sra Ana</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_adminis') ])]"/>
+       </record>
+        
 
         <!-- add UOM Category Surface / Area -->
         <record id="product_uom_categ_area" model="product.uom.categ">
