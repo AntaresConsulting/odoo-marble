@@ -6,6 +6,7 @@
     <record id="group_marble_user" model="res.groups">
         <field name="name">User Marble</field>
         <field name="category_id" ref="base.module_category_warehouse_management"/>
+        <field name="implied_ids" eval="[(4, ref('base.user_root'))]"/>
     </record>
     
     <!-- Responsable -->
@@ -27,7 +28,6 @@
         <field name="name">Manager Marble</field>
         <field name="category_id" ref="base.module_category_warehouse_management"/>
         <field name="implied_ids" eval="[(4, ref('group_marble_user'))]"/>
-        <field name="users" eval="[(4, ref('base.user_root'))]"/>
     </record>
     
     <!-- Administrative -->
