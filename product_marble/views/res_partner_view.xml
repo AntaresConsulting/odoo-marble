@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="base.view_res_partner_filter"/>
             <field name="arch" type="xml">
                 <field name="name" position="replace">
-                     <field name="name" filter_domain="['|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|',
+                     <field name="name" filter_domain="['|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|','|',
                         ('name','ilike',self),
                         ('parent_id','ilike',self),
                         ('ref','=',self),
@@ -27,7 +27,6 @@
                         ('city','ilike',self),
                         ('state_id','ilike',self),
                         ('country_id','ilike',self),
-                        ('country','ilike',self),
                         ('email','ilike',self),
                         ('phone','ilike',self),
                         ('fax','ilike',self),
