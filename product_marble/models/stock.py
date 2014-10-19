@@ -25,6 +25,8 @@ from openerp.osv import fields
 # from openerp.tools.translate import _
 from operator import itemgetter
 
+import inspect
+
 import _common as comm
 import logging
 _logger = logging.getLogger(__name__)
@@ -85,35 +87,22 @@ class stock_move(osv.osv):
         return 0
 
     def _get_sign_qty(self, cr, uid, ids, field_name, arg, context=None):
-        # _logger.info(">> _get_field_with_sign >> 0 >> ids = %s", ids)
-        # _logger.info(">> _get_field_with_sign >> 1 >> field_name = %s", field_name)
-        # _logger.info(">> _get_field_with_sign >> 2 >> arg = %s", arg)
-        # _logger.info(">> _get_field_with_sign >> 3 >> context = %s", context)
-
         if not ids:
             return {}
-
         res = {}
         bal = 0.00
-
         ids_by_date = self.search(cr, uid, [('id','in',ids)], order='date')
         for m in self.browse(cr, uid, ids_by_date):
-
             fields = {}
             sign = self._get_sign(m)
-
             fields['qty_dimension'] = sign * m.dimension_qty
             fields['qty_product'] = sign * m.product_qty
-
-            _logger.info(">> _get_field_with_sign >> 88 >> bal = %s", bal)
+            # _logger.info(">> _get_field_with_sign >> 88 >> bal = %s", bal)
             bal += fields['qty_product']
-            _logger.info(">> _get_field_with_sign >> 99 >> bal = %s", bal)
-
+            # _logger.info(">> _get_field_with_sign >> 99 >> bal = %s", bal)
             fields['qty_balance'] = bal
-
             res[m.id] = fields
-
-        _logger.info(">> _get_field_with_sign >> 5 >> res = %s", res)
+        # _logger.info(">> _get_field_with_sign >> 5 >> res = %s", res)
         return res
 
 
@@ -243,7 +232,7 @@ class stock_move(osv.osv):
         _logger.info(">> _check_data_before_save >> 1- val = %s", val)
 
         # defino campos a evaluar
-        fields_list = ['product_id','product_uom','product_uom_qty','dimension_id','dimension_qty','is_raw', 'description']
+        fields_list = ['product_id','product_uom','product_uom_qty','dimension_id','dimension_qty','is_raw','description']
 
         # si (NO existe algun elemento de [fields_list] en [val]) >> me voy, no precesar...
         if not any(e in fields_list for e in val.keys()):
@@ -259,12 +248,10 @@ class stock_move(osv.osv):
             if (field in val):
                 to_update[field] = val[field]
                 continue
-
             # >> si (field es 'read-only') >> la data no viaja...
             elif (field in ['product_uom', 'product_uom_qty', 'description']):
                 to_update[field] = val.get(field,'')
                 continue
-
             else:
                 no_update[field] = (obj and (obj[0][field].id if ('class' in str(type(obj[0][field]))) else obj[0][field])) or False
 
@@ -275,22 +262,45 @@ class stock_move(osv.osv):
         for field in to_update:
             val[field] = v[field]
 
-        # _logger.info(">> _check_data_before_save >> 23 >> val = %s", val)
+        # -------------------------------------------------
+        # si 'is_raw' >> valido datos requeridos...
+        valu = v
+        mov = obj and obj[sm_id]
+
+        is_raw  = valu.get('is_raw',False) or (mov and mov.is_raw)
+        dim_id  = valu.get('dimension_id',0) or (mov and mov.dimension_id.id)
+        dim_qty = valu.get('dimension_qty',0) or (mov and mov.dimension_qty)
+        pro_qty = valu.get('product_uom_qty',0) or (mov and mov.product_uom_qty)
+
+        msg = self._check_data_required(cr, uid, is_raw, dim_id, dim_qty, pro_qty)
+        if msg:
+            raise osv.except_osv(_('Error'), _(msg))
         return
+
+    def _check_data_required(self, cr, uid, is_raw, dim_id, dim_qty, prod_qty):
+        if not is_raw:
+            return ''
+        if not dim_id:
+            return 'You cannot save a Move-Stock without Dimension (id)'
+        if not dim_qty:
+            return 'You cannot save a Move-Stock without Quantity Dimension (qty)'
+        if not prod_qty:
+            return 'You cannot save a Move-Stock without Quantity Product (uom qty)'
+        return ''
+    # ------------------------------------------------------------------------
 
     def create(self, cr, uid, data, context=None):
         self._check_data_before_save(cr, uid, [], data)
         return super(stock_move, self).create(cr, uid, data, context=context)
-
 
     def write(self, cr, uid, ids, vals, context=None):
         for ms_id in ids:
             self._check_data_before_save(cr, uid, ms_id, vals)
         return super(stock_move, self).write(cr, uid, ids, vals, context=context)
 
-    # --- overwriter: registro en balance ---
+    # --- extend: registro en balance ---
     def action_done(self, cr, uid, ids, context=None):
-        _logger.info(">> _action_done >> 00 >> ok - ids = %s", ids)
+        # _logger.info(">> _action_done >> 00 >> ok - ids = %s", ids)
 
         if not super(stock_move, self).action_done(cr, uid, ids, context=context):
             return False
@@ -298,7 +308,7 @@ class stock_move(osv.osv):
         obj_bal = self.pool.get('product.marble.dimension.balance')
         obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
 
-        _logger.info(">> _action_done >> 01 >> obj_mov = %s", obj_mov)
+        # _logger.info(">> _action_done >> 01 >> obj_mov = %s", obj_mov)
         if not obj_mov:
             return True
 
@@ -308,9 +318,16 @@ class stock_move(osv.osv):
         stock_loc = comm.get_location_stock(self, cr, uid)
         bal_list = [mov for mov in obj_mov if stock_loc in [mov.location_id.id, mov.location_dest_id.id]]
 
-        _logger.info(">> _action_done >> 02 >> stock_loc = %s", stock_loc)
-        _logger.info(">> _action_done >> 03 >> bal_list = %s", bal_list)
+        # _logger.info(">> _action_done >> 02 >> stock_loc = %s", stock_loc)
+        # _logger.info(">> _action_done >> 03 >> bal_list = %s", bal_list)
         for mov in bal_list:
+
+            # valid data required
+            msg = self._check_data_required(cr, uid, mov.product_id.is_raw, mov.dimension_id, mov.dimension_qty, mov.product_uom_qty)
+            if msg:
+                raise osv.except_osv(_('Error'), _(msg))
+
+            # set data..
             val = {
                 'prod_id': mov.product_id.id,
                 'dim_id': mov.dimension_id.id,
@@ -319,9 +336,8 @@ class stock_move(osv.osv):
                 'typeMove': 'in' if stock_loc == mov.location_dest_id.id else 'out'
             }
 
-            _logger.info(">> _action_done >> 04- val = %s", val)
+            # _logger.info(">> _action_done >> 04- val = %s", val)
             obj_bal.register_balance(cr, uid, val, context)
-
         return True
 
     _columns = {
@@ -332,9 +348,9 @@ class stock_move(osv.osv):
 
         'partner_picking_id': fields.related('picking_id', 'partner_id', type='many2one', relation='res.partner', string='Patern', store=False),
 
-        'qty_dimension': fields.function(_get_sign_qty, string='Dimension Qty', multi="sign"),
-        'qty_product': fields.function(_get_sign_qty, string='Product Qty', multi="sign"),
-        'qty_balance': fields.function(_get_sign_qty, string='Balance Qty', multi="sign"),
+        'qty_dimension': fields.function(_get_sign_qty, string='Unidades', multi="sign"),
+        'qty_product': fields.function(_get_sign_qty, string='Area (m2)', multi="sign"),
+        'qty_balance': fields.function(_get_sign_qty, string='Balance (m2)', multi="sign"),
     }
 
 
@@ -344,5 +360,68 @@ class stock_move(osv.osv):
     }
 
 stock_move()
+
+
+class stock_inventory_line(osv.osv):
+    _inherit = "stock.inventory.line"
+    _name = "stock.inventory.line"
+    _description = "Inventory Line"
+
+    _columns = {
+        'dimension_id': fields.many2one('product.marble.dimension', 'Dimension', domain=[('state','=','done')]),
+        'dimension_qty': fields.integer('Units', size=3),
+    }
+
+    # overwrite: stock > stock_inventory_line - odoo v8.0 - line: 2727 - 27555
+    # sobre escribo metodo para incorporar 'dimensiones' en caso de ser materia prima
+    def _resolve_inventory_line(self, cr, uid, inventory_line, context=None):
+
+        stock_move_obj = self.pool.get('stock.move')
+        diff = inventory_line.theoretical_qty - inventory_line.product_qty
+        if not diff:
+            return
+
+        # each theorical_lines where difference between theoretical and checked quantities is not 0 is a line for which we need to create a stock move
+        vals = {
+            'name': _('INV:') + (inventory_line.inventory_id.name or ''),
+            'product_id': inventory_line.product_id.id,
+            'product_uom': inventory_line.product_uom_id.id,
+            'date': inventory_line.inventory_id.date,
+            'company_id': inventory_line.inventory_id.company_id.id,
+            'inventory_id': inventory_line.inventory_id.id,
+            'state': 'confirmed',
+            'restrict_lot_id': inventory_line.prod_lot_id.id,
+            'restrict_partner_id': inventory_line.partner_id.id,
+        }
+
+        inventory_location_id = inventory_line.product_id.property_stock_inventory.id
+        if diff < 0:
+            # found more than expected
+            vals['location_id'] = inventory_location_id
+            vals['location_dest_id'] = inventory_line.location_id.id
+            vals['product_uom_qty'] = -diff
+        else:
+            # found less than expected
+            vals['location_id'] = inventory_line.location_id.id
+            vals['location_dest_id'] = inventory_location_id
+            vals['product_uom_qty'] = diff
+
+        # add dimension data...
+        # is_raw = inventory_line.product_id.is_raw
+        vals['dimension_id'] = inventory_line.dimension_id.id
+        if diff < 0:
+            # (theoretical_qty < inventory_line.product_qty) >> regitro prod-qty faltante
+            vals['dimension_qty'] = -inventory_line.dimension_qty
+        else:
+            # (theoretical_qty > inventory_line.product_qty) >> registro prod-qty excedente
+            vals['dimension_qty'] = inventory_line.dimension_qty
+
+        _logger.info(">> _resolve_inventory_line >> 01- vals = %s", vals)
+        return stock_move_obj.create(cr, uid, vals, context=context)
+
+stock_inventory_line()
+
+
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

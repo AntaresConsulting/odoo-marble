@@ -162,7 +162,7 @@ class product_product(osv.osv):
                 continue
 
             sql = "SELECT id, dimension_id FROM stock_move"\
-                  " WHERE product_id = %s ORDER BY date" % (pid,)
+                  " WHERE product_id = %s ORDER BY date DESC" % (pid,)
 
             # _logger.info(">> _get_stock_moves >> 2 >> sql = %s", sql)
 
@@ -629,8 +629,6 @@ class product_product(osv.osv):
         'is_bacha': fields.function(_is_bacha, type='boolean', string='Is Bacha'),
         'uom_readonly': fields.function(_get_uom_readonly, type='boolean', string='Is Raw or Bacha'),
         'attrs_material': fields.function(_attrs_material, type='char', string='Details'),
-
-        'balance_ids': fields.many2one('product.marble.dimension.balance', string='Balance', readonly=True),
 
         'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
         'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),

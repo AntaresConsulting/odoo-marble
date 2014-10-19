@@ -27,7 +27,7 @@
     'category'   : 'Product Marble',
     'website'    : 'http://www.antaresconsulting.com.ar',
     'depends'    :[
-                   'web',
+            'web',
             'stock',
             'sale',
             'purchase',
@@ -40,18 +40,19 @@
         'data/product_marble_data.xml',
 
         'views/product_marble_dimension_view.xml',
-        'views/product_marble_product_view.xml',
+        'views/product_view.xml',
         'views/stock_view.xml',
         'views/res_partner_view.xml',
 
-       'views/product_marble_actions.xml',
-      'views/product_marble_menu.xml',
+        'views/product_marble_actions.xml',
+        'views/product_marble_menu.xml',
         'views/product_marble.xml',
-        
+
+        'views/stock_change_product_qty_view.xml',
     ],
     'css': [
         'static/src/css/style.css',
-    ],   
+    ],
     'auto_install':False,
     'installable': True,
     'active'     : True,

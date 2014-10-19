@@ -48,7 +48,7 @@ class product_marble_dimension(osv.osv):
 # --- Migracion -------------------------
 #
     def _compute_totals(self, cr, uid, ids, field_name, arg, context=None):
-        _logger.info(">> _compute_totals >> 1 >> ids = %s", ids)
+        # _logger.info(">> _compute_totals >> 1 >> ids = %s", ids)
 
         res = {}.fromkeys(ids, {'total_units':0, 'total_m2':0.000})
         if not ids:
@@ -57,15 +57,15 @@ class product_marble_dimension(osv.osv):
         pid = context.get('product_id') if context else 0
 
         obj = self.pool.get('product.marble.dimension.balance')
-        bids = obj.search(cr, uid, [('marble_id','=',pid),('dimension_id','in', ids)], context=context)
+        bids = obj.search(cr, uid, [('product_id','=',pid),('dimension_id','in', ids)], context=context)
         data = obj.browse(cr, uid, bids)
 
-        _logger.info(">> _compute_totals >> 2 >> bds = %s", bids)
-        _logger.info(">> _compute_totals >> 3 >> data = %s", data)
+        # _logger.info(">> _compute_totals >> 2 >> bds = %s", bids)
+        # _logger.info(">> _compute_totals >> 3 >> data = %s", data)
         for d in data:
             res[d.dimension_id.id] = {'total_units': d.qty_unit, 'total_m2': d.qty_m2}
 
-        _logger.info(">> _compute_totals >> 4 >> res = %s", res)
+        # _logger.info(">> _compute_totals >> 4 >> res = %s", res)
         return res
 
 #    @api.multi
@@ -81,7 +81,7 @@ class product_marble_dimension(osv.osv):
 #        model = registry['product.marble.dimension.balance']
 #        assert isinstance(model, Model)
 #
-#        data = model.search([('marble_id','=',pid),('dimension_id','in', ids)])
+#        data = model.search([('product_id','=',pid),('dimension_id','in', ids)])
 #        for d in data:
 #
 #        # -------------------------------
@@ -93,7 +93,7 @@ class product_marble_dimension(osv.osv):
 #        pid = context.get('product_id') if context else 0
 #
 #        obj = self.pool.get('product.marble.dimension.balance')
-#        bids = obj.search(cr, uid, [('marble_id','=',pid),('dimension_id','in', ids)], context=context)
+#        bids = obj.search(cr, uid, [('product_id','=',pid),('dimension_id','in', ids)], context=context)
 #        data = obj.browse(cr, uid, bids)
 #
 #        _logger.info(">> _compute_totals >> 2 >> bds = %s", bids)

@@ -56,7 +56,8 @@
                                                  ref('product.group_uom')
                                                 ])]"/>
        </record>
-        <!-- user: Rosa (User) -->
+      
+       <!-- user: Rosa (User) -->
         <record id="anton_rosa" model="res.partner">
             <field name="name">Rosa</field>
             <field name="company_id" ref="base.main_company"/>
@@ -73,7 +74,8 @@
             <field name="company_id" ref="base.main_company"/>
             <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_adminis') ])]"/>
        </record>
-        <!-- user: Ana (User) -->
+
+       <!-- user: Ana (User) -->
         <record id="anton_ana" model="res.partner">
             <field name="name">Ana</field>
             <field name="company_id" ref="base.main_company"/>
@@ -82,8 +84,8 @@
             <field name="lang">es_AR</field>
         </record>
 
-        <record id="user_rosa" model="res.users">
-            <field name="partner_id" ref="product_marble.anton_rosa"/>
+        <record id="user_ana" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_ana"/>
             <field name="login">ana</field>
             <field name="password">ana</field>
             <field name="signature">Sra Ana</field>
@@ -91,7 +93,6 @@
             <field name="groups_id" eval="[(6,0,[ref('product_marble.group_marble_adminis') ])]"/>
        </record>
         
-
         <!-- add UOM Category Surface / Area -->
         <record id="product_uom_categ_area" model="product.uom.categ">
             <field name="name">Surface / Area</field>
@@ -105,7 +106,6 @@
         </record>
 
         <!-- add Product Category -->
-
         <record id="prod_categ_raw_material" model="product.category">
             <field name="parent_id" ref="product.product_category_all"/>
             <field name="name">Raw Material</field>
@@ -126,19 +126,19 @@
             <field name="name">Inputs</field>
         </record>
 
-         <record id="set_locations" model="stock.config.settings">
+        <!-- stock settings -->
+        <record id="set_locations" model="stock.config.settings">
             <field name="group_stock_multiple_locations" eval="1"/>
         </record>
-	<function model="stock.config.settings" name="execute">
 
+        <function model="stock.config.settings" name="execute">
             <!-- ids = -->        <value eval="[ref('set_locations')]"/>
-
             <!-- context = -->    <value eval="{}"/>
-
         </function>
 
 	  <record id="base.user_root" model="res.users">
 	    <field name="groups_id" eval="[(4, ref('base.group_no_one'))]"/>
-	  </record>
+    </record>
+
  </data>
 </openerp>
