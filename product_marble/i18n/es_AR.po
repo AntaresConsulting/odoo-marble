@@ -526,8 +526,8 @@ msgstr "Abrir menú de almacén"
 
 #. module: product_marble
 #: field:stock.move,qty_product:0
-msgid "Product Qty"
-msgstr "Cant Productos"
+msgid "Area (m2)"
+msgstr "Area (m2)"
 
 #. module: stock
 #: model:ir.actions.act_window,name:stock.action_picking_tree_out
@@ -1346,8 +1346,8 @@ msgstr "Manual de operación"
 
 #. module: product_marble
 #: field:product.marble.dimension,total_m2:0
-msgid "Square Meters [ m2 ]"
-msgstr "Metros Cuadrados [ m2 ]"
+msgid "Area [m2]"
+msgstr "Area (m2)"
 
 #. modules: product_marble, stock
 #: model:ir.ui.menu,name:product_marble.menu_marble_supplier
@@ -3898,8 +3898,8 @@ msgstr "Aceptar"
 
 #. module: product_marble
 #: field:stock.move,qty_balance:0
-msgid "Balance Qty"
-msgstr "Balance Cant."
+msgid "Balance (m2)"
+msgstr "Movim. (m2)"
 
 #. module: stock
 #: field:stock.picking,message_ids:0
