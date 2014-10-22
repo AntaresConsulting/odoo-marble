@@ -70,8 +70,9 @@ class stock_change_product_qty(osv.osv_memory):
         return dom
 
     _columns = {
-        'domain_dimension_ids': fields.function(_get_dimensions_domain, type='char', size=255, method=True, string='Domain Dimension IDs'),
-        'dimension_id': fields.many2one('product.marble.dimension', 'Dimension'),
+        # 'domain_dimension_ids': fields.function(_get_dimensions_domain, type='char', size=255, method=True, string='Domain Dimension IDs'),
+        # 'dimension_id': fields.many2one('product.marble.dimension', 'Dimension'),
+        'dimension_id': fields.many2one('product.marble.dimension', 'Dimension', domain="[('state','=','done')]"),
         'dimension_qty': fields.integer('Units', size=3),
         'product_uom': fields.many2one('product.uom', 'Unit of Measure', readonly=True),
         'is_raw': fields.boolean('Is Raw Material'),
@@ -93,7 +94,7 @@ class stock_change_product_qty(osv.osv_memory):
         prod = self.pool.get('product.product').browse(cr, uid, [pid], context=context)
         res['is_raw'] = prod.is_raw
         res['product_uom'] = prod.uom_id.id
-        res['domain_dimension_ids'] = self._get_dimensions_domain(cr, uid, pid)
+        # res['domain_dimension_ids'] = self._get_dimensions_domain(cr, uid, pid)
 
         # _logger.info(">> idefault_get >> 3 >> res = %s", res)
         return res
@@ -127,6 +128,7 @@ class stock_change_product_qty(osv.osv_memory):
         for data in self.browse(cr, uid, ids, context=context):
             if data.new_quantity < 0:
                 raise osv.except_osv(_('Warning!'), _('Quantity cannot be negative.'))
+
             ctx = context.copy()
             ctx['location'] = data.location_id.id
             ctx['lot_id'] = data.lot_id.id
@@ -135,8 +137,14 @@ class stock_change_product_qty(osv.osv_memory):
                 'product_id': data.product_id.id,
                 'location_id': data.location_id.id,
                 'lot_id': data.lot_id.id}, context=context)
+
             product = data.product_id.with_context(location=data.location_id.id)
             th_qty = product.qty_available
+
+            bal = self.pool.get('product.marble.dimension.balance')
+            th_qty_dim = bal.unit_qty_available(cr, uid, data.product_id.id, data.dimension_id.id, context)
+            _logger.info(">> change_product_qty >> 1- th_qty_dim = %s", th_qty_dim)
+
             line_data = {
                 'inventory_id': inventory_id,
                 'product_qty': data.new_quantity,
@@ -148,7 +156,8 @@ class stock_change_product_qty(osv.osv_memory):
 
                 # add dimension data...
                 'dimension_id': data.dimension_id.id,
-                'dimension_qty': data.dimension_qty,
+                'theorical_dimension_qty': th_qty_dim,  # old qty value (existing units registered [x system])
+                'dimension_qty': data.dimension_qty,    # new qty value (existing units physically [manual adjustment])
             }
             inventory_line_obj.create(cr, uid, line_data, context=context)
             inventory_obj.action_done(cr, uid, [inventory_id], context=context)

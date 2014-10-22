@@ -22,7 +22,7 @@
 import _common
 import product_marble_dimension
 import product_marble_dimension_balance
-import product_category
+# import product_category
 import product_product
 import stock
 import partner

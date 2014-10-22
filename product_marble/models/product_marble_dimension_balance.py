@@ -34,12 +34,22 @@ class product_marble_dimension_balance(osv.osv):
     _name = 'product.marble.dimension.balance'
     _description = "Balance between Marble - Dimension"
 
+    def unit_qty_available(self, cr, uid, pro_id, dim_id, context=None):
+        bal_ids = self.search(cr, uid, [('product_id','=',pro_id),('dimension_id','=',dim_id)], context=context)
+        if not bal_ids:
+            return 0
+
+        bal_obj = self.browse(cr, uid, bal_ids)
+        for bal in bal_obj:
+            return bal.qty_unit or 0
+
+        return 0
+
     def register_balance(self, cr, uid, data, context=None):
         # _logger.info(">> register_balance >> 1- data = %s", data)
 
         pro_id = data.get('prod_id', 0)
         dim_id = data.get('dim_id', 0)
-
         dim_qty = data.get('dimension_qty', 0)
         dim_m2 = data.get('dimension_m2', 0.000)
 
@@ -49,39 +59,25 @@ class product_marble_dimension_balance(osv.osv):
 
         operacion = ' + ' if (tyMove == 'in') else ' - '
         bid = self.search(cr,uid,[('dimension_id','=',dim_id),('product_id','=',pro_id)])
-
         if bid:
             # Update...
             for bal in self.browse(cr, uid, bid):
                 sQty = str(bal.qty_unit) + operacion + str(dim_qty)
                 sM2 = str(bal.qty_m2) + operacion + str(dim_m2)
-
-                # _logger.info(">> register_balance >> Update >> 4- sQty = %s", sQty)
-                # _logger.info(">> register_balance >> Update >> 5- sM2 = %s", sM2)
-
                 val = {'qty_unit': eval(sQty), 'qty_m2': eval(sM2)}
-                # _logger.info(">> register_balance >> Update >> 6- val = %s", val)
-
                 self.write(cr, uid, bid, val)
         else:
             # New...
             sQty = operacion + str(dim_qty)
             sM2 = operacion + str(dim_m2)
-
-            # _logger.info(">> register_balance >> New >> 7- sQty = %s", sQty)
-            # _logger.info(">> register_balance >> New >> 8- sM2 = %s", sM2)
-
             val = {'dimension_id': dim_id, 'product_id': pro_id, 'qty_unit': eval(sQty), 'qty_m2': eval(sM2)}
-            # _logger.info(">> register_balance >> New >> 9- val = %s", val)
-
             self.create(cr, uid, val)
-        return True
 
+        return True
 
     _columns = {
         'product_id': fields.many2one('product.product', 'Product Marble ID', select=True, readonly=True),
         'dimension_id': fields.many2one('product.marble.dimension', 'Dimension', select=True, readonly=True),
-
         'qty_unit': fields.float('Qty Unit', type="integer", readonly=True),
         'qty_m2': fields.float('Qty M2', digits=(5, 3), type="float", readonly=True),
     }
