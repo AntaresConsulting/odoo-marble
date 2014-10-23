@@ -206,7 +206,7 @@ class stock_move(osv.osv):
 
     # ------------------------------------------------------------------------
     def _check_data_before_save(self, cr, uid, sm_id, val):
-        _logger.info(">> _check_data_before_save >> 1- val = %s", val)
+        # _logger.info(">> _check_data_before_save >> 1- val = %s", val)
 
         # defino campos a evaluar
         fields_list = ['product_id','product_uom','product_uom_qty','dimension_id','dimension_qty','is_raw','description']
@@ -351,7 +351,7 @@ class stock_inventory_line(osv.osv):
     _
     defaults = {
         'dimension_qty': 0,
-        'theorical_dimension_qty': 0,
+        'theoretical_dimension_qty': 0,
     }
 
     # overwrite: stock > stock_inventory_line - odoo v8.0 - line: 2727 - 27555

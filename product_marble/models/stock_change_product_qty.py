@@ -60,6 +60,7 @@ class stock_change_product_qty(osv.osv_memory):
     # inexistentes, sin registrar en Balance.
     # ¿Como voy actualizar algo que no existe en Balance?
     def _get_dimensions_domain(self, cr, uid, pid, context=None):
+        return []
 
         bal = self.pool.get('product.marble.dimension.balance')
         bal_ids = bal.search(cr, uid, [('product_id','=',pid)], context=context)
@@ -70,7 +71,7 @@ class stock_change_product_qty(osv.osv_memory):
         return dom
 
     _columns = {
-        # 'domain_dimension_ids': fields.function(_get_dimensions_domain, type='char', size=255, method=True, string='Domain Dimension IDs'),
+        'domain_dimension_ids': fields.function(_get_dimensions_domain, type='char', size=255, method=True, string='Domain Dimension IDs'),
         # 'dimension_id': fields.many2one('product.marble.dimension', 'Dimension'),
         'dimension_id': fields.many2one('product.marble.dimension', 'Dimension', domain="[('state','=','done')]"),
         'dimension_qty': fields.integer('Units', size=3),
@@ -156,7 +157,7 @@ class stock_change_product_qty(osv.osv_memory):
 
                 # add dimension data...
                 'dimension_id': data.dimension_id.id,
-                'theorical_dimension_qty': th_qty_dim,  # old qty value (existing units registered [x system])
+                'theoretical_dimension_qty': th_qty_dim,  # old qty value (existing units registered [x system])
                 'dimension_qty': data.dimension_qty,    # new qty value (existing units physically [manual adjustment])
             }
             inventory_line_obj.create(cr, uid, line_data, context=context)

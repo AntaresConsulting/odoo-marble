@@ -36,28 +36,21 @@ class product_category(osv.osv):
     _name = "product.category"
 
     def name_get(self, cr, uid, ids, context=None):
-        _logger.info(">> name_get >> 0- ids = %s", ids)
-
+        # _logger.info(">> name_get >> 0- ids = %s", ids)
         if isinstance(ids, (list, tuple)) and not len(ids):
             return []
         if isinstance(ids, (long, int)):
             ids = [ids]
-
 #        md = self.pool.get('ir.model.data')
 #        all_categ = md.get_object_reference(cr, uid, 'product', 'product_category_all')[1]
 #        sale_categ = md.get_object_reference(cr, uid, 'product', 'product_category_1')[1]
-
-#        _logger.info(">> name_get >> 1- all = %s", all_categ)
-#        _logger.info(">> name_get >> 2- sale = %s", sale_categ)
-
         res = []
         ids_by_name = self.search(cr, uid, [('id','in',ids)], order='name')
         for cat in self.browse(cr, uid, ids_by_name, context=context):
 #            if cat.id in [all_categ, sale_categ]:
 #                continue
             res.append((cat.id, cat.name))
-
-        _logger.info(">> name_get >> 3- res = %s", res)
+        # _logger.info(">> name_get >> 3- res = %s", res)
         return res
 
 

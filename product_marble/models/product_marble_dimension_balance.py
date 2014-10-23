@@ -36,13 +36,8 @@ class product_marble_dimension_balance(osv.osv):
 
     def unit_qty_available(self, cr, uid, pro_id, dim_id, context=None):
         bal_ids = self.search(cr, uid, [('product_id','=',pro_id),('dimension_id','=',dim_id)], context=context)
-        if not bal_ids:
-            return 0
-
-        bal_obj = self.browse(cr, uid, bal_ids)
-        for bal in bal_obj:
+        for bal in self.browse(cr, uid, bal_ids):
             return bal.qty_unit or 0
-
         return 0
 
     def register_balance(self, cr, uid, data, context=None):
