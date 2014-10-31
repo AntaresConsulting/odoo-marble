@@ -12,30 +12,46 @@
                     <field name="is_raw" invisible="1"/>
                     <field name="product_id" readonly="1"/>
 
-                    <!--field name="domain_dimension_ids" invisible="1"/>
                     <field name="dimension_id"
-                        domain="domain_dimension_ids"
-                        on_change="onchange_calculate_dim(dimension_id, dimension_qty, is_raw)"
-                        attrs="{'required':[('is_raw','=',True)], 'invisible':[('is_raw','=',False)]}" / -->
-
-                    <field name="dimension_id"
-                        on_change="onchange_calculate_dim(dimension_id, dimension_qty, is_raw)"
+                        on_change="onchange_calculate_dim(product_id, dimension_id, dimension_unit_new)"
                         attrs="{'required':[('is_raw','=',True)], 'invisible':[('is_raw','=',False)]}" />
+
+                    <!-- theoretical qty -->
+                    
+                    <label for="dimension_unit_theoretical" string="Theoretical Quantity / M2" attrs="{'invisible':[('is_raw','=',False)]}"/>
+                    <div attrs="{'invisible':[('is_raw','=',False)]}">
+                        <field name="dimension_unit_theoretical" class="oe_inline"/>
+                        <span> ( </span>
+                        <field name="dimension_m2_theoretical" class="oe_inline"/>
+                        <span> . </span>
+                        <field name="dimension_uom_theoretical" class="oe_inline"/>
+                        <span> ) </span>
+                    </div>
+
+                    <!-- new qty -->
 
                     <label for="new_quantity"/>
                     <div>
-                        <field name="dimension_qty" 
-                            on_change="onchange_calculate_dim(dimension_id, dimension_qty, is_raw)"
-                            attrs="{'required':[('is_raw','=',True)], 'invisible':[('is_raw','=',False)]}" 
-                            class="oe_inline"/>
+                        <field name="dimension_unit_new" 
+                            on_change="onchange_calculate_dim(product_id, dimension_id, dimension_unit_new)"
+                                attrs="{'required':[('is_raw','=',True)], 'invisible':[('is_raw','=',False)]}" 
+                                class="oe_inline"/>
 
                         <span attrs="{'invisible':[('is_raw','=',False)]}"> ( </span>
 
-                        <field name="new_quantity"
-                            attrs="{'readonly':[('is_raw','=',True)]}" 
-                            class="oe_inline"/>
+                        <field name="dimension_m2_new"
+                                attrs="{'readonly':True,'invisible':[('is_raw','=',False)]}" 
+                                class="oe_inline"/>
                         
-                        <span> . </span>
+                        <!-- habilitar para testear new-qty
+                        <span attrs="{'invisible':[('is_raw','=',False)]}"> >> </span>
+                        -->
+                        
+                        <field name="new_quantity"
+                                attrs="{'readonly':[('is_raw','=',True)],'invisible':[('is_raw','=',True)]}" 
+                                class="oe_inline"/>
+
+                        <span attrs="{'invisible':[('is_raw','=',False)]}"> . </span>
                         
                         <field name="product_uom" 
                             readonly="1" 
@@ -44,9 +60,6 @@
 
                         <span attrs="{'invisible':[('is_raw','=',False)]}"> ) </span>
                     </div>
-                   
-                    <!--field name="dimension_qty" attrs="{'invisible':[('is_raw','=',False)]}"/>
-                    <field name="new_quantity" /-->
                 </field>
             </field>
         </record>

@@ -175,12 +175,26 @@
                             <field name="dimension_ids" context="{'product_id':id}">
                                 <tree string="Dimensions">
                                     <field name="dimension"/>
+                                    <field name="type"/>
+                                    <field name="state" invisible="1"/>
                                     <field name="total_units"/>
                                     <field name="total_m2"/>
-                                    <field name="type"/>
-                                    <field name="state"/>
-                                </tree>
+                               </tree>
                             </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="dimension_total_m2" widget="statinfo"/>
+                               <!-- 
+                               <field name="amount_untaxed" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                               <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                               <div class="oe_subtotal_footer_separator oe_inline">
+                                   <label for="amount_total"/>
+                                   <button name="button_dummy"
+                                       states="draft" string="(update)" type="object" class="oe_edit_only oe_link"/>
+                               </div>
+                               <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                               -->
+                           </group>
+                            <div class="oe_clear"/>
                         </page>
                        <page string="Stock Moves">
                             <field name="stock_move_ids">
