@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!-- Company -->
+
+        <record id="base.main_company" model="res.company">
+            <field name="name">Marmoles Anton S. A.</field>
+            <field name="partner_id" ref="base.main_partner"/>
+            <field name="currency_id" ref="base.ARS"/>
+            <field name="street">Rivera 860</field>
+            <field name="city">Villa Madero</field>
+            <field model="res.country" name="country_id" search="[('code','ilike','ar')]"/>
+            <field name="phone">+54 11 4454-9008</field>
+            <!--field name="email">info@marmolesanton.com.ar</field-->
+            <field name="website">www.marmolesanton.com.ar</field>
+        </record>
+
+        <!-- Partners -->
+
+        <record id="anton_david" model="res.partner">
+            <field name="name">David Antokolec</field>
+            <field name="company_id" ref="base.main_company"/>
+            <!--field name="email">david@marmolesanton.com.ar</field-->
+            <field name="customer" eval="False"/>
+            <field name="supplier" eval="False"/>
+            <field name="lang">es_AR</field>
+        </record>
+
+        <record id="anton_erica" model="res.partner">
+            <field name="name">Erica Antokolec</field>
+            <field name="company_id" ref="base.main_company"/>
+            <!--field name="email">erica@marmolesanton.com.ar</field-->
+            <field name="customer" eval="False"/>
+            <field name="supplier" eval="False"/>
+            <field name="lang">es_AR</field>
+        </record>
+
+        <record id="anton_rosa" model="res.partner">
+            <field name="name">Rosa</field>
+            <field name="company_id" ref="base.main_company"/>
+            <!--field name="email">rosa@marmolesanton.com.ar</field-->
+            <field name="customer" eval="False"/>
+            <field name="supplier" eval="False"/>
+            <field name="lang">es_AR</field>
+        </record>
+
+        <record id="anton_ana" model="res.partner">
+            <field name="name">Ana</field>
+            <field name="company_id" ref="base.main_company"/>
+            <!--field name="email">ana@marmolesanton.com.ar</field-->
+            <field name="customer" eval="False"/>
+            <field name="supplier" eval="False"/>
+           <field name="lang">es_AR</field>
+        </record>
+
+        <!-- Users -->
+
+        <record id="user_david" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_david"/>
+            <field name="login">david</field>
+            <field name="password">david</field>
+            <field name="signature">David</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="user_erica" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_erica"/>
+            <field name="login">erica</field>
+            <field name="password">erica</field>
+            <field name="signature">Erica</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+      
+        <record id="user_rosa" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_rosa"/>
+            <field name="login">rosa</field>
+            <field name="password">rosa</field>
+            <field name="signature">Rosa</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[ref('group_marble_adminis')])]"/>
+       </record>
+
+        <record id="user_ana" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_ana"/>
+            <field name="login">ana</field>
+            <field name="password">ana</field>
+            <field name="signature">Ana</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[ref('group_marble_adminis')])]"/>
+        </record>
+
+ </data>
+</openerp>

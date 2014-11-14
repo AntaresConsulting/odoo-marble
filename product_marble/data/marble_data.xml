@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!-- Product UOM Category -->
+        
+        <record id="product_uom_categ_area" model="product.uom.categ">
+            <field name="name">Surface / Area</field>
+        </record>
+
+        <!-- Product UOM -->
+
+        <record id="product_uom_square_meter" model="product.uom">
+            <field name="category_id" ref="product_marble.product_uom_categ_area"/>
+            <field name="name">m2</field>
+            <field name="factor" eval="1.0"/>
+        </record>
+
+        <!-- Product Category -->
+
+        <record id="prod_categ_raw_material" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">Raw Material</field>
+        </record>
+ 
+        <record id="prod_categ_bachas" model="product.category">
+            <field name="parent_id" ref="product.product_category_1"/>
+            <field name="name">Bachas</field>
+        </record>
+ 
+         <record id="prod_categ_services" model="product.category">
+            <field name="parent_id" ref="product.product_category_1"/>
+            <field name="name">Services</field>
+        </record>
+ 
+        <record id="prod_categ_inputs" model="product.category">
+            <field name="parent_id" ref="product.product_category_all"/>
+            <field name="name">Inputs</field>
+        </record>
+
+ </data>
+</openerp>

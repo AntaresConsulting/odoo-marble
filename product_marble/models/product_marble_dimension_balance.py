@@ -34,11 +34,18 @@ class product_marble_dimension_balance(osv.osv):
     _name = 'product.marble.dimension.balance'
     _description = "Balance between Marble - Dimension"
 
-    def unit_qty_available(self, cr, uid, pro_id, dim_id, context=None):
-        bal_ids = self.search(cr, uid, [('product_id','=',pro_id),('dimension_id','=',dim_id)], context=context)
-        for bal in self.browse(cr, uid, bal_ids):
-            return bal.qty_unit or 0
-        return 0
+    # retorno registro unico o False...
+    def get(self, cr, uid, pro_id, dim_id, context=None):
+        ids = self.search(cr, uid, [('product_id','=',pro_id),('dimension_id','=',dim_id)], context=context)
+        for bal in self.browse(cr, uid, ids):
+            return bal
+        return False
+
+#    def qty_m2_available(self, cr, uid, pro_id, dim_id, context=None):
+#        bal_ids = self.search(cr, uid, [('product_id','=',pro_id),('dimension_id','=',dim_id)], context=context)
+#        for bal in self.browse(cr, uid, bal_ids):
+#            return bal.qty_unit or 0
+#        return 0
 
     def register_balance(self, cr, uid, data, context=None):
         # _logger.info(">> register_balance >> 1- data = %s", data)

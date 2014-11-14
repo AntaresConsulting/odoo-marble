@@ -201,9 +201,6 @@ class product_product(osv.osv):
 
     def _get_stock_moves(self, cr, uid, ids, field_name, arg, context=None):
         res = {}.fromkeys(ids, {'stock_move_ids':[], 'dimension_ids':[]})
-
-        # _logger.info(">> _get_stock_moves >> 1 >> res = %s", res)
-        # _logger.info(">> _get_stock_moves >> 1b >> context = %s", context)
         if not ids:
             return res
 
@@ -215,17 +212,21 @@ class product_product(osv.osv):
             sql = "SELECT id, dimension_id FROM stock_move"\
                   " WHERE product_id = %s ORDER BY date DESC" % (pid,)
 
-            # _logger.info(">> _get_stock_moves >> 2 >> sql = %s", sql)
-
             cr.execute(sql)
             for r in cr.fetchall():
-                # _logger.info(">> _get_stock_moves >> 3 >> r = %s", r)
-
                 if r and r[0] and (not r[0] in res[pid]['stock_move_ids']):
                     res[pid]['stock_move_ids'].append(r[0])
 
                 if r and r[1] and (not r[1] in res[pid]['dimension_ids']):
                     res[pid]['dimension_ids'].append(r[1])
+
+            if res[pid]['dimension_ids']:
+                dim_obj = self.pool.get('product.marble.dimension.balance')
+                dim_ids = dim_obj.search(cr, uid, [('product_id','=',pid)])
+
+                res[pid]['dimension_total_m2'] = 0.000
+                for d in dim_obj.browse(cr, uid, dim_ids, context):
+                    res[pid]['dimension_total_m2'] += d.qty_m2
 
         # _logger.info(">> _get_stock_moves >> 4 >> res = %s", res)
         return res
@@ -502,6 +503,7 @@ class product_product(osv.osv):
 
         'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
         'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
+        'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),
     }
 
 # product_product()

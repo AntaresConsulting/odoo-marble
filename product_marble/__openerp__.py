@@ -34,21 +34,23 @@
             'hr',
     ],
     'data'       :[
-        'security/product_marble_security.xml',
+        'security/groups_security.xml',
         'security/ir.model.access.csv',
 
-        'data/product_marble_data.xml',
+        'data/heavy_data.xml',
+        'data/users_data.xml',
+        'data/marble_data.xml',
 
-        'views/product_marble_dimension_view.xml',
+        'views/marble_login_view.xml',
+        'views/product_dimension_view.xml',
         'views/product_view.xml',
-        'views/stock_view.xml',
         'views/res_partner_view.xml',
-
-        'views/product_marble_actions.xml',
-        'views/product_marble_menu.xml',
-        'views/product_marble.xml',
-
+        'views/stock_view.xml',
         'views/stock_change_product_qty_view.xml',
+
+        'views/marble_actions.xml',
+        'views/marble_menu.xml',
+
     ],
     'css': [
         'static/src/css/style.css',

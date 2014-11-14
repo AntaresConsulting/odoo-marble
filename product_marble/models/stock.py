@@ -334,7 +334,7 @@ class stock_move(osv.osv):
         'dimension_qty': 0,
     }
 
-stock_move()
+# stock_move()
 
 
 class stock_inventory_line(osv.osv):
@@ -343,27 +343,36 @@ class stock_inventory_line(osv.osv):
     _description = "Inventory Line"
 
     _columns = {
+        'is_raw': fields.boolean('Is Raw', readonly=True),
         'dimension_id': fields.many2one('product.marble.dimension', 'Dimension', domain=[('state','=','done')]),
-        'dimension_qty': fields.integer('Units', size=3),  # units
-        'theoretical_dimension_qty': fields.integer('Theoretical Dimension Quantity', size=3, readonly=True),  # units
+        'dimension_unit': fields.integer('Real Dim. [Units]', size=3),   # units
+        'dimension_m2': fields.float('Real Dim. [M2]', digits=(5,3)),  # m2
+        'dimension_unit_theoretical': fields.integer('Theoretical Dim. [Units]', size=3, readonly=True),  # units
+        'dimension_m2_theoretical': fields.float('Theoretical Dim. [M2]', digits=(5,3), readonly=True),  # m2
     }
 
-    _
     defaults = {
-        'dimension_qty': 0,
-        'theoretical_dimension_qty': 0,
+        'is_raw': False,
+        'dimension_id': False,
+        'dimension_unit': 0,
+        'dimension_m2': 0,
+        'dimension_unit_theoretical': 0,
+        'dimension_m2_theoretical': 0,
     }
 
     # overwrite: stock > stock_inventory_line - odoo v8.0 - line: 2727 - 27555
     # sobre escribo metodo para incorporar 'dimensiones' en caso de ser materia prima
     def _resolve_inventory_line(self, cr, uid, inventory_line, context=None):
         stock_move_obj = self.pool.get('stock.move')
-        diff = inventory_line.theoretical_qty - inventory_line.product_qty
+
+        if inventory_line.is_raw:
+            diff_unit = inventory_line.dimension_unit_theoretical - inventory_line.dimension_unit
+            diff = inventory_line.dimension_m2_theoretical - inventory_line.dimension_m2
+        else:
+            diff = inventory_line.theoretical_qty - inventory_line.product_qty
+
         if not diff:
             return
-
-        # dimension
-        diff_dim = inventory_line.theoretical_dimension_qty - inventory_line.dimension_qty
 
         # each theorical_lines where difference between theoretical and checked quantities is not 0 is a line for which we need to create a stock move
         vals = {
@@ -384,19 +393,19 @@ class stock_inventory_line(osv.osv):
             # found more than expected
             vals['location_id'] = inventory_location_id
             vals['location_dest_id'] = inventory_line.location_id.id
-            vals['product_uom_qty'] = -diff
-            vals['dimension_qty'] = -diff_dim   # dimension >> regitro dim-qty faltante
+            vals['product_uom_qty'] = -diff                                      # dim >> m2 [faltante]
+            vals['dimension_qty'] = (inventory_line.is_raw and -diff_unit) or 0  # dim >> unidades [faltante]
         else:
             # found less than expected
             vals['location_id'] = inventory_line.location_id.id
             vals['location_dest_id'] = inventory_location_id
-            vals['product_uom_qty'] = diff
-            vals['dimension_qty'] = diff_dim    # dimension >> regitro dim-qty excedente
+            vals['product_uom_qty'] = diff                                      # dim >> m2 [excedente]
+            vals['dimension_qty'] = (inventory_line.is_raw and diff_unit) or 0  # dim >> unidades [excedente]
 
-        # _logger.info(">> _resolve_inventory_line >> 01- vals = %s", vals)
+        _logger.info(">> _resolve_inventory_line >> 01- vals = %s", vals)
         return stock_move_obj.create(cr, uid, vals, context=context)
 
-stock_inventory_line()
+# stock_inventory_line()
 
 
 
