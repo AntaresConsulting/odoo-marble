@@ -26,9 +26,23 @@ arg = eval(sys.argv[1])
 client = erppeek.Client.from_config('db-00')
 proxy = client.model('ir.model.data')
 
+SIZE_ID     = 8
+SIZE_MODULE = 20
+SIZE_NAME   = 70
+SIZE_MODEL  = 30
+SIZE_RES_ID = 6 
+SIZE_NAME2  = 10
+
+title = {'id':'id','module':'module','name':'name','model':'model','res_id':'res_id','name2':'(model:id >> name)'}
+head = "{id:"+str(SIZE_ID)+"} {module:"+str(SIZE_MODULE)+"} {name:"+str(SIZE_NAME)+"} {model:"+str(SIZE_MODEL)+"} {res_id:"+str(SIZE_RES_ID)+"}    {name2}"
+print(head.format(**title))
+print('-' * SIZE_ID + ' ' + '-' * SIZE_MODULE + ' ' +'-' * SIZE_NAME + ' ' +'-' * SIZE_MODEL + ' ' +'-' * SIZE_RES_ID + '    ' +'-' * SIZE_NAME2)
+
+content = "{d.id:"+str(SIZE_ID)+"} {d.module:"+str(SIZE_MODULE)+"} {d.name:"+str(SIZE_NAME)+"} {d.model:"+str(SIZE_MODEL)+"} {d.res_id:"+str(SIZE_RES_ID)+"} >> {d2}"
 datas = proxy.browse(arg)
 for d in datas:
     d2 = client.model(d.model).browse([('id','=',d.res_id)])
     d2 = d2[0].name if len(d2) else ''
-    print("{d.id:8}  {d.module:20} {d.name:70} {d.model:30} {d.res_id:5} >> {d2}".format(d=d,d2=d2))
+    # print("{id:SIZE_ID}  {module:SIZE_MODULE} {name:SIZE_NAME} {model:SIZE_MODEL} {res_id:SIZE_RES_ID} >> {name2}".format(d=d,d2=d2))
+    print(content.format(d=d,d2=d2))
 

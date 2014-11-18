@@ -70,15 +70,19 @@ def _exists_model(client, model_name):
 def _load_fields(proxy, lfields):
     global NO_DATA
 
-    fields = DEFAULTS_FIELDS
+    # fields = DEFAULTS_FIELDS
     fields = [fname for fname, field in sorted(proxy.fields().items())]
 
     if '?' in lfields:
         NO_DATA = True
         return fields
 
+    elif '' in lfields:
+        fields = DEFAULTS_FIELDS
+
     elif lfields:
-        fields = [name for name in fields if name in lfields]
+        mfields = [fname for fname, field in sorted(proxy.fields().items())]
+        fields = [name for name in lfields if name in mfields]
 
     for name in fields:
         if name in DISCARD_FIELDS:
@@ -159,35 +163,23 @@ def _print_data(col_size, fields, data):
     return
 
 
-def _print_fields(col_size, fields):
-    to_print = []
-    to_print.append('\n- - - Start - - -')
-    
+def _print_fields(fields):
+    col = 0
+    row = 0
     fcount = len(fields)
     rcount = fcount // NO_DATA_COUNT_COL
-    
-    row = 0
-    to_print = [' ' for i in range(rcount)]
-    print(to_print)
+
+    body = [' ' for i in range(rcount)]
     for f in fields:
-        row = 0 if row > rcount else row 
-
+        row = 0 if row == rcount else row
         fname = f + ' ' * (NO_DATA_SIZE_COL - len(f)) 
-
-        print('1- to_print = %s, row = %s' % (to_print, row))
-        
-        to_print[row] += fname 
-        # if row == 0:
-        #     to_print.append(fname)
-        # else:
-        #     to_print[row] = to_print[row] + ' ' + fname
-
+        body[row] += fname 
         row += 1
-        # print('2- %s' % to_print)
+        # print('2- body=%s, len=%s, row=%s, col=%s' % (body, len(to_print), row, col))
 
-        # to_print[row] = (to_print[row] + ' ' + fname) if (row > 0) else fname
-        # to_print[k] += ' ' + fname
-
+    to_print = []
+    to_print.append('\n- - - Start - - -')
+    to_print += body 
     to_print.append('- - - End - - -\n')
 
     for p in to_print:
@@ -204,7 +196,7 @@ def _to_process(proxy, lfields, filter):
     col_size = _size_fields(fields, data) 
 
     if NO_DATA:
-        _print_fields(col_size,fields)
+        _print_fields(fields)
     else:
         _print_data(col_size,fields, data)
 
