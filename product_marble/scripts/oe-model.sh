@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 from __future__ import print_function
 import erppeek
-import sys
+import sys, os
 
-#total = len(sys.argv)
-#cmdargs = str(sys.argv)
+total = len(sys.argv)
+cmdargs = str(sys.argv)
 #print ("1- The total numbers of args passed to the script: %d " % total)
 #print ("2- Args list: %s " % cmdargs)
 # Pharsing args one by one
@@ -20,11 +20,19 @@ if len(sys.argv) == 1:
     """)
     sys.exit(0)
 
+# ----------------------------------------
+path = str(sys.argv[0]).split('/')
+file = path[len(path)-1].strip()
+path = '/'.join(path[:len(path)-1]).strip() 
+current_path = os.getcwd()
 
-arg = eval(sys.argv[1])
-
+os.chdir(path)
 client = erppeek.Client.from_config('db-00')
+os.chdir(path)
+
+# ----------------------------------------
 proxy = client.model('ir.model.data')
+arg = eval(sys.argv[1])
 
 SIZE_ID     = 8
 SIZE_MODULE = 20

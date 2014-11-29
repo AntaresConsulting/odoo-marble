@@ -10,6 +10,38 @@
         <field name="parent_id" ref="base.module_category_warehouse_management"/>
     </record>
 
+    <!-- Groups Test -->
+
+    <record id="group_marble_r" model="res.groups">
+        <field name="name">Read Marble</field>
+        <field name="category_id" ref="module_marble_category"/>
+    </record>
+
+    <record id="group_marble_w" model="res.groups">
+        <field name="name">Write Marble</field>
+        <field name="category_id" ref="module_marble_category"/>
+    </record>
+    
+    <record id="group_marble_c" model="res.groups">
+        <field name="name">Create Marble</field>
+        <field name="category_id" ref="module_marble_category"/>
+    </record>
+
+    <record id="group_marble_u" model="res.groups">
+        <field name="name">Unlink Marble</field>
+        <field name="category_id" ref="module_marble_category"/>
+    </record>
+
+    <record id="group_marble_a" model="res.groups">
+        <field name="name">All Marble</field>
+        <field name="category_id" ref="module_marble_category"/>
+    </record>
+ 
+    <record id="group_marble_e" model="res.groups">
+        <field name="name">Empty Marble</field>
+        <field name="category_id" ref="module_marble_category"/>
+    </record>
+ 
     <!-- Groups -->
 
     <record id="group_marble_user" model="res.groups">
@@ -36,12 +68,29 @@
     <record id="group_marble_adminis" model="res.groups">
         <field name="name">Administrative Marble</field>
         <field name="category_id" ref="module_marble_category"/>
-        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('product.group_uom')])]"/>
         <field name="menu_access" eval="[(6,0,[ref('base.menu_purchase_root')])]"/>
+        <!--
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('product.group_uom'),ref('group_marble_a'),ref('group_marble_e')])]"/>
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('group_marble_a')])]"/>
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('group_marble_e')])]"/>
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('group_marble_a'),ref('group_marble_e')])]"/>
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('group_marble_e'),ref('group_marble_a')])]"/>
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('group_marble_e'),ref('group_marble_r')])]"/>
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('group_marble_r'),ref('group_marble_e')])]"/>
+        -->
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),
+                                               ref('stock.group_stock_user'),
+                                               ref('group_marble_w'),
+                                               ref('group_marble_e'),
+                                              ])]"/>
     </record>
     <!-- 
             (4,ref('base.menu_purchase_root')),
-            (4,ref('base.menu_procurement_management_supplier_name')),
+            (4,ref('base.menu_procurement_management_supplier_name'))
+            
+            ,ref('purchase.group_purchase_manager'),
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_hr_manager'),ref('product.group_uom'),ref('group_marble_e'),ref('group_marble_a')])]"/>
+access_dimension_adminis,product_marble_dimension adminis,model_product_marble_dimension,product_marble.group_marble_adminis,0,0,0,0
 
         <field name="menu_access" eval="[(3,ref('base.menu_purchase_root')),(3,ref('base.menu_sale_root'))]"/>
         ref('base.group_sale_salesman')
@@ -51,5 +100,6 @@
             (3,ref('purchase.menu_product_by_category_purchase_form')),
             (3,ref('purchase.menu_procurement_partner_contact_form'))
     -->
+    
 </data>
 </openerp>

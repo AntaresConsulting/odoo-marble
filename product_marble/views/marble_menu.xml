@@ -8,9 +8,9 @@
             name="Products" id="menu_procurement_partner_contact_form" 
             action="product_normal_action_puchased" parent="menu_procurement_management_product"/-->
 
-        <menuitem 
-            id="menu_procurement_partner_contact_form" name="Products Variants" 
-            action="product_normal_action_puchased" parent="purchase.menu_procurement_management_product"/>
+        <!--menuitem 
+            id="menu_marble_purchase_product_variant" name="Products Variants" 
+            action="product_marble.product_normal_action_puchased" parent="purchase.menu_procurement_management_product"/-->
 
         <!--record id="product_normal_action_puchased" model="ir.actions.act_window">
             <field name="name">Products</field>
@@ -68,7 +68,8 @@
         -->
 
         <!-- menu: Purchase > Products > Dimensions -->
-        <menuitem name="Dimensions" id="menu_purchase_product_dimensions" sequence="11"
+        <menuitem 
+            name="Dimensions" id="menu_purchase_product_dimensions" sequence="11"
             action="act_open_product_marble_dimension_view" parent="purchase.menu_procurement_management_product"/>
  
         <!--record id="original_module.menu_id" model="ir.ui.menu">

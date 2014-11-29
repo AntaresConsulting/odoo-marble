@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from __future__ import print_function
 import erppeek
-import sys
+import sys, os
 
 #total = len(sys.argv)
 #cmdargs = str(sys.argv)
@@ -207,11 +207,23 @@ def _to_process(proxy, lfields, filter):
 if __name__ != "__main__":
     sys.exit(1)
 
+# ----------------------------------------
+path = str(sys.argv[0]).split('/')
+file = path[len(path)-1].strip()
+path = '/'.join(path[:len(path)-1]).strip() 
+current_path = os.getcwd()
+
+os.chdir(path)
+client = erppeek.Client.from_config('db-00')
+os.chdir(path)
+
+# ----------------------------------------
+
 # check arguments
 lfields, model, filter = _check_argum()
 
 # check if exisist model
-client = erppeek.Client.from_config('db-00')
+# client = erppeek.Client.from_config('db-00')
 if not _exists_model(client, model):
     print('\t >> Do not exist model \'' + model + '\'')
     sys.exit(1)
