@@ -6,7 +6,7 @@ import psycopg2
 
 # constants -------------------------------------------------
 
-CONFIG_FILE = 'db-00'
+CONFIG_FILE = 'db-01'
 SERVER = 'localhost'
 USER_DB = 'openerp'
 PSW_DB = 'opener'
@@ -106,9 +106,6 @@ def _process_model_groups(mod, lgroups):
         return []
 
     res = []
-    many_groups = lgroups and len(lgroups) > 1
-    none_model = not model
-    #print('22- many_groups = %s' % many_groups)
 
     # lgroups = [[(id,level),(id,level),..]]
     for lgro in lgroups:
@@ -132,12 +129,12 @@ def _process_model_groups(mod, lgroups):
         #print('23- val = %s' % val)
 
         # val > [{'col1':'val1',..},{'col1':'val1',..},..]
-        if many_groups or none_model:
+        if model_group:
+            val.append(_get_summary(val))
+        else:
             # muchos modelos con muchos grupos 
             # >> reduzco a summary el estado del grupo (val[0])
             val = [_get_summary(val)]
-        else:
-            val.append(_get_summary(val))
 
         #print('24- val = %s' % val)
         res.append((mod,val))
@@ -146,10 +143,10 @@ def _process_model_groups(mod, lgroups):
     #print('25- res = %s' % res)
     return res
 
-def _get_models(group):
+def _get_models(group_ids):
     # recupero los models...
     lmodels = []
-    cur.execute(_get_sql(group.id, ''))
+    cur.execute(_get_sql(group_ids, ''))
     for c in cur:
         if c[3] not in lmodels:
             lmodels.append(c[3])
@@ -171,7 +168,7 @@ def _get_groups(model):
 
 def _get_summary(data):
     #print('100- data = %s' % data)
-    gro = _get_object(client, group_xml_id) if group_xml_id else None
+    gro = _get_object(client, inp_group) if inp_group else None
     access = {'r':False, 'w':False, 'c':False, 'u':False}
 
     # data > [{'col1':'val1',..},{'col1':'val1',..},..]
@@ -191,10 +188,10 @@ def _get_summary(data):
     elif data:
         default_gro = data[0]
         summary = {
-            FIELDS[0]: model if model else default_gro[FIELDS[0]],
+            FIELDS[0]: inp_model if inp_model else default_gro[FIELDS[0]],
             FIELDS[1]: gro.id if gro else default_gro[FIELDS[1]],
             FIELDS[2]: gro.id if gro else default_gro[FIELDS[2]],
-            FIELDS[3]: group_xml_id.split('.')[-1] if group_xml_id else default_gro[FIELDS[3]],
+            FIELDS[3]: inp_group.split('.')[-1] if inp_group else default_gro[FIELDS[3]],
             FIELDS[4]: gro.name if gro else default_gro[FIELDS[4]],
             FIELDS[5]: False, 
             FIELDS[6]: False, 
@@ -204,10 +201,10 @@ def _get_summary(data):
     else:
         # not data
         summary = {
-            FIELDS[0]: model if model else '',
+            FIELDS[0]: inp_model if inp_model else '',
             FIELDS[1]: gro.id if gro else '',
             FIELDS[2]: gro.id if gro else '',
-            FIELDS[3]: group_xml_id.split('.')[-1] if group_xml_id else '',
+            FIELDS[3]: inp_group.split('.')[-1] if inp_group else '',
             FIELDS[4]: gro.name if gro else '',
             FIELDS[5]: False, 
             FIELDS[6]: False, 
@@ -235,14 +232,28 @@ def _get_parent(level, group):
     return res
 
 def _get_models_groups(model, group_xml_id):
-    #print('80- group_xml_id = %s' % group_xml_id)
+    #print('80-a model = %s' % model)
+    #print('80-b group_xml_id = %s' % group_xml_id)
 
     # --- process models ---
     group = _get_object(client, group_xml_id) if group_xml_id else None
     #print('81- group = %s' % group)
 
-    lmodels = [model] if model else _get_models(group)
+    group_ids = [group.id] if group else []
+    if group:
+        # recupero los grupos padres (ascendentes) de este
+        # > [g1, g2, g3, ..] > [[{},{},{}], [{},{}], ..]
+        lgroups = _get_parent('',group)
+        #print('81-a lgro = %s' % lgroups)
+
+        # group_ids = [g1, g2, ..] > [id1, id2, ..] 
+        group_ids = [key for key, val in lgroups]
+        #print('81-b group_ids = %s' % group_ids)
+
+    lmodels = [model] if model else _get_models(group_ids)
     #print('82- lmodels = %s' % lmodels)
+
+    #sys.exit(0)
 
     # check if exisist model
     for mod in lmodels:
@@ -256,7 +267,7 @@ def _get_models_groups(model, group_xml_id):
         #print('83- mod = %s' % mod)
 
         # defino grupo (dado x usuario) o 
-        # grupos (recupero los grupos vinculadois al model actual)
+        # grupos (recupero los grupos vinculados al model actual)
         lgroups = [group] if group else _get_groups(mod)
         #print('84- lgroups = %s' % lgroups)
 
@@ -308,8 +319,8 @@ def _print(ldata):
     #print('7- field-sintax = %s' % fsintax)
     #print('8- ldata = %s' % ldata)
     
-    one_model = len(ldata) == 1
-    none_model = not model
+    #one_model = len(ldata) == 1
+    #none_model = not model
 
     # ldata >> [(model,[{'col1':'val1',..},{'col1':'val1',..},..]),..]
     for mod, data in ldata:
@@ -319,13 +330,15 @@ def _print(ldata):
 
         # data >> [(model,[{'col1':'val1',..},{'col1':'val1',..},..]),..]
         for d in data:
-            if one_model and d == data[-1]:
+            #if one_model and d == data[-1]:
+            if model_group and d == data[-1]:
                 to_print.append(sep_summary)
 
             line = [str(d[f[0]]) + (' ' * (f[1] - len(str(d[f[0]])))) for f in fields]
             to_print.append(' '.join(line))
 
-            if one_model and d == data[-1]:
+            #if one_model and d == data[-1]:
+            if model_group and d == data[-1]:
                 #to_print.append(sep_summary)
                 to_print.append('')
 
@@ -361,14 +374,16 @@ os.chdir(path)
 # ----------------------------------------
 
 # check arguments
-model, group_xml_id = _check_argum()
+inp_model, inp_group = _check_argum()
 #print('main-1- model = %s, group = %s' % (model, group_xml_id))
+
+model_group = inp_model and inp_group
 
 # 
 conn, cur = _open_db()
 
 # get models + groups > [(model,[groups]), ..] > [(model, [{}, {}, ..])]
-lmodels = _get_models_groups(model, group_xml_id)
+lmodels = _get_models_groups(inp_model, inp_group)
 #print('main-2- lmodels = %s' % lmodels)
 
 # recupero los datos (por model y grupos) y proceso > [(model,[group]),..]
