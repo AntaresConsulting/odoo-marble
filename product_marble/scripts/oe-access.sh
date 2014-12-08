@@ -11,7 +11,7 @@ SERVER = 'localhost'
 USER_DB = 'openerp'
 PSW_DB = 'opener'
 
-SIZE = [50,20,5,35,30,6,6,6,6]
+SIZE = [50,20,5,40,30,6,6,6,6]
 FIELDS = ['model','level','id','xml_id','group','read','write','create','unlink']
 
 # functions -------------------------------------------------
@@ -68,8 +68,7 @@ def _check_argum():
     return extend, model, group 
 
 def _exists_model(model_name):
-    proxy = client.model('ir.model')
-    ids = proxy.search([('model', '=', model_name)])
+    ids = pmodel.search([('model', '=', model_name)])
     return (len(ids) > 0)
 
 def _get_level(lgroups, gid):
@@ -105,52 +104,11 @@ def _get_sql(group_ids, model):
     #print('4- sql = %s' % sql)
     return sql
 
-def _complete_groups(val):
-    #print('complete >> 1- lref = %s' % lref)
-    #print('complete >> 2- val = %s' % val) 
-    
-    ids = [v['id'] for v in val]
-    #print('complete >> 3- ids = %s' % ids) 
+def _mapping(cur, lgroups):
+    res = []
 
-    levels = []
-    for v in val:
-        levels += v['level'].split('>')
-        levels = [d for d in levels if levels.count(d)==1 and int(d) not in ids]
-
-    #print('complete >> 4- levels = %s' % levels) 
-
+    # 1. recupero los grupos hallados para un model especifico.
     # FIELDS = ['model','level','id','xml_id','group','read','write','create','unlink']
-    res =  [{FIELDS[0]:'',
-             FIELDS[1]:'',
-             FIELDS[2]:lev,
-             FIELDS[3]:lref[int(lev)][0],
-             FIELDS[4]:lref[int(lev)][1],
-             FIELDS[5]:'',
-             FIELDS[6]:'',
-             FIELDS[7]:'',
-             FIELDS[8]:''
-            } for lev in levels]
-
-    val = res + val
-    #print('complete >> 3- val = %s' % val)
-    return val
-
-def _process_model_groups(mod, lgroups):
-    #print('20- model = %s' % mod)
-    #print('21- lgroups = %s' % lgroups)
-    if not lgroups:
-        return []
-
-    #res = []
-    # lgroups = [(id,level),(id,level),..]
-    #for lgro in lgroups:
-
-    # lgro = [(id,level),(id,level),..]
-    group_ids = [g[0] for g in lgroups]
-
-    # FIELDS = ['model','level','id','xml_id','group','read','write','create','unlink']
-    cur.execute(_get_sql(group_ids, mod))
-    #print(_get_sql(group_ids, mod))
     val = [{FIELDS[0]:c[3],
             FIELDS[1]:_get_level(lgroups, c[1]),
             FIELDS[2]:c[1],
@@ -161,25 +119,65 @@ def _process_model_groups(mod, lgroups):
             FIELDS[7]:c[6],
             FIELDS[8]:c[7]
         } for c in cur]
-    #print('23- val = %s' % val)
+    #print('1- val = %s' % val)
+    
+    # 2. completo los grupos faltantes del model especifico.
+    # lgro =  [(58, '58'), (14, '58>14'), (13, '58>14>13'), (5, '58>14>13>5'), (21, '58>14>13>5>21')]
+    for gid, level in [gro for gro in lgroups]:
+        #print('2- gid = %s, level = %s' % (gid, level))
+        
+        # val > [{'col1':'val1',..},{'col1':'val1',..},..]
+        data = [v for v in val if v['id'] == gid]
+        #print('3- data = %s' % data)
 
-   # val > [{'col1':'val1',..},{'col1':'val1',..},..]
-    if model_group or inp_extend:
-        val.append(_get_summary(val))
-    else:
-        # muchos modelos con muchos grupos 
-        # >> reduzco a summary el estado del grupo (val[0])
-        val = [_get_summary(val)]
+        # FIELDS = ['model','level','id','xml_id','group','read','write','create','unlink']
+        if not data:
+            data = [{FIELDS[0]:'',
+                     FIELDS[1]:level,
+                     FIELDS[2]:str(gid),
+                     FIELDS[3]:lref[gid][0],
+                     FIELDS[4]:lref[gid][1],
+                     FIELDS[5]:'',
+                     FIELDS[6]:'',
+                     FIELDS[7]:'',
+                     FIELDS[8]:''
+                   }]
+            #print('4- data = %s' % data)
+        res += data
 
-    # completar los groups-ids no presentes en el cursor
-    val = _complete_groups(val) 
+    # val > [{'col1':'val1',..},{'col1':'val1',..},..]
+    return res 
 
-    #print('24- val = %s' % val)
-    res = [(mod, val)]
+def _process_model_groups(lmodels):
+    ldata = []
+    for mod, lgroups in lmodels:
+        #print('20- model = %s' % mod)
+        #print('21- lgroups = %s' % lgroups)
+        if not lgroups:
+            return []
+
+        # lgro = [(id,level),(id,level),..]
+        group_ids = [g[0] for g in lgroups]
+
+        cur.execute(_get_sql(group_ids, mod))
+        #print(_get_sql(group_ids, mod))
+
+        val = _mapping(cur, lgroups)
+
+        # val > [{'col1':'val1',..},{'col1':'val1',..},..]
+        if model_group or inp_extend:
+            # >> agrego summary al final
+            val.append(_get_summary(val))
+        else:
+            # >> reduzco a summary el estado del grupo
+            val = [_get_summary(val)]
+
+        #print('24- val = %s' % val)
+        ldata.append((mod, val))
 
     # res > [(model,[{'col1':'val1',..},{'col1':'val1',..},..]),..]
     #print('25- res = %s' % res)
-    return res
+    return ldata
 
 def _get_models(group_ids):
     # recupero los models...
@@ -199,7 +197,7 @@ def _get_groups(model):
         lgroups.append(c[1])
 
     # devuelvo los groups como objeto
-    lgroups = client.model('res.groups').browse(lgroups)
+    lgroups = pgroups.browse(lgroups)
     return lgroups 
 
 # - - - - - - - - - - -  - - - -
@@ -212,6 +210,12 @@ def _get_summary(data):
     # data > [{'col1':'val1',..},{'col1':'val1',..},..]
     summ_gro = None
     for d in data:
+        if not (isinstance(d[FIELDS[5]],bool)
+             or isinstance(d[FIELDS[6]],bool)
+             or isinstance(d[FIELDS[7]],bool)
+             or isinstance(d[FIELDS[8]],bool)):
+             continue
+
         access['r'] = access['r'] or d[FIELDS[5]]
         access['w'] = access['w'] or d[FIELDS[6]]
         access['c'] = access['c'] or d[FIELDS[7]]
@@ -306,13 +310,31 @@ def _get_models_groups(model, module_group):
         # defino grupo (dado x usuario) o 
         # grupos (recupero los grupos vinculados al model actual)
         lgroups = [group] if group else _get_groups(mod)
-        #print('84- lgroups = %s' % lgroups)
+        #print('84- lg.groups = %s' % str([g.id for g in lgroups]))
 
+        #print('--- 5.5 ---')
+        #print('> lgroups = %s', str(lgroups))
         # por cada grupo recupero sus padres (ascendentes) 
         # > [g1, g2, g3, ..] > [[{},{},{}], [{},{}], ..]
-        lgro = [_get_parent('',g) for g in lgroups]
+        #lgro = [_get_parent('',g) for g in lgroups]
+        lgro = []
+        ugroups = []
+        for g in lgroups:
+            #print('85- g = %s' % g)
+            gro = [u for u in ugroups if u['id' == g.id]]
+            #print('86- gro = %s' % gro)
+            if not gro:
+                gro = _get_parent('',g)
+                ugroups.append(gro)
+            #print('87- gro = %s' % gro)
+            #print('88- ugro = %s' % ugroups)
+            lgro.append(gro)
+            #print('89- lgro = %s' % lgro)
+
         #print('85- lgro = %s' % lgro[0])
 
+        #print('--- 5.6 ---')
+        #print('> lgro = %s', lgro)
         # lo vinculo al modelo actual: [(model, [groups])]
         res.append((mod, lgro[0]))            
         #print('86- res = %s' % res)
@@ -329,7 +351,7 @@ def _get_object(xml_id, type = 'group'):
     search_domain = [('module', '=', module), ('name', '=', name)]
     #print('get_obj >> search=%s' % search_domain)
 
-    data = client.model('ir.model.data').read(search_domain, 'model res_id')
+    data = pdata.read(search_domain, 'model res_id')
     if data:
         assert len(data) == 1
         return client.model(data[0]['model']).get(data[0]['res_id'])
@@ -338,25 +360,34 @@ def _get_object(xml_id, type = 'group'):
 
 def _get_reference_groups(lmodels):
     lref = {}
-    proxy = client.model('ir.model.data')
     # > [(model,[group]),..] >> [(model,[{'col1':'val1',..},{'col1':'val1',..},..]),..]
     # >> lgroups = [(id,level),(id,level),..]
     for mod, lgroups in lmodels:
+
         #print('get_ref >> 1- lgroups = %s' % (lgroups))
         for gid, level in lgroups:
+            if lref.get(gid, False):
+                continue
+
+            #print('level = %s' % level)
             search_domain = [('model', '=', 'res.groups'), ('res_id', '=', gid)]
             #print('get_ref >> 2- search = %s' % search_domain)
-            data = proxy.read(search_domain, 'module name')
+            data = pdata.read(search_domain, 'module name')
             if data:
                 assert len(data) == 1
                 xml_id = data[0]['module'] + data[0]['name'].replace('group_','.')
                 name = _get_object(xml_id).name
                 lref.update({gid : (xml_id,name)})
-
     #print('get_ref >> 4- lref = %s' % lref)
     return lref
 
 # --- print ----
+def _info(data, size):
+    d = str(data)
+    s = int(size)
+    diff = s - len(d)
+    info = d[:s-1] + '+' if diff < 0 else d + (' ' * diff)
+    return info
 
 def _print(ldata):
     # FIELDS = ['model','level','id','xml_id','group','read','write','create','unlink']
@@ -400,7 +431,8 @@ def _print(ldata):
             if separa_1 and last_element:
                 to_print.append(sep_summary)
 
-            line = [str(d[f[0]]) + (' ' * (f[1] - len(str(d[f[0]])))) for f in fields]
+            #line = [str(d[f[0]]) + (' ' * (f[1] - len(str(d[f[0]])))) for f in fields]
+            line = [_info(d[f[0]], f[1]) for f in fields]
             to_print.append(' '.join(line))
 
             if separa_2 and last_element:
@@ -421,7 +453,6 @@ def _close_db():
     conn.close()
 
 # main -------------------------------------------------------
-
 if __name__ != "__main__":
     sys.exit(1)
 
@@ -435,7 +466,10 @@ os.chdir(path)
 client = erppeek.Client.from_config(CONFIG_FILE)
 os.chdir(path)
 
-# ----------------------------------------
+# set proxys ----------------
+pmodel  = client.model('ir.model')
+pgroups = client.model('res.groups')
+pdata   = client.model('ir.model.data')
 
 # check arguments
 inp_extend, inp_model, inp_group = _check_argum()
@@ -456,9 +490,7 @@ lref = _get_reference_groups(lmodels)
 
 # recupero los datos (por model y grupos) y proceso > [(model,[group]),..]
 # >> [(model,[{'col1':'val1',..},{'col1':'val1',..},..]),..]
-ldata = []
-for mod, lgroups in lmodels:
-    ldata += _process_model_groups(mod, lgroups)
+ldata = _process_model_groups(lmodels)
 #print('main-4- ldata = %s' % ldata)
 
 _close_db()
@@ -468,5 +500,4 @@ _close_db()
 _print(ldata)
 
 sys.exit(0)
-
 
