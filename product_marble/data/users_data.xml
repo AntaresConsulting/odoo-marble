@@ -12,7 +12,7 @@
             <field name="city">Villa Madero</field>
             <field model="res.country" name="country_id" search="[('code','ilike','ar')]"/>
             <field name="phone">+54 11 4454-9008</field>
-            <!--field name="email">info@marmolesanton.com.ar</field-->
+            <field name="email">info@marmolesanton.com.ar</field>
             <field name="website">www.marmolesanton.com.ar</field>
         </record>
 
@@ -21,7 +21,7 @@
         <record id="anton_david" model="res.partner">
             <field name="name">David Antokolec</field>
             <field name="company_id" ref="base.main_company"/>
-            <!--field name="email">david@marmolesanton.com.ar</field-->
+            <field name="email">david@marmolesanton.com.ar</field>
             <field name="customer" eval="False"/>
             <field name="supplier" eval="False"/>
             <field name="lang">es_AR</field>
@@ -30,7 +30,7 @@
         <record id="anton_erica" model="res.partner">
             <field name="name">Erica Antokolec</field>
             <field name="company_id" ref="base.main_company"/>
-            <!--field name="email">erica@marmolesanton.com.ar</field-->
+            <field name="email">erica@marmolesanton.com.ar</field>
             <field name="customer" eval="False"/>
             <field name="supplier" eval="False"/>
             <field name="lang">es_AR</field>
@@ -39,7 +39,7 @@
         <record id="anton_rosa" model="res.partner">
             <field name="name">Rosa</field>
             <field name="company_id" ref="base.main_company"/>
-            <!--field name="email">rosa@marmolesanton.com.ar</field-->
+            <field name="email">rosa@marmolesanton.com.ar</field>
             <field name="customer" eval="False"/>
             <field name="supplier" eval="False"/>
             <field name="lang">es_AR</field>
@@ -48,7 +48,7 @@
         <record id="anton_ana" model="res.partner">
             <field name="name">Ana</field>
             <field name="company_id" ref="base.main_company"/>
-            <!--field name="email">ana@marmolesanton.com.ar</field-->
+            <field name="email">ana@marmolesanton.com.ar</field>
             <field name="customer" eval="False"/>
             <field name="supplier" eval="False"/>
            <field name="lang">es_AR</field>
@@ -62,6 +62,7 @@
             <field name="password">david</field>
             <field name="signature">David</field>
             <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[ref('group_marble_mger')])]"/>
         </record>
 
         <record id="user_erica" model="res.users">
@@ -78,7 +79,9 @@
             <field name="password">rosa</field>
             <field name="signature">Rosa</field>
             <field name="company_id" ref="base.main_company"/>
-            <field name="groups_id" eval="[(6,0,[ref('group_marble_adminis')])]"/>
+            <field name="groups_id" eval="[(6,0,[ref('base.group_hr_manager'),
+                                                 ref('group_purchase_adminis'),
+            ])]"/>
        </record>
 
         <record id="user_ana" model="res.users">
@@ -87,7 +90,14 @@
             <field name="password">ana</field>
             <field name="signature">Ana</field>
             <field name="company_id" ref="base.main_company"/>
-            <field name="groups_id" eval="[(6,0,[ref('group_marble_adminis')])]"/>
+            <field name="groups_id" eval="[(6,0,[ref('base.group_hr_manager'),
+                                                 ref('group_sale_adminis'),
+            ])]"/>
+            <!--field name="groups_id" eval="[(6,0,[ref('group_marble_adminis'),
+                                                 ref('group_stock_adminis'),
+                                                 ref('group_purchase_adminis'),
+                                                 ref('group_sale_adminis'),
+            ])]"/-->
         </record>
 
  </data>

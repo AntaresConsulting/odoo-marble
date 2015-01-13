@@ -22,7 +22,7 @@
 		</record>
 
 		<record id="view_product_marble_dimension_form" model="ir.ui.view">
-            <field name="name">product.marble.dimension.form</field>
+                        <field name="name">product.marble.dimension.form</field>
 			<field name="model">product.marble.dimension</field>
 			<field name="priority" eval="8" />
 			<field name="arch" type="xml">

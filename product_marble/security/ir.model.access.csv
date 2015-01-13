@@ -1,11 +1,22 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_product_product_adminis,product_product adminis,model_product_product,product_marble.group_marble_adminis,1,1,1,0
-access_stock_move_adminis,stock_move adminis,model_stock_move,product_marble.group_marble_adminis,1,0,0,0
-access_balance_adminis,product_marble_dimension_balance adminis,model_product_marble_dimension_balance,product_marble.group_marble_adminis,1,0,0,0
-access_dimension_a,product_marble_dimension a,model_product_marble_dimension,product_marble.group_marble_a,1,1,1,1
-access_dimension_e,product_marble_dimension e,model_product_marble_dimension,product_marble.group_marble_e,0,0,0,0
-access_dimension_r,product_marble_dimension r,model_product_marble_dimension,product_marble.group_marble_r,1,0,0,0
-access_dimension_w,product_marble_dimension w,model_product_marble_dimension,product_marble.group_marble_w,0,1,0,0
-access_dimension_c,product_marble_dimension c,model_product_marble_dimension,product_marble.group_marble_c,0,0,1,0
-access_dimension_u,product_marble_dimension u,model_product_marble_dimension,product_marble.group_marble_u,0,0,0,1
-
+access_account_move_line_purchase_adminis,account.move.line,account.model_account_move_line,group_purchase_adminis,1,0,0,0
+access_account_move_line_sale_adminis,account.move.line.sale.adminis,account.model_account_move_line,group_sale_adminis,1,0,0,0
+access_res_partner_purchase_adminis,res.partner.purchase.adminis,base.model_res_partner,group_purchase_adminis,1,1,1,0
+access_res_partner_sale_adminis,res.partner.sale.adminis,base.model_res_partner,group_sale_adminis,1,1,1,0
+access_res_partner_category_purchase_adminis,res.partner.category.purchase.adminis,base.model_res_partner_category,group_purchase_adminis,1,1,1,0
+access_res_partner_category_sale_adminis,res.partner.category.sale.adminis,base.model_res_partner_category,group_sale_adminis,1,1,1,0
+access_dimension_purchase_adminis,product_marble_dimension purchase adminis,model_product_marble_dimension,group_purchase_adminis,1,0,0,0
+access_dimension_sale_adminis,product_marble_dimension sale adminis,model_product_marble_dimension,group_sale_adminis,1,0,0,0
+access_balance_stock_adminis,product_marble_dimension_balance stock adminis,model_product_marble_dimension_balance,group_stock_adminis,1,0,0,0
+access_product_price_history_purchase_adminis,prices.history purchase adminis,product.model_product_price_history,group_purchase_adminis,1,0,0,0
+access_product_price_history_sale_adminis,prices.history sale adminis,product.model_product_price_history,group_sale_adminis,1,0,0,0
+access_product_product_purchase_adminis,product_product_purchase adminis,product.model_product_product,group_purchase_adminis,1,0,0,0
+access_product_product_sale_adminis,product_product sale adminis,product.model_product_product,group_sale_adminis,1,0,0,0
+access_product_template_purchase_adminis,product.template purchase_adminis,product.model_product_template,group_purchase_adminis,1,0,0,0
+access_product_template_stock_adminis,product.template_stock_adminis,product.model_product_template,group_stock_adminis,1,1,1,0
+access_product_template_sale_adminis,product.template sale adminis,product.model_product_template,group_sale_adminis,1,0,0,0
+access_stock_move_adminis,stock_move adminis,stock.model_stock_move,group_stock_adminis,1,0,0,0
+access_stock_move_purchase_adminis,stock.move,stock.model_stock_move,group_purchase_adminis,1,0,0,0
+access_stock_picking_purchase_adminis,stock.picking,stock.model_stock_picking,group_purchase_adminis,1,0,0,0
+access_stock_move_sale_adminis,stock.move.sale.amdinis,stock.model_stock_move,group_sale_adminis,1,0,0,0
+access_stock_picking_sale_adminis,stock.picking.sale.adminis,stock.model_stock_picking,group_sale_adminis,1,0,0,0

@@ -102,9 +102,10 @@ class product_category(osv.osv):
 #    }
 #
 
+#class product_product(osv.osv):
 class product_product(osv.osv):
-    _name = 'product.product'
-    _inherit = 'product.product'
+    _name = 'product.template'
+    _inherit = 'product.template'
 
     _material = [
             ('mar', 'Marmol'),

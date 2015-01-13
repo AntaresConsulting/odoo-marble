@@ -1,6 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-	<data>
+    <data noupdate="0">
+
+        <!-- REPORTING -->
+
+        <!-- Top Menu > Reporting -->
+        <!--menuitem name="Reporting" id="base.menu_reporting" groups="group_menu_reporting"/-->
+        <record id="base.menu_reporting" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_menu_reporting'),
+                                                 ref('base.group_system'),
+                                                 ref('base.group_erp_manager')
+            ])]"/>
+        </record>
+
+        <!-- PURCHASES -->
+
+        <!-- Top Menu > Purchases -->
+        <record id="base.menu_purchase_root" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('product_marble.group_purchase_adminis'))]"/>
+        </record>
+
+        <!-- Purchases > Suppliers -->
+        <record id="base.menu_procurement_management_supplier_name" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+                                                 ref('base.group_erp_manager'),
+                                                 ref('purchase.group_purchase_manager'),
+                                                 ref('purchase.group_purchase_user'),
+                                                 ref('product_marble.group_purchase_adminis'),
+            ])]"/>
+        </record>
+
+        <!-- Purchases > Picking Move -->
+        <record id="purchase.menu_action_picking_tree_in_move" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+                                                 ref('base.group_erp_manager'),
+                                                 ref('purchase.group_purchase_manager'),
+                                                 ref('purchase.group_purchase_user'),
+                                                 ref('product_marble.group_purchase_adminis'),
+            ])]"/>
+        </record>
+ 
+        <!-- Purchases > Picking -->
+        <record id="purchase.menu_action_picking_tree_in_move" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+                                                 ref('base.group_erp_manager'),
+                                                 ref('purchase.group_purchase_manager'),
+                                                 ref('purchase.group_purchase_user'),
+                                                 ref('product_marble.group_purchase_adminis'),
+            ])]"/>
+        </record>
+
+        <!-- Purchases > Product Category -->
+        <record id="purchase.menu_product_by_category_purchase_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+                                                 ref('base.group_erp_manager'),
+                                                 ref('purchase.group_purchase_manager'),
+                                                 ref('purchase.group_purchase_user'),
+                                                 ref('product_marble.group_purchase_adminis'),
+            ])]"/>
+        </record>
+
+        <!-- Purchases > Products > Product -->
+        <record id="purchase.menu_procurement_partner_contact_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+                                                 ref('base.group_erp_manager'),
+                                                 ref('purchase.group_purchase_manager'),
+                                                 ref('purchase.group_purchase_user'),
+                                                 ref('product_marble.group_purchase_adminis'),
+            ])]"/>
+        </record>
+
+        <!-- Purchases > Products > Dimensions -->
+        <menuitem 
+            name="Dimensions" id="menu_purchase_product_dimensions" sequence="10"
+            action="act_open_product_marble_dimension_view" parent="purchase.menu_procurement_management_product"/>
+
+        <record id="product_marble.menu_purchase_product_dimensions" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+                                                 ref('base.group_erp_manager'),
+                                                 ref('purchase.group_purchase_manager'),
+                                                 ref('purchase.group_purchase_user'),
+                                                 ref('product_marble.group_purchase_adminis'),
+            ])]"/>
+        </record>
+ 
+        <!-- SALES -->
+
+        <!-- Top Menu > Sales -->
+        <record id="base.menu_base_partner" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('product_marble.group_sale_adminis'))]"/>
+        </record>
+
+        <!-- Sales > Customers -->
+        <record id="base.menu_partner_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+                                                 ref('base.group_erp_manager'),
+                                                 ref('base.group_sale_manager'),
+                                                 ref('base.group_sale_salesman'),
+                                                 ref('base.group_sale_salesman_all_leads'),
+                                                 ref('product_marble.group_sale_adminis'),
+            ])]"/>
+        </record>
+
+
+        <!-- Reporting >  -->
+        <!--record id="base.menu_procurement_management_supplier_name" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+                                                 ref('base.group_erp_manager')
+                                                 ref('purchase.group_purchase_manager')
+                                                 ref('purchase.group_purchase_user')
+                                                 ref('group_purchase_adminis')
+            ])]"/>
+        </record-->
+       
+       <!--menuitem name="Reporting" id="base.menu_reporting" groups="group_menu_reporting"/-->
+       <!--
+       <menuitem name="Purchases" id="base.menu_purchase_root" 
+               groups="purchase.group_purchase_manager,purchase.group_purchase_user,group_purchase_adminis"/>
+
+       <menuitem id="base.menu_procurement_management_supplier_name" name="Suppliers"
+               groups="purchase.group_purchase_manager,purchase.group_purchase_user,group_purchase_adminis"/>
+
+       <menuitem action="stock.action_receipt_picking_move" id="menu_action_picking_tree_in_move"
+               groups="purchase.group_purchase_manager,purchase.group_purchase_user"/>
+
+       <menuitem name="Products by Category" id="menu_product_by_category_purchase_form" action="product.product_category_action"
+               groups="purchase.group_purchase_manager,purchase.group_purchase_user,group_purchase_adminis"/>
+
+       <menuitem name="Products" id="menu_procurement_partner_contact_form" action="product_normal_action_puchased"
+               groups="purchase.group_purchase_manager,purchase.group_purchase_user,group_purchase_adminis"/>
+       -->
         <!-- menu: Purchase > Products > Products(re-dirijo a Product Variant) -->
         <!-- replace model "product.template" for "product.product" -->
 
@@ -39,39 +168,6 @@
             </field>
         </record-->
 
-        <record id="product_normal_action_puchased" model="ir.actions.act_window">
-            <field name="name">Product Variants</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">product.product</field>
-            <field name="view_mode">kanban,tree,form</field>
-            <field name="view_type">form</field>
-            <field name="context">{"search_default_filter_to_purchase":1}</field>
-            <field name="search_view_id" eval="False"/> <!-- Force empty -->
-            <field name="view_id" eval="False"/> <!-- Force empty -->
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Click to define a new product.
-                </p><p>
-                    You must define a product for everything you purchase, whether
-                    it's a physical product, a consumable or services you buy to
-                    subcontractants.
-                </p><p>
-                    The product form contains detailed information to improve the
-                    purchase process: prices, procurement logistics, accounting data,
-                    available suppliers, etc.
-                </p>
-            </field>
-        </record>
- 
-        <!--
-        view_product_marble_form
-        -->
-
-        <!-- menu: Purchase > Products > Dimensions -->
-        <menuitem 
-            name="Dimensions" id="menu_purchase_product_dimensions" sequence="11"
-            action="act_open_product_marble_dimension_view" parent="purchase.menu_procurement_management_product"/>
- 
         <!--record id="original_module.menu_id" model="ir.ui.menu">
             <field name="groups_id" eval="[(4,ref('my_new_group_id'))]"/>
         </record-->
@@ -237,5 +333,5 @@
         />
         -->
  
-	</data>
+    </data>
 </openerp>
