@@ -129,6 +129,8 @@
                 </field>
                 <!-- -->
 
+               <!--page string="Variants" position="replace"/-->
+
                <page string="Information" position="replace">
                 <page string="Information">
                     <group colspan="4">
