@@ -91,14 +91,12 @@
             <field name="signature">Ana</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="groups_id" eval="[(6,0,[
-                                                    ref('base.group_hr_manager'),
-                                                    ref('product.group_uom'),
+                                                    ref('base.group_user'),
                                                     ref('stock.group_locations'),
                                                     ref('group_purchase_adminis'),
-                                                    ref('group_stock_adminis'),
-                                                    ref('group_sale_adminis'),
             ])]"/>
         <!--field name="groups_id" eval="[(6,0,[
+                                                    ref('base.group_user'),
                                                     ref('base.group_hr_manager'),
                                                     ref('product.group_uom'),
                                                     ref('stock.group_locations'),
