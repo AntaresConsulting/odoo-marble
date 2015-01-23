@@ -337,7 +337,7 @@ class product_product(osv.osv):
 
     @api.model
     def _validate_data_movile(self, data):
-        # _logger.info(">> _validate_data_movile >> 1 >> data = %s", data)
+        _logger.info(">> _validate_data_movile >> 1 >> data = %s", data)
         # --- determino categ_id ---
         categ_list = [comm.RAW, comm.BACHAS, comm.SERVICES, comm.INPUTS]
         field_inp  = 'movile_categ_name'
@@ -346,12 +346,12 @@ class product_product(osv.osv):
             field_val = data.pop(field_inp)
             cid = comm.get_prop(self, field_val)
             data.update({field_out:cid})
-        # _logger.info(">> _validate_data_movile >> 2 >> data = %s", data)
+        _logger.info(">> _validate_data_movile >> 2 >> data = %s", data)
         return
 
     @api.model
     def _check_data_before_save(self, data):
-        # _logger.info(">> check_before >> 1 >> data = %s", data)
+        _logger.info(">> check_before >> 1 >> data = %s", data)
 
         # valido datos proveniente de 'disp. movi'
         self._validate_data_movile(data)
@@ -397,7 +397,7 @@ class product_product(osv.osv):
 
         data.update(res)
 
-        # _logger.info(">> check_before >> 2 >> data = %s", data)
+        _logger.info(">> check_before >> 2 >> data = %s", data)
         return
 
     @api.model
@@ -485,6 +485,7 @@ class product_product(osv.osv):
         'raw_material': fields.selection(_get_material, string='Category'),
         'raw_color': fields.selection(_get_color, string='Color'),
         'raw_finished': fields.selection(_get_finished, string='Finished'),
+	    'movile_categ_name': fields.char('flag', size=100, required=False, store=False),
 
         'bacha_material': fields.selection(_get_bacha_material, string='Material'),
         'bacha_marca': fields.selection(_get_bacha_marca, string='Marca'),

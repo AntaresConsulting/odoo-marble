@@ -31,6 +31,24 @@ import _common as comm
 import logging
 _logger = logging.getLogger(__name__)
 
+class stock_picking(osv.osv):
+    _inherit = "stock.picking"
+
+    _tipo_de_move = [
+            ('raw', 'Raw'),
+            ('insu', 'Input'),
+            ('bac', 'Bacha'),
+    ]
+
+    def _get_tipo_de_move(self, cr, uid, context=None):
+        return sorted(self._tipo_de_move, key=itemgetter(1))
+
+    _columns = {
+        'move_prod_type': fields.selection(_get_tipo_de_move, string='Product Type picking', select=True),
+    }
+
+stock_picking()
+
 class stock_move(osv.osv):
     _inherit = "stock.move"
 
@@ -321,6 +339,7 @@ class stock_move(osv.osv):
         'dimension_id': fields.many2one('product.marble.dimension', 'Dimension', select=True, states={'done': [('readonly', True)]}, domain=[('state','=','done')]),
         'dimension_qty': fields.integer('Units', size=3, states={'done': [('readonly', True)]}),
         'is_raw': fields.function(_is_raw, type='boolean', string='Is Marble'),
+        'employee': fields.many2one('hr.employee', 'Empleado', select=True, states={'done': [('readonly', True)]}, domain=[('active','=',True)]),
 
         'partner_picking_id': fields.related('picking_id', 'partner_id', type='many2one', relation='res.partner', string='Patern', store=False),
 
