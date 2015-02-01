@@ -136,7 +136,7 @@
                     <group colspan="4">
                         <group>
                             <field name="categ_id"/>
-                            <field name="type" attrs="{'readonly':['|',('is_raw','=',True),('is_bacha','=',True)]}"/>
+                            <field name="type" attrs="{'readonly':['|','|',('is_raw','=',True),('is_bacha','=',True),('is_input','=',True)]}"/>
                             <field name="uom_id" 
                                   attrs="{'readonly':[('uom_readonly','=',True)]}" 
                               on_change="onchange_uom(uom_id,uom_po_id)"
@@ -156,6 +156,7 @@
  
                     <field name="is_raw" invisible="1"/>
                     <field name="is_bacha" invisible="1"/>
+                    <field name="is_input" invisible="1"/>
                     <field name="uom_readonly" invisible="1"/>
                 </page>
                
