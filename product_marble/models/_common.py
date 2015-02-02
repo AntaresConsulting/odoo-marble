@@ -30,9 +30,11 @@ _logger = logging.getLogger(__name__)
 
 # set propertie global...
 RAW         = 'raw'
-BACHAS      = 'bachas'
-SERVICES    = 'services'
-INPUTS      = 'inputs'
+BACHA       = 'bacha'
+SERVICE     = 'service'
+INPUT       = 'input'
+OTHER       = '*'
+
 M2          = 'm2'
 AREA        = 'area'
 UNITS       = 'units'
@@ -41,9 +43,9 @@ LOC_STOCK   = 'stock'
 _xml_data   = {
     # ---- Prod Categ -----
     RAW     : 'product_marble.prod_categ_raw_material',
-    BACHAS  : 'product_marble.prod_categ_bachas',
-    SERVICES: 'product_marble.prod_categ_services',
-    INPUTS  : 'product_marble.prod_categ_inputs',
+    BACHA  : 'product_marble.prod_categ_bachas',
+    SERVICE: 'product_marble.prod_categ_services',
+    INPUT  : 'product_marble.prod_categ_inputs',
     # ---- Prod UOM -----
     M2      : 'product_marble.product_uom_square_meter',
     AREA    : 'product_marble.product_uom_categ_area',
@@ -56,16 +58,24 @@ _prop   = {}
 @api.model
 def set_prop(self):
     global _prop
-
     for key in _xml_data:
         xml_id = _xml_data[key]
-
         if not _prop.get(key) or _prop.get(key) < 0:
             ids = self.env.ref(xml_id)
             _prop[key] = ids.id if ids and ids.id > 0 else -1
-
-
     _logger.info(">> set_prop >> _prop = %s", _prop)
+
+@api.model
+def get_prod_types(self):
+    #_logger.info(">> get_prod_type >> 1- self = %s", self)
+    types = {
+        get_prop(self, RAW)     : RAW,
+        get_prop(self, BACHA)   : BACHA,
+        get_prop(self, SERVICE) : SERVICE,
+        get_prop(self, INPUT)   : INPUT,
+    }
+    #_logger.info(">> get_prod_type >> 2- types = %s", types)
+    return types
 
 # --- Migracion -------------------------
 #
@@ -78,7 +88,6 @@ def set_prop(self):
 @api.model
 def get_prop(self, key):
     global _prop
-
     # valido db...
     db = 'db_name'
     db_name = _prop.get(db,False)
@@ -118,15 +127,15 @@ def get_raw_material_id(self):
 
 @api.model
 def get_bachas_id(self):
-    return get_prop(self, BACHAS)
+    return get_prop(self, BACHA)
 
 @api.model
 def get_services_id(self):
-    return get_prop(self, SERVICES)
+    return get_prop(self, SERVICE)
 
 @api.model
 def get_inputs_id(self):
-    return get_prop(self, INPUTS)
+    return get_prop(self, INPUT)
 
 @api.model
 def get_uom_m2_id(self):
@@ -161,15 +170,15 @@ def is_raw_material(self, cid):
 
 @api.model
 def is_bachas(self, cid):
-    return (cid == get_prop(self, BACHAS))
+    return (cid == get_prop(self, BACHA))
 
 @api.model
 def is_services(self, cid):
-    return (cid == get_prop(self, SERVICES))
+    return (cid == get_prop(self, SERVICE))
 
 @api.model
 def is_inputs(self, cid):
-    return (cid == get_prop(self, INPUTS))
+    return (cid == get_prop(self, INPUT))
 # ----------------------------------------
 
 # def get_raw_material_id(self, cr, uid):
@@ -240,6 +249,36 @@ def is_bacha_by_product_id(self, cr, uid, ids):
 
     # _logger.info("1 >> is_raw_material_by_product_id >> result = %s", result)
     return result
+
+def is_input_by_product_id(self, cr, uid, ids):
+    result = {}
+    if not ids:
+        return result
+
+    input_id = get_inputs_id(self, cr, uid)
+    obj = self.pool.get('product.product')
+
+    for p in obj.read(cr, uid, ids, ['categ_id']):
+        result.update({p['id']: (input_id == p['categ_id'][0])})
+
+    # _logger.info("1 >> is_raw_material_by_product_id >> result = %s", result)
+    return result
+
+
+def is_service_by_product_id(self, cr, uid, ids):
+    result = {}
+    if not ids:
+        return result
+
+    service_id = get_services_id(self, cr, uid)
+    obj = self.pool.get('product.product')
+
+    for p in obj.read(cr, uid, ids, ['categ_id']):
+        result.update({p['id']: (service_id == p['categ_id'][0])})
+
+    # _logger.info("1 >> is_raw_material_by_product_id >> result = %s", result)
+    return result
+
 
 
 # def get_data(self, cr, uid, list_tuple, fid):

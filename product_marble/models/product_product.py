@@ -41,69 +41,17 @@ class product_category(osv.osv):
             return []
         if isinstance(ids, (long, int)):
             ids = [ids]
-#        md = self.pool.get('ir.model.data')
-#        all_categ = md.get_object_reference(cr, uid, 'product', 'product_category_all')[1]
-#        sale_categ = md.get_object_reference(cr, uid, 'product', 'product_category_1')[1]
+
         res = []
         ids_by_name = self.search(cr, uid, [('id','in',ids)], order='name')
         for cat in self.browse(cr, uid, ids_by_name, context=context):
-#            if cat.id in [all_categ, sale_categ]:
-#                continue
             res.append((cat.id, cat.name))
+
         # _logger.info(">> name_get >> 3- res = %s", res)
         return res
 
-
-# class product_template(osv.osv):
-#    _inherit = "product.template"
-#    _name = "product.template"
-
-#    # overwrite: odoo 8.0 - line: 602 - 613.
-#    def _default_category(self, cr, uid, context=None):
-#
-#        _logger.info(">> _default_category >> 0- ctx = %s", context)
-#        res = self.pool.get('ir.model.data').get_object_reference(cr, uid, 'product_marble', 'prod_categ_raw_material')
-#
-#        _logger.info(">> _default_category >> 1 - res = %s", res)
-#        return 20
-
-#        md = self.pool.get('ir.model.data')
-#        xxx = md.get_object_reference(cr, uid, 'product_marble', 'prod_categ_raw_material')
-#        _logger.info(">> _default_category >> 0 >> xxx = %s", xxx)
-#
-#        if context is None:
-#            context = {}
-#        if 'categ_id' in context and context['categ_id']:
-#            return context['categ_id']
-#
-#        md = self.pool.get('ir.model.data')
-#        res = False
-#        try:
-#            res = md.get_object_reference(cr, uid, 'product_marble', 'prod_categ_raw_material')[1]
-#        except ValueError:
-#            res = False
-#
-#        x = md.get_object_reference(cr, uid, 'product_marble', 'prod_categ_raw_material')[1]
-#        _logger.info(">> _default_category >> 1 >> x = %s", x)
-#        _logger.info(">> _default_category >> 2 >> res = %s", res)
-#        return res
-
-# product_template()
-
-#
-# http://sajjadhossain.com/2013/06/30/openerp-7-creating-report-using-sql-query/
-#
-# class product_marble_dimension_report(osv.osv):
-#    _name        = 'product.marble.dimension.report'
-#    _description = 'Product Marble Dimension Report'
-#    _auto        = False
-#    _column      = {
-#
-#    }
-#
-
 #class product_product(osv.osv):
-class product_product(osv.osv):
+class product_template(osv.osv):
     _name = 'product.template'
     _inherit = 'product.template'
 
@@ -268,17 +216,20 @@ class product_product(osv.osv):
         return res
 
 
-    def _is_raw_material(self, cr, uid, ids, field_name, arg, context=None):
-        """
-        Determina si [ids products] es de la categoria "Marble Work" si/no...
-        return: {id: False/True, ..}
-        """
-        return comm.is_raw_material_by_product_id(self, cr, uid, ids)
+    #def _is_raw_material(self, cr, uid, ids, field_name, arg, context=None):
+    #   return comm.is_raw_material_by_product_id(self, cr, uid, ids)
 
+    @api.multi
+    def _is_raw_material(self,val):
+        return { rec.id:(rec.prod_type == comm.RAW) for rec in self }
 
-    def _is_bacha(self, cr, uid, ids, field_name, arg, context=None):
-        return comm.is_bacha_by_product_id(self, cr, uid, ids)
+    @api.multi
+    def _is_bacha(self, value):
+       return { rec.id:(rec.prod_type == comm.BACHA) for rec in self }
 
+    @api.multi
+    def _is_input(self, value):
+       return { rec.id:(rec.prod_type == comm.INPUT) for rec in self }
 
     def _get_categ_raw_material_id(self, cr, uid, ids, field_name, arg, context=None):
         cid = comm.get_raw_material_id(self, cr, uid)
@@ -286,7 +237,6 @@ class product_product(osv.osv):
 
         # _logger.info(">> _get_categ_raw_material_id >> 88 >> res = %s", res)
         return res
-
 
     def _get_categ_marble_domain(self, cr, uid, ids, field_name, arg, context=None):
         res = {}
@@ -304,6 +254,7 @@ class product_product(osv.osv):
         cid = self.categ_id.id
         self.is_raw           = False
         self.is_bacha         = False
+        self.is_input         = False
         self.uom_readonly     = False
 
         self.raw_material     = False
@@ -332,6 +283,9 @@ class product_product(osv.osv):
             self.uom_id       = comm.get_uom_units_id(self)
         elif comm.is_inputs(self, cid):
             self.type         = 'consu'
+            self.is_input     = True
+            self.uom_readonly = True
+            self.uom_id       = comm.get_uom_units_id(self)
         elif comm.is_services(self, cid):
             self.type         = 'service'
 
@@ -339,7 +293,7 @@ class product_product(osv.osv):
     def _validate_data_movile(self, data):
         _logger.info(">> _validate_data_movile >> 1 >> data = %s", data)
         # --- determino categ_id ---
-        categ_list = [comm.RAW, comm.BACHAS, comm.SERVICES, comm.INPUTS]
+        categ_list = [comm.RAW, comm.BACHA, comm.SERVICE, comm.INPUT]
         field_inp  = 'movile_categ_name'
         field_out  = 'categ_id'
         if data.get(field_inp, False) in categ_list:
@@ -403,11 +357,13 @@ class product_product(osv.osv):
     @api.model
     def create(self, val):
         self._check_data_before_save(val)
-        return super(product_product, self).create(val)
+        #return super(product_product, self).create(val)
+        return super(product_template, self).create(val)
 
     def write(self, cr, uid, ids, vals, context=None):
         self._check_data_before_save(cr, uid, vals)
-        return super(product_product, self).write(cr, uid, ids, vals, context=context)
+        #return super(product_product, self).write(cr, uid, ids, vals, context=context)
+        return super(product_template, self).write(cr, uid, ids, vals, context=context)
 
     def _get_attrs(self, cr, uid, ids, context=None):
         res = {}
@@ -434,7 +390,8 @@ class product_product(osv.osv):
         return self._get_attrs(cr, uid, ids, context=context)
 
     def name_get(self, cr, uid, ids, context=None):
-        names = super(product_product, self).name_get(cr, uid, ids, context=context)
+        #names = super(product_product, self).name_get(cr, uid, ids, context=context)
+        names = super(product_template, self).name_get(cr, uid, ids, context=context)
         if not names:
             return []
         res = []
@@ -481,11 +438,20 @@ class product_product(osv.osv):
 #        _logger.info(">> _default_category >> 2 >> res = %s", res)
 #        return res
 
+    def _get_types(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}
+        if not ids: return res
+        if not isinstance(ids, (list,tuple)): ids = [ids]
+        types = comm.get_prod_types(self, cr, uid, context)
+        res = {pid.id : types.get(pid.categ_id.id,'*') for pid in self.browse(cr, uid, ids, context)}
+        _logger.info(">> _get_types >> 4- res = %s", res)
+        return res
+
     _columns = {
         'raw_material': fields.selection(_get_material, string='Category'),
         'raw_color': fields.selection(_get_color, string='Color'),
         'raw_finished': fields.selection(_get_finished, string='Finished'),
-	    'movile_categ_name': fields.char('flag', size=100, required=False, store=False),
+        'movile_categ_name': fields.char('flag', size=100, required=False, store=False),
 
         'bacha_material': fields.selection(_get_bacha_material, string='Material'),
         'bacha_marca': fields.selection(_get_bacha_marca, string='Marca'),
@@ -498,8 +464,13 @@ class product_product(osv.osv):
         'bacha_diam': fields.float('Diametro', digits=(5, 2), type="float"),
 
         'categ_name': fields.related('categ_id', 'name', relation='product.category', type='char', readonly=True, string='Category'),
+        'prod_type': fields.function(_get_types, type='char', string='Product Type', store=False),
+        #'type': fields.function(product_category._get_type, type='char', string='Product Type'),
+
         'is_raw': fields.function(_is_raw_material, type='boolean', string='Is Raw Material'),
         'is_bacha': fields.function(_is_bacha, type='boolean', string='Is Bacha'),
+        'is_input': fields.function(_is_input, type='boolean', string='Is Insumo'),
+
         'uom_readonly': fields.function(_get_uom_readonly, type='boolean', string='Is Raw or Bacha'),
         'attrs_material': fields.function(_attrs_material, type='char', string='Details'),
 
