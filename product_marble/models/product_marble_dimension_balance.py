@@ -52,7 +52,7 @@ class product_marble_dimension_balance(osv.osv):
 
         pro_id = data.get('prod_id', 0)
         dim_id = data.get('dim_id', 0)
-        dim_qty = data.get('dimension_qty', 0)
+        dim_qty = data.get('dimension_unit', 0)
         dim_m2 = data.get('dimension_m2', 0.000)
 
         tyMove = data.get('typeMove','')

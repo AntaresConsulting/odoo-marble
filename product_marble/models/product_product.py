@@ -444,7 +444,7 @@ class product_template(osv.osv):
         if not isinstance(ids, (list,tuple)): ids = [ids]
         types = comm.get_prod_types(self, cr, uid, context)
         res = {pid.id : types.get(pid.categ_id.id,'*') for pid in self.browse(cr, uid, ids, context)}
-        _logger.info(">> _get_types >> 4- res = %s", res)
+        #_logger.info(">> _get_types >> 4- res = %s", res)
         return res
 
     _columns = {

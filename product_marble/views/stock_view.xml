@@ -18,13 +18,13 @@
                         <field name="is_raw" invisible="1"/>
 
                         <field name="dimension_id"
-                            on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_qty)"
+                            on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_unit)"
                             attrs="{'required':[('is_raw','=',True)], 'invisible':[('is_raw','=',False)]}" />
 
                         <label for="product_uom_qty"/>
                         <div>
-                            <field name="dimension_qty" 
-                                on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_qty)"
+                            <field name="dimension_unit" 
+                                on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_unit)"
                                 attrs="{'required':[('is_raw','=',True)], 'invisible':[('is_raw','=',False)]}" 
                                 class="oe_inline"/>
 
@@ -32,7 +32,7 @@
                             
                             <field name="product_uom_qty"
                                 attrs="{'readonly':[('is_raw','=',True)]}" 
-                                on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_qty)"
+                                on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_unit)"
                                 class="oe_inline"/>
                             
                             <span> . </span>
@@ -119,7 +119,7 @@
                     <field name="is_raw" invisible="1"/>
                     
                     <field name="dimension_id" readonly="1"/>
-                    <field name="dimension_qty" readonly="1"/>
+                    <field name="dimension_unit" readonly="1"/>
 
                     <field name="product_uom_qty" on_change="onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)"/>
                     <field name="product_uom" string="Unit of Measure"/>
@@ -136,9 +136,9 @@
                     <field name="location_id"/>
                     <field name="location_dest_id"/>
                     <field name="state"/>
-            </tree>
-            </tree>
- 
+                </tree>
+                </tree>
+     
             </field>
         </record>
 
@@ -155,14 +155,14 @@
                     <field name="is_raw" invisible="1"/>
                     <field name="prod_type" invisible="1"/>
                     <field name="dimension_id"
-                        on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_qty)"
+                        on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_unit)"
                         attrs="{'required':[('is_raw','=',True)], 'invisible':[('is_raw','=',False)]}" />
                 </field>
 
                 <xpath expr="//group//group//div" position="replace" >
                     <div>
-                        <field name="dimension_qty" 
-                            on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_qty)"
+                        <field name="dimension_unit" 
+                            on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_unit)"
                             attrs="{'required':[('is_raw','=',True)], 'invisible':[('is_raw','=',False)]}" 
                             class="oe_inline"/>
 
@@ -171,7 +171,7 @@
                         <!--field name="product_uom_qty" on_change="onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)" class="oe_inline"/-->
                         <field name="product_uom_qty"
                             attrs="{'readonly':[('is_raw','=',True)]}" 
-                            on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_qty)"
+                            on_change="onchange_calculate_dim(product_id, product_uom, product_uom_qty, dimension_id, dimension_unit)"
                             class="oe_inline"/>
                         <span> . </span>
                         <!--field name="product_uom" string="Unit Of Measure" groups="product.group_uom" class="oe_inline"/-->
@@ -209,7 +209,7 @@
                 <field name="product_uom_qty" position="before">
                     <field name="prod_type" invisible="1"/>
                     <field name="dimension_id" attrs="{'invisible':[('prod_type','!=','raw')]}"/>
-                    <field name="dimension_qty" attrs="{'invisible':[('prod_type','!=','raw')]}"/>
+                    <field name="dimension_unit" attrs="{'invisible':[('prod_type','!=','raw')]}"/>
                 </field>
            </field>
         </record>
@@ -220,9 +220,17 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field eval="12" name="priority"/>
             <field name="arch" type="xml">
+
                 <field name="backorder_id" position="after">
                     <field name="prod_type"/>
                 </field>
+
+                <xpath expr="//page[@string='Operations']//field//tree//field[@name='product_id']" position="after" >
+                    <field name="prod_type" invisible="1"/>
+                    <field name="dimension_id" attrs="{'invisible':[('prod_type','!=','raw')]}"/>
+                    <field name="dimension_unit" attrs="{'invisible':[('prod_type','!=','raw')]}"/>
+                </xpath>
+
             </field>
         </record>
 

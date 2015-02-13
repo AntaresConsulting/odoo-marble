@@ -105,7 +105,7 @@ class product_marble_dimension(osv.osv):
 #        return res
 
 
-#        sql = "SELECT dimension_id, SUM(dimension_qty), SUM(product_qty) FROM stock_move" \
+#        sql = "SELECT dimension_id, SUM(dimension_unit), SUM(product_qty) FROM stock_move" \
 #              " WHERE dimension_id IS NOT NULL AND product_id = %s GROUP BY dimension_id" % (pid)
 #        # _logger.info(">> _compute_totals >> 4 >> sql = %s", sql)
 
