@@ -148,38 +148,6 @@ class product_template(osv.osv):
     def _get_bacha_marca(self):
         return sorted(self._bacha_marca, key=itemgetter(1))
 
-    def _get_stock_moves(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}.fromkeys(ids, {'stock_move_ids':[], 'dimension_ids':[]})
-        if not ids:
-            return res
-
-        raws = comm.is_raw_material_by_product_id(self, cr, uid, ids)
-        for pid in ids:
-            if not raws[pid]:
-                continue
-
-            sql = "SELECT id, dimension_id FROM stock_move"\
-                  " WHERE product_id = %s ORDER BY date DESC" % (pid,)
-
-            cr.execute(sql)
-            for r in cr.fetchall():
-                if r and r[0] and (not r[0] in res[pid]['stock_move_ids']):
-                    res[pid]['stock_move_ids'].append(r[0])
-
-                if r and r[1] and (not r[1] in res[pid]['dimension_ids']):
-                    res[pid]['dimension_ids'].append(r[1])
-
-            if res[pid]['dimension_ids']:
-                dim_obj = self.pool.get('product.marble.dimension.balance')
-                dim_ids = dim_obj.search(cr, uid, [('product_id','=',pid)])
-
-                res[pid]['dimension_total_m2'] = 0.000
-                for d in dim_obj.browse(cr, uid, dim_ids, context):
-                    res[pid]['dimension_total_m2'] += d.qty_m2
-
-        # _logger.info(">> _get_stock_moves >> 4 >> res = %s", res)
-        return res
-
     def _get_categ_name(self, cr, uid, ids, field_name, arg, context=None):
         # _logger.info("09 >> _get_categ_str >> ids = %s", ids)
         res = {}
@@ -474,12 +442,49 @@ class product_template(osv.osv):
         'uom_readonly': fields.function(_get_uom_readonly, type='boolean', string='Is Raw or Bacha'),
         'attrs_material': fields.function(_attrs_material, type='char', string='Details'),
 
-        'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
-        'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
-        'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),
     }
 
-# product_product()
+product_template()
 
+class product_product(osv.osv):
+    _name = 'product.product'
+    _inherit = 'product.product'
+    def _get_stock_moves(self, cr, uid, ids, field_name, arg, context=None):
+        res = {}.fromkeys(ids, {'stock_move_ids':[], 'dimension_ids':[]})
+        if not ids:
+            return res
 
+        raws = comm.is_raw_material_by_product_id(self, cr, uid, ids)
+        for pid in ids:
+            if not raws[pid]:
+                continue
+
+            sql = "SELECT id, dimension_id FROM stock_move"\
+                  " WHERE product_id = %s ORDER BY date DESC" % (pid,)
+
+            cr.execute(sql)
+            for r in cr.fetchall():
+                if r and r[0] and (not r[0] in res[pid]['stock_move_ids']):
+                    res[pid]['stock_move_ids'].append(r[0])
+
+                if r and r[1] and (not r[1] in res[pid]['dimension_ids']):
+                    res[pid]['dimension_ids'].append(r[1])
+
+            if res[pid]['dimension_ids']:
+                dim_obj = self.pool.get('product.marble.dimension.balance')
+                dim_ids = dim_obj.search(cr, uid, [('product_id','=',pid)])
+
+                res[pid]['dimension_total_m2'] = 0.000
+                for d in dim_obj.browse(cr, uid, dim_ids, context):
+                    res[pid]['dimension_total_m2'] += d.qty_m2
+
+        # _logger.info(">> _get_stock_moves >> 4 >> res = %s", res)
+        return res
+
+    _columns = {
+        'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
+        'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
+        'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),    
+    }
+product_product()
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -229,11 +229,11 @@ def is_raw_material_by_product_id(self, cr, uid, ids):
 
     marble_work_id = get_raw_material_id(self, cr, uid)
     obj = self.pool.get('product.product')
-
     for p in obj.read(cr, uid, ids, ['categ_id']):
         result.update({p['id']: (marble_work_id == p['categ_id'][0])})
 
-    # _logger.info("1 >> is_raw_material_by_product_id >> result = %s", result)
+#    _logger.info("1 >> is_raw_material_by_product_id >> result = %s", result)
+
     return result
 
 def is_bacha_by_product_id(self, cr, uid, ids):
