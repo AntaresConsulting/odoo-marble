@@ -305,9 +305,9 @@
                                     <field name="qty_dimension" string="Units"/>
                                     <field name="qty_product"/>
                                     <field name="qty_balance"/>
-
+<!--
                                     <field name="product_uom"
-                                         string="UOM"/>
+                                         string="UOM"/>-->
                                     <field name="state"/>
                                 </tree>
                             </field>
