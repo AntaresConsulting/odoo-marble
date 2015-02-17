@@ -91,16 +91,18 @@
             <field name="signature">Ana</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="groups_id" eval="[(6,0,[
-                                                    ref('base.group_user'),
-                                                    ref('base.group_hr_manager'),
-                                                    ref('account.group_account_invoice'),
-                                                    ref('product.group_uom'),
-                                                    ref('stock.group_locations'),
-                                                    ref('group_purchase_adminis'),
-                                                    ref('group_stock_adminis'),
-                                                    ref('group_sale_adminis'),
-            ])]"/>
+                                                ref('base.group_user'),
+                                                ref('base.group_hr_manager'),
+                                                ref('stock.group_locations'),
+                                                ref('product.group_uom'),
+                                                ref('group_stock_adminis'),
+                                                ref('group_purchase_adminis'),
+        ])]"/>
+
         <!--field name="groups_id" eval="[(6,0,[
+                                                ref('group_sale_adminis'),
+                                                ref('group_purchase_adminis'),
+                                                    ref('account.group_account_invoice'),
                                                     ref('base.group_user'),
                                                     ref('base.group_hr_manager'),
                                                     ref('product.group_uom'),

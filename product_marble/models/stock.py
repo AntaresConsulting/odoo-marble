@@ -62,15 +62,15 @@ class stock_picking(osv.osv):
 #        super(stock_picking, self).do_prepare_partial(cr, uid, picking_ids, context=context)
 #        _logger.info('>> do_prepare_partial >> 1- picking_ids = %s', picking_ids)
 
-    def _prepare_values_extra_move(self, cr, uid, op, product, remaining_qty, context=None):
-        res = super(stock_picking, self)._prepare_values_extra_move(cr, uid, op, product, remaining_qty, context)
-        _logger.info('>> _prepare_values_extra_move >> 1- res = %s', res)
-        res.update({
-            'dimension_id': op.dimension_id.id,
-            'dimension_unit': op.dimension_unit,
-           })
-        _logger.info('>> _prepare_values_extra_move >> 2- res = %s', res)
-        return res
+#    def _prepare_values_extra_move(self, cr, uid, op, product, remaining_qty, context=None):
+#        res = super(stock_picking, self)._prepare_values_extra_move(cr, uid, op, product, remaining_qty, context)
+#        _logger.info('>> _prepare_values_extra_move >> 1- res = %s', res)
+#        res.update({
+#            'dimension_id': op.dimension_id.id,
+#            'dimension_unit': op.dimension_unit,
+#           })
+#        _logger.info('>> _prepare_values_extra_move >> 2- res = %s', res)
+#        return res
 
 stock_picking()
 

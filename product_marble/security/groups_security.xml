@@ -19,6 +19,11 @@
         <field name="category_id" ref="module_marble_category"/>
     </record>
  
+    <record id="group_menu_accounting" model="res.groups">
+        <field name="name">Accounting Menu</field>
+        <field name="category_id" ref="module_marble_category"/>
+    </record>
+ 
     <record id="group_marble_user" model="res.groups">
         <field name="name">User Marble</field>
         <field name="category_id" ref="module_marble_category"/>
@@ -37,7 +42,10 @@
     <record id="group_marble_mger" model="res.groups">
         <field name="name">Manager Marble</field>
         <field name="category_id" ref="module_marble_category"/>
-        <field name="implied_ids" eval="[(6,0,[ref('stock.group_stock_manager'),ref('group_menu_reporting')])]"/>
+        <field name="implied_ids" eval="[(6,0,[ref('stock.group_stock_manager'),
+                                               ref('group_menu_reporting'),
+                                               ref('group_menu_accounting'),
+        ])]"/>
     </record>
     
     <!--record id="group_marble_adminis" model="res.groups">

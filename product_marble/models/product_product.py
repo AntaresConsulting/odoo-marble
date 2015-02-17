@@ -19,21 +19,23 @@
 #
 ##############################################################################
 
-from openerp import models, api, _
+from openerp import api, models, fields as _fields
 from openerp.osv import osv
 from openerp.osv import fields
-# from openerp.tools.translate import _
+from openerp.tools.translate import _
 from operator import itemgetter
-# import pdb
 import _common as comm
-import logging
-import psycopg2
+# import pdb
+#import psycopg2
 
+import logging
 _logger = logging.getLogger(__name__)
 
-class product_category(osv.osv):
+class product_category(models.Model):
     _inherit = "product.category"
     _name = "product.category"
+
+    prod_type = _fields.Char(string='Product Type')
 
     def name_get(self, cr, uid, ids, context=None):
         # _logger.info(">> name_get >> 0- ids = %s", ids)
@@ -41,16 +43,16 @@ class product_category(osv.osv):
             return []
         if isinstance(ids, (long, int)):
             ids = [ids]
-
         res = []
         ids_by_name = self.search(cr, uid, [('id','in',ids)], order='name')
         for cat in self.browse(cr, uid, ids_by_name, context=context):
             res.append((cat.id, cat.name))
-
         # _logger.info(">> name_get >> 3- res = %s", res)
         return res
 
-#class product_product(osv.osv):
+product_category()
+
+
 class product_template(osv.osv):
     _name = 'product.template'
     _inherit = 'product.template'
@@ -153,7 +155,6 @@ class product_template(osv.osv):
         res = {}
         if not ids:
             return res
-
         for p in self.browse(cr, uid, ids, context=context):
             if comm.is_raw_material(self, cr, uid, p.categ_id):
                 res[p.id] = 'raw'
@@ -165,7 +166,6 @@ class product_template(osv.osv):
                 res[p.id] = 'ser'
             else:
                 res[p.id] = '*'
-
         # _logger.info("10 >> _get_categ_str >> res = %s", res)
         return res
 
@@ -174,35 +174,31 @@ class product_template(osv.osv):
         res = {}
         if not ids:
             return res
-
         for p in self.browse(cr, uid, ids, context=context):
             ro = comm.is_raw_material(self, cr, uid, p.categ_id.id) or \
                  comm.is_bachas(self, cr, uid, p.categ_id.id)
             res[p.id] = ro
-
         # _logger.info("11 >> _get_readonly >> res = %s", res)
         return res
 
+#    def _is_raw_material(self, cr, uid, ids, field_name, arg, context=None):
+#       return comm.is_raw_material_by_product_id(self, cr, uid, ids)
 
-    #def _is_raw_material(self, cr, uid, ids, field_name, arg, context=None):
-    #   return comm.is_raw_material_by_product_id(self, cr, uid, ids)
+#    @api.multi
+#    def _is_raw_material(self, value):
+#        return { rec.id:(rec.prod_type == comm.RAW) for rec in self }
 
-    @api.multi
-    def _is_raw_material(self,val):
-        return { rec.id:(rec.prod_type == comm.RAW) for rec in self }
+#    @api.multi
+#    def _is_bacha(self, value):
+#       return { rec.id:(rec.prod_type == comm.BACHA) for rec in self }
 
-    @api.multi
-    def _is_bacha(self, value):
-       return { rec.id:(rec.prod_type == comm.BACHA) for rec in self }
-
-    @api.multi
-    def _is_input(self, value):
-       return { rec.id:(rec.prod_type == comm.INPUT) for rec in self }
+#    @api.multi
+#    def _is_input(self, value):
+#       return { rec.id:(rec.prod_type == comm.INPUT) for rec in self }
 
     def _get_categ_raw_material_id(self, cr, uid, ids, field_name, arg, context=None):
         cid = comm.get_raw_material_id(self, cr, uid)
         res = {}.fromkeys(ids,[cid])
-
         # _logger.info(">> _get_categ_raw_material_id >> 88 >> res = %s", res)
         return res
 
@@ -259,7 +255,7 @@ class product_template(osv.osv):
 
     @api.model
     def _validate_data_movile(self, data):
-        _logger.info(">> _validate_data_movile >> 1 >> data = %s", data)
+        #_logger.info(">> _validate_data_movile >> 1 >> data = %s", data)
         # --- determino categ_id ---
         categ_list = [comm.RAW, comm.BACHA, comm.SERVICE, comm.INPUT]
         field_inp  = 'movile_categ_name'
@@ -268,12 +264,12 @@ class product_template(osv.osv):
             field_val = data.pop(field_inp)
             cid = comm.get_prop(self, field_val)
             data.update({field_out:cid})
-        _logger.info(">> _validate_data_movile >> 2 >> data = %s", data)
+        #_logger.info(">> _validate_data_movile >> 2 >> data = %s", data)
         return
 
     @api.model
     def _check_data_before_save(self, data):
-        _logger.info(">> check_before >> 1 >> data = %s", data)
+        #_logger.info(">> check_before >> 1 >> data = %s", data)
 
         # valido datos proveniente de 'disp. movi'
         self._validate_data_movile(data)
@@ -319,7 +315,7 @@ class product_template(osv.osv):
 
         data.update(res)
 
-        _logger.info(">> check_before >> 2 >> data = %s", data)
+        #_logger.info(">> check_before >> 2 >> data = %s", data)
         return
 
     @api.model
@@ -382,73 +378,6 @@ class product_template(osv.osv):
         results = product_obj.get_product_available(cr, uid, product_ids, context=context)
         return dict((str(key), value) for key, value in results.items())
 
-    # overwrite: odoo 8.0 - line: 602 - 613.
-#    def _default_category(self, cr, uid, context=None):
-#        _logger.info(">> _default_category >> 000000")
-#        md = self.pool.get('ir.model.data')
-#        xxx = md.get_object_reference(cr, uid, 'product_marble', 'prod_categ_raw_material')
-#        _logger.info(">> _default_category >> 0 >> xxx = %s", xxx)
-#
-#        if context is None:
-#            context = {}
-#        if 'categ_id' in context and context['categ_id']:
-#            return context['categ_id']
-#
-#        md = self.pool.get('ir.model.data')
-#        res = False
-#        try:
-#            res = md.get_object_reference(cr, uid, 'product_marble', 'prod_categ_raw_material')[1]
-#        except ValueError:
-#            res = False
-#
-#        x = md.get_object_reference(cr, uid, 'product_marble', 'prod_categ_raw_material')[1]
-#        _logger.info(">> _default_category >> 1 >> x = %s", x)
-#        _logger.info(">> _default_category >> 2 >> res = %s", res)
-#        return res
-
-    def _get_types(self, cr, uid, ids, field_name, arg, context=None):
-        res = {}
-        if not ids: return res
-        if not isinstance(ids, (list,tuple)): ids = [ids]
-        types = comm.get_prod_types(self, cr, uid, context)
-        res = {pid.id : types.get(pid.categ_id.id,'*') for pid in self.browse(cr, uid, ids, context)}
-        #_logger.info(">> _get_types >> 4- res = %s", res)
-        return res
-
-    _columns = {
-        'raw_material': fields.selection(_get_material, string='Category'),
-        'raw_color': fields.selection(_get_color, string='Color'),
-        'raw_finished': fields.selection(_get_finished, string='Finished'),
-        'movile_categ_name': fields.char('flag', size=100, required=False, store=False),
-
-        'bacha_material': fields.selection(_get_bacha_material, string='Material'),
-        'bacha_marca': fields.selection(_get_bacha_marca, string='Marca'),
-        'bacha_acero': fields.selection(_get_bacha_acero, string='Acero'),
-        'bacha_colocacion': fields.selection(_get_bacha_colocacion, string='Colocacion'),
-        'bacha_tipo': fields.selection(_get_bacha_tipo, string='Tipo'),
-        'bacha_ancho': fields.float('Ancho', digits=(5, 2), type="float"),
-        'bacha_largo': fields.float('Largo', digits=(5, 2), type="float"),
-        'bacha_prof': fields.float('Profundidad', digits=(5, 2), type="float"),
-        'bacha_diam': fields.float('Diametro', digits=(5, 2), type="float"),
-
-        'categ_name': fields.related('categ_id', 'name', relation='product.category', type='char', readonly=True, string='Category'),
-        'prod_type': fields.function(_get_types, type='char', string='Product Type', store=False),
-        #'type': fields.function(product_category._get_type, type='char', string='Product Type'),
-
-        'is_raw': fields.function(_is_raw_material, type='boolean', string='Is Raw Material'),
-        'is_bacha': fields.function(_is_bacha, type='boolean', string='Is Bacha'),
-        'is_input': fields.function(_is_input, type='boolean', string='Is Insumo'),
-
-        'uom_readonly': fields.function(_get_uom_readonly, type='boolean', string='Is Raw or Bacha'),
-        'attrs_material': fields.function(_attrs_material, type='char', string='Details'),
-
-    }
-
-product_template()
-
-class product_product(osv.osv):
-    _name = 'product.product'
-    _inherit = 'product.product'
     def _get_stock_moves(self, cr, uid, ids, field_name, arg, context=None):
         res = {}.fromkeys(ids, {'stock_move_ids':[], 'dimension_ids':[]})
         if not ids:
@@ -481,10 +410,83 @@ class product_product(osv.osv):
         # _logger.info(">> _get_stock_moves >> 4 >> res = %s", res)
         return res
 
+
     _columns = {
+        'raw_material': fields.selection(_get_material, string='Category'),
+        'raw_color': fields.selection(_get_color, string='Color'),
+        'raw_finished': fields.selection(_get_finished, string='Finished'),
+        'movile_categ_name': fields.char('flag', size=100, required=False, store=False),
+
+        'bacha_material': fields.selection(_get_bacha_material, string='Material'),
+        'bacha_marca': fields.selection(_get_bacha_marca, string='Marca'),
+        'bacha_acero': fields.selection(_get_bacha_acero, string='Acero'),
+        'bacha_colocacion': fields.selection(_get_bacha_colocacion, string='Colocacion'),
+        'bacha_tipo': fields.selection(_get_bacha_tipo, string='Tipo'),
+        'bacha_ancho': fields.float('Ancho', digits=(5, 2), type="float"),
+        'bacha_largo': fields.float('Largo', digits=(5, 2), type="float"),
+        'bacha_prof': fields.float('Profundidad', digits=(5, 2), type="float"),
+        'bacha_diam': fields.float('Diametro', digits=(5, 2), type="float"),
+
+#        'categ_name': fields.related('categ_id', 'name', relation='product.category', type='char', readonly=True, string='Category'),
+        'prod_type': fields.related('categ_id', 'prod_type', relation='product.category', type='char', readonly=True, string='Prod Type', store=True),
+
+#        'is_raw': fields.function(_is_raw_material, type='boolean', string='Is Raw Material'),
+#        'is_bacha': fields.function(_is_bacha, type='boolean', string='Is Bacha'),
+#        'is_input': fields.function(_is_input, type='boolean', string='Is Insumo'),
+
+#        'uom_readonly': fields.function(_get_uom_readonly, type='boolean', string='Is Raw or Bacha'),
+        'attrs_material': fields.function(_attrs_material, type='char', string='Details'),
+
         'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
         'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
-        'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),    
+        'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),
     }
-product_product()
+
+product_template()
+
+
+#class product_product(osv.osv):
+#    _name = 'product.product'
+#    _inherit = 'product.product'
+#
+#    def _get_stock_moves(self, cr, uid, ids, field_name, arg, context=None):
+#        res = {}.fromkeys(ids, {'stock_move_ids':[], 'dimension_ids':[]})
+#        if not ids:
+#            return res
+#
+#        raws = comm.is_raw_material_by_product_id(self, cr, uid, ids)
+#        for pid in ids:
+#            if not raws[pid]:
+#                continue
+#
+#            sql = "SELECT id, dimension_id FROM stock_move"\
+#                  " WHERE product_id = %s ORDER BY date DESC" % (pid,)
+#
+#            cr.execute(sql)
+#            for r in cr.fetchall():
+#                if r and r[0] and (not r[0] in res[pid]['stock_move_ids']):
+#                    res[pid]['stock_move_ids'].append(r[0])
+#
+#                if r and r[1] and (not r[1] in res[pid]['dimension_ids']):
+#                    res[pid]['dimension_ids'].append(r[1])
+#
+#            if res[pid]['dimension_ids']:
+#                dim_obj = self.pool.get('product.marble.dimension.balance')
+#                dim_ids = dim_obj.search(cr, uid, [('product_id','=',pid)])
+#
+#                res[pid]['dimension_total_m2'] = 0.000
+#                for d in dim_obj.browse(cr, uid, dim_ids, context):
+#                    res[pid]['dimension_total_m2'] += d.qty_m2
+#
+#        # _logger.info(">> _get_stock_moves >> 4 >> res = %s", res)
+#        return res
+#
+#    _columns = {
+#        'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
+#        'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
+#        'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),
+#    }
+#
+#product_product()
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

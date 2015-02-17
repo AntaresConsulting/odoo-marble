@@ -63,7 +63,7 @@ def set_prop(self):
         if not _prop.get(key) or _prop.get(key) < 0:
             ids = self.env.ref(xml_id)
             _prop[key] = ids.id if ids and ids.id > 0 else -1
-    _logger.info(">> set_prop >> _prop = %s", _prop)
+    #_logger.info(">> set_prop >> _prop = %s", _prop)
 
 @api.model
 def get_prod_types(self):
