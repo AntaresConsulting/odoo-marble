@@ -61,10 +61,34 @@ msgid "Purchases"
 msgstr "Compras"
 
 #. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_tablet_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_tablet_page
+msgid "Tablet"
+msgstr "Administracion Tablet"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_tablet_management_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_tablet_management_page
+msgid "Tablet Management"
+msgstr "Ingresos y Egresos desde la Tablet"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_tablet_cutter_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_tablet_cutter_page
+msgid "Tablet Cutter"
+msgstr "Cortando con la Tablet"
+
+#. module: odoo_manuals
 #: model:ir.ui.menu,name:odoo_manuals.menu_purchase_page
 #: model:ir.actions.act_window,name:odoo_manuals.action_purchas_page
 msgid "Purchase"
 msgstr "Gestion Compras"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_product_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_product_page
+msgid "Product"
+msgstr "Gestion de Productos"
 
 #. module: odoo_manuals
 #: model:ir.actions.act_window,name:odoo_manuals.action_interface_and_usability_page
