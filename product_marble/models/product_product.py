@@ -215,11 +215,12 @@ class product_template(osv.osv):
     def _onchange_category_id(self):
         if not self.categ_id:
             return
-        cid = self.categ_id.id
-        self.is_raw           = False
-        self.is_bacha         = False
-        self.is_input         = False
-        self.uom_readonly     = False
+        #cid = self.categ_id.id
+        self.prod_type         = self.categ_id.prod_type
+        #self.is_raw           = False
+        #self.is_bacha         = False
+        #self.is_input         = False
+        #self.uom_readonly     = False
 
         self.raw_material     = False
         self.raw_color        = False
@@ -235,22 +236,40 @@ class product_template(osv.osv):
         self.bacha_prof       = False
         self.bacha_diam       = False
 
-        if comm.is_raw_material(self, cid):
+        #if comm.is_raw_material(self, cid):
+        #    self.type         = 'product'
+        #    self.is_raw       = True
+        #    self.uom_readonly = True
+        #    self.uom_id       = comm.get_uom_m2_id(self)
+        #elif comm.is_bachas(self, cid):
+        #    self.type         = 'product'
+        #    self.is_bacha     = True
+        #    self.uom_readonly = True
+        #    self.uom_id       = comm.get_uom_units_id(self)
+        #elif comm.is_inputs(self, cid):
+        #    self.type         = 'consu'
+        #    self.is_input     = True
+        #    self.uom_readonly = True
+        #    self.uom_id       = comm.get_uom_units_id(self)
+        #elif comm.is_services(self, cid):
+        #    self.type         = 'service'
+
+        if self.prod_type == comm.RAW:
             self.type         = 'product'
-            self.is_raw       = True
-            self.uom_readonly = True
+        #    self.is_raw       = True
+        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_m2_id(self)
-        elif comm.is_bachas(self, cid):
+        elif self.prod_type == comm.BACHA:
             self.type         = 'product'
-            self.is_bacha     = True
-            self.uom_readonly = True
+        #    self.is_bacha     = True
+        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_units_id(self)
-        elif comm.is_inputs(self, cid):
+        elif self.prod_type == comm.INPUT:
             self.type         = 'consu'
-            self.is_input     = True
-            self.uom_readonly = True
+        #    self.is_input     = True
+        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_units_id(self)
-        elif comm.is_services(self, cid):
+        elif self.prod_type == comm.SERVICE:
             self.type         = 'service'
 
     @api.model
@@ -410,6 +429,10 @@ class product_template(osv.osv):
         # _logger.info(">> _get_stock_moves >> 4 >> res = %s", res)
         return res
 
+    #def _is_raw(self, cr, uid, ids, field_name, arg, context=None):
+    #    res = { sm.id : (sm.product_id.prod_type == comm.RAW) for sm in self.browse(cr, uid, ids) }
+    #    _logger.info("10 >> _is_raw >> res = %s", res)
+    #    return res
 
     _columns = {
         'raw_material': fields.selection(_get_material, string='Category'),

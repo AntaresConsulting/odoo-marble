@@ -44,7 +44,7 @@ class stock_change_product_qty(osv.osv_memory):
     }
 
     _defaults = {
-        'is_raw': False,
+        'is_raw':                     False,
         'new_quantity':               0.000,
         'dimension_id':               False,
         'dimension_unit_new':         0,
@@ -68,7 +68,8 @@ class stock_change_product_qty(osv.osv_memory):
 
         pid = res.get('product_id',0) or context.get('active_id') or 0
         for prod in self.pool.get('product.product').browse(cr, uid, [pid], context=context):
-            res['is_raw'] = prod.is_raw
+            #res['is_raw'] = prod.is_raw
+            res['is_raw'] = (prod.prod_type == comm.RAW)
             res['product_uom'] = prod.uom_id.id
             res['dimension_uom_theoretical'] = res['product_uom']
 
@@ -113,7 +114,8 @@ class stock_change_product_qty(osv.osv_memory):
 
         # misc...
         data = self.pool.get('product.product').browse(cr, uid, [pro_id], context=None)[0]
-        is_raw = data.is_raw
+        #is_raw = data.is_raw
+        is_raw = (data.prod_type == comm.RAW)
         uom = data.uom_id.id
         val['is_raw'] = is_raw
         val['product_uom'] = uom
@@ -196,6 +198,7 @@ class stock_change_product_qty(osv.osv_memory):
 
                 # add dimension data...
                 'is_raw': data.is_raw,
+                #'is_raw' : (data.prod_type == comm.RAW),
                 'dimension_id': data.dimension_id.id or False,
                 'dimension_unit': data.dimension_unit_new,      # new units (manual adjustment)
                 'dimension_m2': data.dimension_m2_new,          # new m2 (manual adjustment)
@@ -208,6 +211,6 @@ class stock_change_product_qty(osv.osv_memory):
             inventory_obj.action_done(cr, uid, [inventory_id], context=context)
         return {}
 
-# stock_change_product_qty()
+stock_change_product_qty()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

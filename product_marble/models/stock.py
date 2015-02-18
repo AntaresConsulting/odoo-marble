@@ -177,23 +177,26 @@ class stock_move(osv.osv):
 
 
     def _is_raw(self, cr, uid, ids, field_name, arg, context=None):
-        """
-        Determina si [ids stock_move] tiene  producto, del tipo is_raw si/no...
-        """
-        res = {}
-        if not ids:
-            return res
+        #"""
+        #Determina si [ids stock_move] tiene  producto, del tipo is_raw si/no...
+        #"""
+        #res = {}
+        #if not ids:
+        #    return res
 
         # para cada stock_move -> recupero su correspondiente prod_id
-        prod_ids = [sm.product_id.id for sm in self.browse(cr, uid, ids)]
+        #prod_ids = [sm.product_id.id for sm in self.browse(cr, uid, ids)]
 
         # recupero is_raw por cada producto: {prod_id: is_raw}
-        data = comm.is_raw_material_by_product_id(self, cr, uid, prod_ids)
+        #data = comm.is_raw_material_by_product_id(self, cr, uid, prod_ids)
 
         # convierto de {prod_id: is_raw} -> {stock_move_id: is_raw}:
-        res = {ids[k]: (data[prod_ids[k]] or False) for k in range(len(ids))}
+        #res = {ids[k]: (data[prod_ids[k]] or False) for k in range(len(ids))}
 
         # _logger.info("10 >> _is_raw >> res = %s", res)
+        #return res
+        res = { sm.id : (sm.product_id.prod_type == comm.RAW) for sm in self.browse(cr, uid, ids) }
+        #_logger.info("10 >> _is_raw >> res = %s", res)
         return res
 
     def _get_move_name(self, cr, uid, pro_id=False, dim_id=False):
@@ -415,7 +418,8 @@ class stock_move(osv.osv):
             return False
 
         obj_bal = self.pool.get('product.marble.dimension.balance')
-        obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
+        #obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
+        obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and (move.product_id.prod_type == comm.RAW)]
         if not obj_mov:
             return True
 
@@ -431,7 +435,9 @@ class stock_move(osv.osv):
         for mov in bal_list:
 
             # valid data required
-            msg = self._check_data_required(cr, uid, mov.product_id.is_raw, mov.dimension_id, mov.dimension_unit, mov.product_uom_qty)
+            #msg = self._check_data_required(cr, uid, mov.product_id.is_raw, mov.dimension_id, mov.dimension_unit, mov.product_uom_qty)
+            is_raw = (mov.product_id.prod_type == comm.RAW)
+            msg = self._check_data_required(cr, uid, is_raw, mov.dimension_id, mov.dimension_unit, mov.product_uom_qty)
             if msg:
                 raise osv.except_osv(_('Error'), _(msg))
 
@@ -545,7 +551,7 @@ class stock_inventory_line(osv.osv):
         _logger.info(">> _resolve_inventory_line >> 01- vals = %s", vals)
         return stock_move_obj.create(cr, uid, vals, context=context)
 
-# stock_inventory_line()
+stock_inventory_line()
 
 
 
