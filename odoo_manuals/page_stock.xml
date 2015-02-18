@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+
+<!-- Stock -->
+        <record id="stock_page" model="document.page">
+            <field name="name">Stock</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/1N1vn42k5DacZD3Tf0DNelQRwi67z2kmf7f0DuvCfd4E/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_stock_page" model="ir.actions.act_window">
+            <field name="name">Stock</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('stock_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_stock_page" sequence="10"
+                  action="action_stock_page"
+                  parent="menu_documentation_stock"/> 
+
+<!-- Producto -->
+        <record id="product_page" model="document.page">
+            <field name="name">Product</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/1qASKb-AGC8gaYpIbLtKAGKU3GyHeepVv_ofRBmq2cvg/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_product_page" model="ir.actions.act_window">
+            <field name="name">Product</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('product_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_product_page" sequence="10"
+                  action="action_product_page"
+                  parent="menu_documentation_stock"/> 
+
+<!-- Tablet Ingreso y Egreso -->
+        <record id="tablet_management_page" model="document.page">
+            <field name="name">Tablet Management</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/1OHMTAZ0KtcpAqRAYg9XelGrSLGuy-HisXd_Jqu-a2Fc/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_tablet_management_page" model="ir.actions.act_window">
+            <field name="name">Tablet Management</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('tablet_management_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_tablet_management_page" sequence="10"
+                  action="action_tablet_management_page"
+                  parent="menu_documentation_stock"/> 
+
+<!-- Tablet Cortador -->
+        <record id="tablet_cutter_page" model="document.page">
+            <field name="name">Tablet Cutter</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/14YCQiTlZ_czWYVEr9Fi58X9p6Sjf3dXrRZWYxKnBd6g/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_tablet_cutter_page" model="ir.actions.act_window">
+            <field name="name">Tablet Cutter</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('stock_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_tablet_cutter_page" sequence="10"
+                  action="action_tablet_cutter_page"
+                  parent="menu_documentation_stock"/> 
+
+    </data>
+</openerp>

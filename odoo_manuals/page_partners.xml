@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!-- Gestion Cliente Proveedores -->
+        <record id="partner_management_page" model="document.page">
+            <field name="name">Partner Management</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/13SxYnPFCmoW6M58a4w7tqzG17s0m_vk44EgI-b6buO4/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_partner_management_page" model="ir.actions.act_window">
+            <field name="name">Partner Management</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('partner_management_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_partner_management_page" sequence="10"
+                  action="action_partner_management_page"
+                  parent="menu_documentation_general"/>  
+
+<!-- Uso Tablet -->
+        <record id="tablet_page" model="document.page">
+            <field name="name">Tablet</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/1iqZZKF-15GGxkl_WH6kJWXeCtbOBI4ifNKftKg3PHHw/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_tablet_page" model="ir.actions.act_window">
+            <field name="name">Tablet</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('tablet_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_tablet_page" sequence="10"
+                  action="action_tablet_page"
+                  parent="menu_documentation_general"/>  
+
+    </data>
+</openerp>

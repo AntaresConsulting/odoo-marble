@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<!-- Purchase -->
+        <record id="purchase_page" model="document.page">
+            <field name="name">Purchase</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/15jXcrH7HmTaJTWE7imILlQbY1pRL8FekCTR4uLTuxoo/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_purchase_page" model="ir.actions.act_window">
+            <field name="name">Purchase</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('purchase_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_purchase_page" sequence="10"
+                  action="action_purchase_page"
+                  parent="menu_documentation_purchases"/>    
+
+     
+    </data>
+</openerp>
