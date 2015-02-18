@@ -20,11 +20,10 @@
     ],
     'data': [
         'menu_item.xml',
-        'page_mess.xml',
+        'page_general.xml',
         'page_stock.xml',
-        'page_partners.xml',
         'page_purchase.xml',
-        'page_nav.xml',
+        'page_rh.xml',
     ],
     'demo': [
     ],

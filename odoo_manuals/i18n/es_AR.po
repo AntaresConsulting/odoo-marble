@@ -45,6 +45,17 @@ msgid "Stock"
 msgstr "Gestion Deposito"
 
 #. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_documentation_hr
+msgid "Human Resources"
+msgstr "Recursos Humanos"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_hr_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_hr_page
+msgid "HR"
+msgstr "Gestion RRHH"
+
+#. module: odoo_manuals
 #: model:ir.ui.menu,name:odoo_manuals.menu_documentation_stock
 msgid "Stock"
 msgstr "Deposito"
@@ -97,6 +108,12 @@ msgid "Interface And Usability"
 msgstr "Interfaz y Usabilidad"
 
 #. module: odoo_manuals
+#: model:ir.actions.act_window,name:odoo_manuals.action_video_interface_and_usability_page
+#: model:ir.ui.menu,name:odoo_manuals.menu_video_interface_and_usability_page
+msgid "Video Interface And Usability"
+msgstr "Video Interfaz y Usabilidad"
+
+#. module: odoo_manuals
 #: model:ir.ui.menu,name:odoo_manuals.menu_messaging_page
 #: model:ir.actions.act_window,name:odoo_manuals.action_messaging_page
 msgid "Messaging"
@@ -106,3 +123,37 @@ msgstr "Mensajeria"
 #: model:ir.ui.menu,name:odoo_manuals.menu_documentation_main
 msgid "Manuals"
 msgstr "Manuales"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_documentation_video_com
+msgid "Communication Videos"
+msgstr "Videos sobre Comunicacion"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_mes_archive_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_mes_archive_page
+msgid "Message Archive"
+msgstr "Archivando Mensajes"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_mes_write_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_mes_write_page
+msgid "Message Write"
+msgstr "Escribiendo Mensajes"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_mes_management_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_mes_management_page
+msgid "Message Management"
+msgstr "Gestionando Mensajes"
+
+#. module: odoo_manuals
+#: model:ir.ui.menu,name:odoo_manuals.menu_group_management_page
+#: model:ir.actions.act_window,name:odoo_manuals.action_group_management_page
+msgid "Group Management"
+msgstr "Gestionando Grupos"
+
+
+
+
+

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<!-- Interfaz y Usabilidad -->
+        <record id="interface_and_usability_page" model="document.page">
+            <field name="name">Interface And Usability</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/1Ps35dA4PDWwGL5MACQeFMnANVg2GluwIEP-SgEf8HSk/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_interface_and_usability_page" model="ir.actions.act_window">
+            <field name="name">Interface And Usability</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('interface_and_usability_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_interface_and_usability_page" sequence="11"
+                  action="action_interface_and_usability_page"
+                  parent="menu_documentation_general"/> 
+ 
+<!-- Video Interfaz y Usabilidad -->
+        <record id="video_interface_and_usability_page" model="document.page">
+            <field name="name">Video Interface And Usability</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LlD0yhjDGrs" frameborder="0" allowfullscreen></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_video_interface_and_usability_page" model="ir.actions.act_window">
+            <field name="name">Video Interface And Usability</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('video_interface_and_usability_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_video_interface_and_usability_page" sequence="12"
+                  action="action_video_interface_and_usability_page"
+                  parent="menu_documentation_general"/>   
+
+<!-- Mensajeria -->
+        <record id="messaging_page" model="document.page">
+            <field name="name">Messaging</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/1iB4iJ1xs8pRzl3efuSJObNYMs41psgu7LRQ091f32Xs/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_messaging_page" model="ir.actions.act_window">
+            <field name="name">Messaging</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('messaging_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_messaging_page" sequence="13"
+                  action="action_messaging_page"
+                  parent="menu_documentation_general"/>  
+  
+        <menuitem name="Communication Videos" id="menu_documentation_video_com" sequence="14" parent="menu_documentation_general"
+                  groups="base.group_user"/>
+
+<!-- Videos de Comunicacion -->
+
+        <record id="mes_archive_page" model="document.page">
+            <field name="name">Message Archive</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<h2 class="c1 c3" style="widows: 2; padding-top: 10pt; line-height: 1.15; orphans: 2; font-size: 13pt; font-family: 'Trebuchet MS'; padding-bottom: 0pt; page-break-after: avoid; direction: ltr;">Archivo de mensajes&nbsp;</h2><ul class="c8 lst-kix_ij8gzvbgjcgv-0 start" style="margin: 0px; padding: 0px; list-style-type: none; font-family: arial, sans, sans-serif;"><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Bandeja de entrada</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Para: mi</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Por realizar</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Archivados</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Buscar mensajes con filtros.</li></ul>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/iOGYPloPot0" frameborder="0" allowfullscreen></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_mes_archive_page" model="ir.actions.act_window">
+            <field name="name">Message Archive</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('mes_archive_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_mes_archive_page" sequence="13"
+                  action="action_mes_archive_page"
+                  parent="menu_documentation_video_com"/>  
+
+        <record id="mes_write_page" model="document.page">
+            <field name="name">Message Write</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<h2 class="c1 c3" style="widows: 2; padding-top: 10pt; line-height: 1.15; orphans: 2; font-size: 13pt; font-family: 'Trebuchet MS'; padding-bottom: 0pt; page-break-after: avoid; direction: ltr;">Redactar un mensaje &nbsp;</h2><h2 class="c1 c3" style="widows: 2; padding-top: 10pt; line-height: 1.15; orphans: 2; font-size: 13pt; font-family: 'Trebuchet MS'; padding-bottom: 0pt; page-break-after: avoid; direction: ltr;"><ul class="c8 lst-kix_i18l7yxpvyss-0 start" style="margin: 0px; padding: 0px; list-style-type: none; font-family: arial, sans, sans-serif; font-size: medium; font-weight: normal; line-height: normal; orphans: auto; widows: auto;"><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Enviar un mensaje a mis seguidores</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Enviar un mensaje a destinatarios seleccionados</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Enviar un mensaje a seguidores de un documento</li></ul></h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7JoO0AS8EEE" frameborder="0" allowfullscreen></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_mes_write_page" model="ir.actions.act_window">
+            <field name="name">Message Write</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('mes_write_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_mes_write_page" sequence="13"
+                  action="action_mes_write_page"
+                  parent="menu_documentation_video_com"/>  
+
+        <record id="mes_management_page" model="document.page">
+            <field name="name">Message Management</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<h2 class="c1 c3" style="widows: 2; padding-top: 10pt; line-height: 1.15; orphans: 2; font-size: 13pt; font-family: 'Trebuchet MS'; padding-bottom: 0pt; page-break-after: avoid; direction: ltr;">Gestión de mensajes&nbsp;<span class="c2" style="color: rgb(17, 85, 204); font-size: 10pt; text-decoration: underline; font-weight: normal;"><a class="c10" href="http://youtu.be/uP9zZslf6p8" style="text-decoration: inherit;">http://youtu.be/uP9zZslf6p8</a></span><span class="c5" style="font-size: 10pt; font-weight: normal;">&nbsp;</span></h2><h2 class="c1 c3" style="widows: 2; padding-top: 10pt; line-height: 1.15; orphans: 2; font-size: 13pt; font-family: 'Trebuchet MS'; padding-bottom: 0pt; page-break-after: avoid; direction: ltr;"><ul class="c8 lst-kix_i18l7yxpvyss-0" style="margin: 0px; padding: 0px; list-style-type: none; font-family: arial, sans, sans-serif; font-size: medium; font-weight: normal; line-height: normal; orphans: auto; widows: auto;"><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Responder un mensaje</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Marcar un mensaje por realizar</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Marcar un mensaje como hecho</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Mover a la bandeja de entrada</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Información de los mensajes</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Marcar me gusta</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Leer más</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Acceso al Objeto desde donde se generó el mensaje</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Mensajes sin leer desde objetos</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Vista avanzada</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Adjuntar archivos</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Plantillas</li><li class="c1 c4" style="font-size: 11pt; font-family: Arial; widows: 2; orphans: 2; direction: ltr; padding-left: 0pt; margin-left: 36pt;">Mostrar más mensajes</li></ul></h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/uP9zZslf6p8" frameborder="0" allowfullscreen></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_mes_management_page" model="ir.actions.act_window">
+            <field name="name">Message Management</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('mes_management_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_mes_management_page" sequence="13"
+                  action="action_mes_management_page"
+                  parent="menu_documentation_video_com"/>  
+
+        <record id="group_management_page" model="document.page">
+            <field name="name">Group Management</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<h2 class="c1 c3" style="widows: 2; padding-top: 10pt; line-height: 1.15; orphans: 2; font-size: 13pt; font-family: 'Trebuchet MS'; padding-bottom: 0pt; page-break-after: avoid; direction: ltr;">Grupos&nbsp;</h2><h2 class="c1 c3" style="widows: 2; padding-top: 10pt; line-height: 1.15; orphans: 2; font-size: 13pt; font-family: 'Trebuchet MS'; padding-bottom: 0pt; page-break-after: avoid; direction: ltr;"><ul class="c8 lst-kix_syifup8r63lo-0 start" style="margin: 0px; padding: 0px; list-style-type: none; font-family: arial, sans, sans-serif; font-size: medium; font-weight: normal; line-height: normal; orphans: auto; widows: auto;"><li class="c0" style="font-size: 11pt; font-family: Arial; padding-left: 0pt; padding-top: 0pt; widows: 2; orphans: 2; direction: ltr; margin-left: 36pt;">Crear un grupo</li><li class="c0" style="font-size: 11pt; font-family: Arial; padding-left: 0pt; padding-top: 0pt; widows: 2; orphans: 2; direction: ltr; margin-left: 36pt;">Unirse a un grupo</li><li class="c0" style="font-size: 11pt; font-family: Arial; padding-left: 0pt; padding-top: 0pt; widows: 2; orphans: 2; direction: ltr; margin-left: 36pt;">Agregar seguidores a un grupo</li><li class="c0" style="font-size: 11pt; font-family: Arial; padding-left: 0pt; padding-top: 0pt; widows: 2; orphans: 2; direction: ltr; margin-left: 36pt;">Comunicación dentro de un grupo</li></ul></h2>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/XJod_F05ITg" frameborder="0" allowfullscreen></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_group_management_page" model="ir.actions.act_window">
+            <field name="name">Group Management</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('group_management_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_group_management_page" sequence="13"
+                  action="action_group_management_page"
+                  parent="menu_documentation_video_com"/>  
+
+<!-- Gestion Cliente Proveedores -->
+        <record id="partner_management_page" model="document.page">
+            <field name="name">Partner Management</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/13SxYnPFCmoW6M58a4w7tqzG17s0m_vk44EgI-b6buO4/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_partner_management_page" model="ir.actions.act_window">
+            <field name="name">Partner Management</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('partner_management_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_partner_management_page" sequence="10"
+                  action="action_partner_management_page"
+                  parent="menu_documentation_general"/>  
+
+<!-- Uso Tablet -->
+        <record id="tablet_page" model="document.page">
+            <field name="name">Tablet</field>
+            <field name="active" eval="False"/>
+            <field name="content">
+<![CDATA[
+<iframe src="https://docs.google.com/document/d/1iqZZKF-15GGxkl_WH6kJWXeCtbOBI4ifNKftKg3PHHw/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
+]]>
+            </field>
+        </record>
+
+        <record id="action_tablet_page" model="ir.actions.act_window">
+            <field name="name">Tablet</field>
+            <field name="res_model">document.page</field>
+            <field name="view_mode">form</field>
+            <field name="target">inlineview</field>
+            <field name="res_id" eval="str(ref('tablet_page'))"/> 
+        </record>
+                
+        <menuitem id="menu_tablet_page" sequence="10"
+                  action="action_tablet_page"
+                  parent="menu_documentation_general"/>  
+
+    </data>
+</openerp>

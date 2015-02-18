@@ -3,27 +3,7 @@
     <data>
 
 
-<!-- Interfaz y Usabilidad -->
-        <record id="interface_and_usability_page" model="document.page">
-            <field name="name">Interface And Usability</field>
-            <field name="active" eval="False"/>
-            <field name="content">
-<![CDATA[
-<iframe src="https://docs.google.com/document/d/1Ps35dA4PDWwGL5MACQeFMnANVg2GluwIEP-SgEf8HSk/edit?usp=sharing" width="100%" height="600" frameborder="0"></iframe>
-]]>
-            </field>
-        </record>
 
-        <record id="action_interface_and_usability_page" model="ir.actions.act_window">
-            <field name="name">Interface And Usability</field>
-            <field name="res_model">document.page</field>
-            <field name="view_mode">form</field>
-            <field name="target">inlineview</field>
-            <field name="res_id" eval="str(ref('interface_and_usability_page'))"/> 
-        </record>
-                
-        <menuitem id="menu_interface_and_usability_page" sequence="10"
-                  action="action_interface_and_usability_page"
-                  parent="menu_documentation_general"/>    
+
     </data>
 </openerp>

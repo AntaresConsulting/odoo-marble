@@ -14,27 +14,8 @@
         <menuitem name="Purchases" id="menu_documentation_purchases" sequence="30" parent="menu_documentation_main"
                   groups="base.group_user"/>
 
-<!-- Interfaz y Usabilidad -->
-        <record id="interface_and_usability_page" model="document.page">
-            <field name="name">Interface And Usability</field>
-            <field name="active" eval="False"/>
-            <field name="content">
-<![CDATA[
+        <menuitem name="Human Resources" id="menu_documentation_hr" sequence="40" parent="menu_documentation_main"
+                  groups="base.group_user"/>
 
-]]>
-            </field>
-        </record>
-
-        <record id="action_interface_and_usability_page" model="ir.actions.act_window">
-            <field name="name">Interface And Usability</field>
-            <field name="res_model">document.page</field>
-            <field name="view_mode">form</field>
-            <field name="target">inlineview</field>
-            <field name="res_id" eval="str(ref('interface_and_usability_page'))"/> 
-        </record>
-                
-        <menuitem id="menu_interface_and_usability_page" sequence="10"
-                  action="action_interface_and_usability_page"
-                  parent="menu_documentation_general"/>    
     </data>
 </openerp>
