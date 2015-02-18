@@ -402,7 +402,10 @@ class product_template(osv.osv):
         if not ids:
             return res
 
-        raws = comm.is_raw_material_by_product_id(self, cr, uid, ids)
+        #raws = comm.is_raw_material_by_product_id(self, cr, uid, ids)
+        raws = { rec.id : (rec.prod_type == comm.RAW) for rec in self.pool.get('product.template').browse(cr, uid, ids)}
+        _logger.info(">> _get_stock_moves >> 3 >> raws = %s", raws)
+
         for pid in ids:
             if not raws[pid]:
                 continue
