@@ -40,6 +40,25 @@
             ])]"/>
         </record>
 
+        <!-- Purchases > Requests for Quatation -->
+        <record id="purchase.menu_purchase_rfq" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+            ])]"/>
+        </record>
+
+        <!-- Purchases > Purchase Orders -->
+        <record id="purchase.menu_purchase_form_action" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+            ])]"/>
+        </record>
+
+        <!-- Purchases > Purchase Order Lines -->
+        <record id="purchase.menu_purchase_line_order_draft" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+            ])]"/>
+        </record>
+
+
         <!-- Purchases > Picking Move -->
         <record id="purchase.menu_action_picking_tree_in_move" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
@@ -127,6 +146,13 @@
             ])]"/>
         </record>
 
+        <!-- Sales > Quatations -->
+        <record id="sale.menu_sale_quotations" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+            ])]"/>
+        </record>
+
+
         <!-- Product Variants > Product Variants -->
         <record id="product.menu_products" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
@@ -172,6 +198,14 @@
                 parent="stock.menu_stock_product"               sequence="11" 
                 action="act_open_product_marble_dimension_view" 
         />
+
+        <!-- Warehouse > Schedulers -->
+        <!--record id="product_marble.menu_stock_product_variants" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
+                                                 ref('product_marble.group_purchase_adminis'),
+            ])]"/>
+        </record-->
+
 
     </data>
 </openerp>

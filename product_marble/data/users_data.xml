@@ -62,7 +62,11 @@
             <field name="password">david</field>
             <field name="signature">David</field>
             <field name="company_id" ref="base.main_company"/>
-            <field name="groups_id" eval="[(6,0,[ref('group_marble_mger')])]"/>
+            <field name="groups_id" eval="[(6,0,[
+                                                 ref('group_marble_mger'),
+                                                 ref('group_sale_adminis'),
+                                                 ref('group_purchase_adminis'),
+             ])]"/>
         </record>
 
         <record id="user_erica" model="res.users">
