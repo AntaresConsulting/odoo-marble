@@ -63,10 +63,15 @@
             <field name="signature">David</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="groups_id" eval="[(6,0,[
-                                                 ref('group_marble_mger'),
-                                                 ref('group_sale_adminis'),
-                                                 ref('group_purchase_adminis'),
-             ])]"/>
+                                                ref('base.group_user'),
+                                                ref('base.group_hr_user'),
+                                                ref('stock.group_locations'),
+                                                ref('product.group_uom'),
+                                                ref('group_menu_stock'),
+                                                ref('group_stock_mger'),
+                                                ref('group_purchase_adminis'),
+                                                ref('group_sale_adminis'),
+            ])]"/>
         </record>
 
         <record id="user_erica" model="res.users">
@@ -75,6 +80,16 @@
             <field name="password">erica</field>
             <field name="signature">Erica</field>
             <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('base.group_user'),
+                                                ref('base.group_hr_manager'),
+                                                ref('stock.group_locations'),
+                                                ref('product.group_uom'),
+                                                ref('group_menu_stock'),
+                                                ref('group_stock_adminis'),
+                                                ref('group_purchase_adminis'),
+                                                ref('group_sale_adminis'),
+            ])]"/>
         </record>
       
         <record id="user_rosa" model="res.users">
@@ -83,8 +98,15 @@
             <field name="password">rosa</field>
             <field name="signature">Rosa</field>
             <field name="company_id" ref="base.main_company"/>
-            <field name="groups_id" eval="[(6,0,[ref('base.group_hr_manager'),
-                                                 ref('group_purchase_adminis'),
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('base.group_user'),
+                                                ref('base.group_hr_manager'),
+                                                ref('stock.group_locations'),
+                                                ref('product.group_uom'),
+                                                ref('group_menu_stock'),
+                                                ref('group_stock_adminis'),
+                                                ref('group_purchase_adminis'),
+                                                ref('group_sale_adminis'),
             ])]"/>
        </record>
 
@@ -99,8 +121,10 @@
                                                 ref('base.group_hr_manager'),
                                                 ref('stock.group_locations'),
                                                 ref('product.group_uom'),
+                                                ref('group_menu_stock'),
                                                 ref('group_stock_adminis'),
                                                 ref('group_purchase_adminis'),
+                                                ref('group_sale_adminis'),
         ])]"/>
 
         <!--field name="groups_id" eval="[(6,0,[

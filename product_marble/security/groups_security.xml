@@ -14,8 +14,15 @@
 <!-- Groups -->
 <data noupdate="0">
 
+    <!-- ROOTS MENUS -->
+
     <record id="group_menu_reporting" model="res.groups">
         <field name="name">Reporting Menu</field>
+        <field name="category_id" ref="module_marble_category"/>
+    </record>
+
+    <record id="group_menu_stock" model="res.groups">
+        <field name="name">Stock Menu</field>
         <field name="category_id" ref="module_marble_category"/>
     </record>
  
@@ -24,7 +31,9 @@
         <field name="category_id" ref="module_marble_category"/>
     </record>
  
-    <record id="group_marble_user" model="res.groups">
+    <!-- GROUPS OF USERS -->
+
+    <!--record id="group_marble_user" model="res.groups">
         <field name="name">User Marble</field>
         <field name="category_id" ref="module_marble_category"/>
     </record>
@@ -37,14 +46,12 @@
     <record id="group_marble_cutt" model="res.groups">
         <field name="name">Cutter Marble</field>
         <field name="category_id" ref="module_marble_category"/>
-    </record>
+    </record-->
     
-    <record id="group_marble_mger" model="res.groups">
-        <field name="name">Manager Marble</field>
+    <record id="group_stock_mger" model="res.groups">
+        <field name="name">Manager Stock</field>
         <field name="category_id" ref="module_marble_category"/>
-        <field name="implied_ids" eval="[ (6,0,[ref('base.group_user'),
-                                                ref('stock.group_stock_user'),
-        ])]"/>
+        <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
     </record>
     
     <!--record id="group_marble_adminis" model="res.groups">

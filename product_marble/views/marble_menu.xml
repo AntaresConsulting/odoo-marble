@@ -164,22 +164,37 @@
 
         <!-- Top Menu > Warehouse -->
         <record id="stock.menu_stock_root" model="ir.ui.menu">
-            <field name="groups_id" eval="[(4,ref('product_marble.group_stock_adminis'))]"/>
+            <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_user'),
+                                                 ref('stock.group_stock_manager'),
+                                                 ref('product_marble.group_menu_stock'),
+            ])]"/>
         </record>
 
-        <!-- Warehouse > Products > ... by Category -->
+        <!-- Warehouse > Products > Products by Category -->
         <record id="stock.menu_product_by_category_stock_form" model="ir.ui.menu">
-            <field name="groups_id" eval="[(4,ref('product_marble.group_stock_adminis'))]"/>
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
+        </record>
+
+        <!-- Warehouse > Inventory Control > Current Inventory Valuation -->
+        <record id="stock_account.menu_action_history_tree" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('stock.group_locations')])]"/>
+        </record>
+
+        <!-- Warehouse > Inventory Control > Inventory Adjustments  -->
+        <record id="stock.menu_action_inventory_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
         </record>
 
         <!-- Warehouse > Traceability > Stock Moves -->
         <record id="stock.menu_action_move_form2" model="ir.ui.menu">
-            <field name="groups_id" eval="[(4,ref('product_marble.group_stock_adminis'))]"/>
+            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_stock_adminis'),
+                                                 ref('product_marble.group_stock_mger')
+            ])]"/>
         </record>
 
         <!-- Warehouse > Traceability > Stock Quants -->
         <record id="stock.menu_quants" model="ir.ui.menu">
-            <field name="groups_id" eval="[(4,ref('product_marble.group_stock_adminis'))]"/>
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
         </record>
 
         <!-- Warehouse > Product > Product Variants -->
@@ -199,13 +214,55 @@
                 action="act_open_product_marble_dimension_view" 
         />
 
-        <!-- Warehouse > Schedulers -->
-        <!--record id="product_marble.menu_stock_product_variants" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
-                                                 ref('product_marble.group_purchase_adminis'),
-            ])]"/>
-        </record-->
+        <!-- Warehouse > Schedulers > Run Schedulers -->
+        <record id="stock.menu_stock_proc_schedulers" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_manager')])]"/>
+        </record>
 
+        <!-- Warehouse > Schedulers > Procurements -->
+        <record id="stock.menu_stock_procurement_action" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_manager')])]"/>
+        </record>
+
+        <!-- Warehouse > Configuracion > Warehouses  -->
+        <record id="stock.menu_action_warehouse_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('stock.group_locations')])]"/>
+        </record>
+
+        <!-- Warehouse > Configuracion > Locations  -->
+        <record id="stock.menu_action_location_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('stock.group_locations')])]"/>
+        </record>
+ 
+        <!-- Warehouse > Configuracion > Types of Operation  -->
+        <record id="stock.menu_pickingtype" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
+        </record>
+
+        <!-- Warehouse > Configuracion > Reordering Rules -->
+        <record id="stock.menu_stock_order_points" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
+        </record>
+
+        <!-- Warehouse > Configuracion > Routes -->
+        <record id="stock.menu_stock_routes" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
+        </record>
+
+        <!-- Warehouse > Configuracion > Unit of Measure Categories -->
+        <record id="stock.menu_stock_uom_categ_form_action" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('product.group_uom')])]"/>
+        </record>
+
+        <!-- Warehouse > Configuracion > Units of Measure -->
+        <record id="stock.menu_stock_uom_form_action" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('product.group_uom')])]"/>
+        </record>
+
+        <!-- Warehouse > Configuracion > Icoterms -->
+        <record id="stock.menu_action_incoterm_open" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
+        </record>
 
     </data>
 </openerp>

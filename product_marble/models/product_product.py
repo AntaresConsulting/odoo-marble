@@ -50,6 +50,10 @@ class product_category(models.Model):
         # _logger.info(">> name_get >> 3- res = %s", res)
         return res
 
+#    def name_get(self):
+#        return self.search_read([],['name'])
+
+
 product_category()
 
 

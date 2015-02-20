@@ -25,6 +25,7 @@ class res_partner(osv.osv):
     _inherit = 'res.partner'
     _columns = {
         'website': fields.char('Website', size=64, help="Website of Partner or Company", select=True),
+        'works_ids': fields.one2many('res.partner', 'parent_id', 'Works', domain=[('active','=',True)]), # force "active_test" domain to bypass _search() override
    }
 
 res_partner()

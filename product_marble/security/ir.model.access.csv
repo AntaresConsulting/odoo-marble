@@ -1,8 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_account_move_line_purchase_adminis,account.move.line,account.model_account_move_line,group_purchase_adminis,1,0,0,0
 access_account_move_line_sale_adminis,account.move.line.sale.adminis,account.model_account_move_line,group_sale_adminis,1,0,0,0
-access_res_partner_purchase_adminis,res.partner.purchase.adminis,base.model_res_partner,group_purchase_adminis,1,1,1,0
-access_res_partner_sale_adminis,res.partner.sale.adminis,base.model_res_partner,group_sale_adminis,1,1,1,0
+access_res_partner_purchase_adminis,res.partner.purchase.adminis,base.model_res_partner,group_purchase_adminis,1,1,1,1
+access_res_partner_sale_adminis,res.partner.sale.adminis,base.model_res_partner,group_sale_adminis,1,1,1,1
 access_res_partner_category_purchase_adminis,res.partner.category.purchase.adminis,base.model_res_partner_category,group_purchase_adminis,1,1,1,0
 access_res_partner_category_sale_adminis,res.partner.category.sale.adminis,base.model_res_partner_category,group_sale_adminis,1,1,1,0
 access_dimension_purchase_adminis,product_marble_dimension purchase adminis,model_product_marble_dimension,group_purchase_adminis,1,0,0,0
@@ -64,3 +64,18 @@ access_account_invoice_sale_adminis,account_invoice sale_adminis,account.model_a
 access_account_invoice_line_sale_adminis,account_invoice.line sale_adminis,account.model_account_invoice_line,group_sale_adminis,1,1,1,0
 access_account_invoice_tax_sale_adminis,account_invoice.tax sale_adminis,account.model_account_invoice_tax,group_sale_adminis,1,1,1,0
 access_account_sequence_fiscalyear_sale_adminis,account.sequence.fiscalyear sale_adminis,account.model_account_sequence_fiscalyear,group_sale_adminis,1,1,1,0
+access_dimension_stock_mger,product_marble_dimension stock mger,model_product_marble_dimension,group_stock_mger,1,1,1,0
+access_balance_stock_mger,product_marble_dimension_balance stock mger,model_product_marble_dimension_balance,group_stock_mger,1,1,1,0
+access_product_price_history_stock_mger,prices.history stock mger,product.model_product_price_history,group_stock_mger,1,0,1,0
+access_product_product_stock_mger,product_product_stock_mger,product.model_product_product,group_stock_mger,1,1,1,0
+access_product_template_stock_mger,product.template_stock_mger,product.model_product_template,group_stock_mger,1,1,1,0
+access_procurement_rule_mger,procurement_rule mger,stock.model_procurement_rule,group_stock_mger,1,0,0,0
+access_stock_lines_date_mger,report.stock.lines.date mger,stock.model_report_stock_lines_date,group_stock_mger,1,0,0,0
+access_stock_inventory_mger,stock.inventory mger,stock.model_stock_inventory,group_stock_mger,1,1,1,0
+access_stock_inventory_line_mger,stock.inventory.line mger,stock.model_stock_inventory_line,group_stock_mger,1,1,1,0
+access_stock_move_mger,stock.move mger,stock.model_stock_move,group_stock_mger,1,1,1,0
+access_stock_picking_mger,stock.picking mger,stock.model_stock_picking,group_stock_mger,1,1,1,1
+access_stock_picking_type_mger,stock.picking.type mger,stock.model_stock_picking_type,group_stock_mger,1,0,0,0
+access_stock_quant_mger,stock.quant mger,stock.model_stock_quant,group_stock_mger,1,1,1,0
+access_stock_quant_package_stock_mger,stock.quant.package stock mger,stock.model_stock_quant_package,group_stock_mger,1,1,1,1
+access_stock_warehouse_orderpoint_mger,stock.warehouse.orderpoint mger,stock.model_stock_warehouse_orderpoint,group_stock_mger,1,0,0,0
