@@ -16,25 +16,21 @@
 
         <!-- Product Category -->
         <record id="prod_categ_raw_material" model="product.category">
-            <field name="parent_id" ref="product.product_category_all"/>
             <field name="name">Raw Material</field>
             <field name="prod_type">raw</field>
         </record>
  
         <record id="prod_categ_bachas" model="product.category">
-            <field name="parent_id" ref="product.product_category_1"/>
             <field name="name">Bachas</field>
             <field name="prod_type">bacha</field>
         </record>
  
          <record id="prod_categ_services" model="product.category">
-            <field name="parent_id" ref="product.product_category_1"/>
             <field name="name">Services</field>
             <field name="prod_type">service</field>
         </record>
  
         <record id="prod_categ_inputs" model="product.category">
-            <field name="parent_id" ref="product.product_category_all"/>
             <field name="name">Inputs</field>
             <field name="prod_type">input</field>
         </record>
