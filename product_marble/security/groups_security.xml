@@ -13,7 +13,6 @@
         <field name="description">ACL for tablet</field>
         <field name="parent_id" ref="base.module_category_warehouse_management"/>
     </record>
-
 </data>
 
 <!-- Groups -->
@@ -85,7 +84,8 @@
         <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
     </record>
 
-<!-- Tablet Profiles -->
+    <!-- Tablet Profiles -->
+
     <record id="group_tablet_responsable" model="res.groups">
         <field name="name">Warehouse Responsable</field>
         <field name="category_id" ref="module_marble_tablet"/>
@@ -103,7 +103,6 @@
         <field name="category_id" ref="module_marble_tablet"/>
         <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
     </record>
-
 
 </data>
 </openerp>

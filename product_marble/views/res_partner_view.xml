@@ -1,17 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-        <!-- email_template.res_partner_opt_out_form -->
-
         <record id="view_marble_partner_property_form" model="ir.ui.view">
             <field name="name">res.partner.purchase.property.form.inherit</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="purchase.view_partner_property_form"/>
             <!--field name="priority">36</field-->
             <field name="arch" type="xml">
-                <page string="Contacts" position="after">
-                <page string="Workss" attrs="{'invisible': [('is_company','=',False), ('child_ids', '=', [])]}" autofocus="autofocus">
-                    <field name="works_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_customer': customer, 'default_use_parent_address': True}">
+
+                <field name="ref"     position="replace"/>
+                <field name="lang"    position="replace"/>
+                <field name="date"    position="replace"/>
+                <field name="opt_out" position="replace"/>
+                <field name="property_stock_customer"   position="replace"/>
+                <field name="property_stock_supplier"   position="replace"/>
+
+                <field name="is_company" position="attributes">
+                    <attribute name="on_change" />
+                </field>
+
+                <page string="Accounting" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,product_marble.group_sale_adminis,product_marble.group_pruchase_adminis,product_marble.group_stock_mger</attribute>
+                </page>
+        
+               <xpath expr="//page[@name='sales_purchases']//group//group//field[@name='customer']" position="after">
+                   <field name="is_work" invisible="1"/> <!-- flag que me indica si este Partner es un Work (child of a Partner). -->
+                   <field name="has_works" attrs="{'invisible':['|',('is_company','=',False),'|',('customer','=',False),('is_work','=',True)]}"/>
+                </xpath>
+
+               <page string="Contacts" position="after">
+                <page string="Works" attrs="{'invisible': [('has_works','=',False)]}">
+                    <field name="works_ids" mode="kanban" context="{'is_work': True,'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_customer': customer, 'default_use_parent_address': True}">
                         <kanban>
                             <field name="color"/>
                             <field name="name"/>
@@ -112,29 +131,32 @@
                                 </group>
                                 <field name="supplier" invisible="True"/>
                                 <field name="customer" invisible="True"/>
+                                <field name="is_work" invisible="True"/>
                             </sheet>
                         </form>
                     </field>
                 </page>
                 </page>
-		<xpath expr="//page[@string='Accounting']" position="attributes">
-		    <attribute name="groups">account.group_account_invoice,product_marble.group_sale_adminis,product_marble.group_pruchase_adminis,product_marble.group_stock_mger</attribute>
-		</xpath>
-		<xpath expr="//field[@name='last_reconciliation_date']" position="replace">
-		      <field name="last_reconciliation_date" invisible="1"/>
-		</xpath>
-		<xpath expr="//field[@name='lang']" position="replace">
-		      <field name="lang" invisible="1"/>
-		</xpath>
-		<xpath expr="//field[@name='date']" position="replace">
-		      <field name="date" invisible="1"/>
-		</xpath>
-		<xpath expr="//field[@name='property_account_payable']" position="replace">
-		      <field name="property_account_payable" invisible="1"/>
-		</xpath>
-		<xpath expr="//field[@name='property_account_receivable']" position="replace">
-		      <field name="property_account_receivable" invisible="1"/>
-		</xpath>
+
+                <!--xpath expr="//page[@string='Accounting']" position="attributes">
+                    <attribute name="groups">account.group_account_invoice,product_marble.group_sale_adminis,product_marble.group_pruchase_adminis,product_marble.group_stock_mger</attribute>
+                </xpath>
+                <xpath expr="//field[@name='last_reconciliation_date']" position="replace">
+                      <field name="last_reconciliation_date" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='lang']" position="replace">
+                      <field name="lang" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="replace">
+                      <field name="date" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='property_account_payable']" position="replace">
+                      <field name="property_account_payable" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='property_account_receivable']" position="replace">
+                      <field name="property_account_receivable" invisible="1"/>
+                </xpath-->
+
             </field>
         </record>
 
