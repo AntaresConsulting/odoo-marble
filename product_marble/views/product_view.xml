@@ -165,8 +165,7 @@
         <record id="product_template_hide_inventory_marble_view" model="ir.ui.view">
             <field name="name">product.template.inventory.form</field>
             <field name="model">product.template</field>
-            <field name="mode">primary</field>
-            <field name="priority" eval="7" />
+            <field name="priority" eval="9" />
             <field name="inherit_id" ref="stock.view_template_property_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//group[@name='store'][2]" position="attributes">

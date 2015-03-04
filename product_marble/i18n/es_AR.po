@@ -1842,6 +1842,7 @@ msgstr "Ubicación de almacenamiento"
 #. module: product_marble
 #: model:product.category,name:product_marble.prod_categ_raw_material
 #: view:product.product:0
+#: view:product.template:0
 msgid "Raw Material"
 msgstr "Materia Prima"
 
@@ -1911,6 +1912,7 @@ msgstr "Operación prohibida"
 
 #. modules: product_marble, stock
 #: view:product.product:0
+#: view:product.template:0
 #: field:product.product,stock_move_ids:0
 #: model:ir.actions.act_window,name:stock.action_move_form2
 #: model:ir.ui.menu,name:stock.menu_action_move_form2
@@ -2300,11 +2302,6 @@ msgstr "Devolución de picking"
 msgid "Generate accounting entries per stock movement"
 msgstr "Generar asientos contables por cada movimiento de existencias"
 
-#. module: product_marble
-#: field:product.product,finished:0
-msgid "Finished"
-msgstr "Terminado"
-
 #. module: stock
 #: selection:stock.move,state:0
 #: selection:stock.picking,state:0
@@ -2526,6 +2523,7 @@ msgstr "Pérdidas de inventario"
 
 #. module: product_marble
 #: field:product.product,is_raw:0
+#: field:product.template,is_raw:0
 msgid "Is Raw Material"
 msgstr "Is Materia Prima"
 
@@ -3368,6 +3366,7 @@ msgstr "Ubicaciones virtuales"
 
 #. module: product_marble
 #: field:product.product,is_bacha:0
+#: field:product.template,is_bacha:0
 msgid "Is Bacha"
 msgstr "Es Bacha"
 
@@ -4334,6 +4333,7 @@ msgstr "¡No puede eliminar un albrán que está en estado %s!"
 #: model:ir.ui.menu,name:product_marble.menu_product_marble_dimensions
 #: view:product.marble.dimension:0
 #: view:product.product:0
+#: view:product.template:0
 #: field:product.product,dimension_ids:0
 msgid "Dimensions"
 msgstr "Dimensiones"
@@ -5037,7 +5037,6 @@ msgstr "Bacha"
 
 #. module: product_marble
 #: model:product.category,name:product_marble.prod_categ_bachas
-#: view:product.template:0
 msgid "Bachas"
 msgstr "Bachas"
 
@@ -5045,4 +5044,70 @@ msgstr "Bachas"
 #: view:product.template:0
 msgid "Bachas products"
 msgstr "Productos Bachas"
+
+#. module: product_marble
+#: field:product.template,raw_color:0
+msgid "Color"
+msgstr "Color"
+
+#. module: product_marble
+#: model:res.groups,name:product_marble.group_tablet_cutter
+msgid "Warehouse Cutter"
+msgstr "Cortador de Deposito"
+
+#. module: product_marble
+#: model:res.groups,name:product_marble.group_tablet_manager
+msgid "Warehouse Manager"
+msgstr "Gerente de Deposito"
+
+#. module: product_marble
+#: model:res.groups,name:product_marble.group_tablet_responsable
+msgid "Warehouse Responsable"
+msgstr "Responsable de Deposito"
+
+#. module: product_marble
+#: field:product.category,prod_type:0
+#: view:product.template:0
+#: field:stock.move,prod_type:0
+#: field:stock.pack.operation,prod_type:0
+#: field:stock.picking,prod_type:0
+msgid "Product Type"
+msgstr "Tipo de Producto"
+
+
+#. module: product_marble
+#: view:product.marble.dimension:0
+msgid "Plaque"
+msgstr "Placa"
+
+#. module: product_marble
+#: view:product.marble.dimension:0
+msgid "Plaque dimensions"
+msgstr "Dimensiones de Placas"
+
+
+#. module: product_marble
+#: view:product.marble.dimension:0
+msgid "Marble"
+msgstr "Marmol"
+
+#. module: product_marble
+#: view:product.marble.dimension:0
+msgid "Leftover"
+msgstr "Leftover"
+
+#. module: product_marble
+#: view:product.marble.dimension:0
+msgid "Leftover dimensions"
+msgstr "Leftover dimensions"
+
+#. module: product_marble
+#: field:product.template,raw_finished:0
+msgid "Finished"
+msgstr "Terminado"
+
+#. module: product_marble
+#: field:product.template,raw_material:0
+msgid "Category"
+msgstr "Categoria"
 
