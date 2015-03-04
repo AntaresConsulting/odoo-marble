@@ -33,10 +33,6 @@
             <field name="arch" type="xml">
                 <page string="Accounting" position="replace">
                     <page string="Accounting" groups="account.group_account_invoice">
-                        <!--group>
-                            <label for="categ_id" string="Internal Category"/>
-                            <div><field name="categ_id" colspan="3" nolabel="1"/></div>
-                        </group-->
                         <group name="properties">
                             <group>
                                 <field name="property_account_income" domain="[('type','=','other')]" groups="account.group_account_user"/>
@@ -56,10 +52,6 @@
             <field name="name">product.marble.form</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
-            <!--field name="inherit_id" ref="product.product_normal_form_view" /-->
-            <!--field name="inherit_id" ref="stock.product_form_view_procurement_button" /-->
-            <!--field name="inherit_id" ref="purchase.view_product_normal_purchase_buttons_from" /-->
-            <!--field name="mode">primary</field-->
             <field name="arch" type="xml">
                <!-- 2014.09.21 - arosenbrock - bug in v8.0 Final -->
                <field name="is_product_variant" position="after">
@@ -170,6 +162,18 @@
             </field>
         </record>
 
+        <record id="product_template_hide_inventory_marble_view" model="ir.ui.view">
+            <field name="name">product.template.inventory.form</field>
+            <field name="model">product.template</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="7" />
+            <field name="inherit_id" ref="stock.view_template_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='store'][2]" position="attributes">
+			<attribute name="attrs">{'invisible': True}</attribute>					
+                </xpath>		
+            </field>
+        </record>
 
   </data>
 </openerp>

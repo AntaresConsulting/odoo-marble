@@ -105,7 +105,7 @@
 
         <!-- Sales > Sales > Works -->
         <menuitem   id="menu_works"             name="Works" 
-                parent="base.menu_sales"               sequence="30" 
+                parent="base.menu_sales"               sequence="3" 
                 action="act_open_works_view" 
         />
 

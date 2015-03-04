@@ -2,8 +2,7 @@
 <openerp>
     <data>
       <!-- - - - - - - - - - - - - - Searchs - - - - - - - - - -->
-
-      <record id="view_marble_res_partner_filter" model="ir.ui.view">
+       <record id="view_marble_res_partner_filter" model="ir.ui.view">
             <field name="name">res.partner.select</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_res_partner_filter"/>
@@ -12,7 +11,7 @@
                    <filter string="Works" name="is_work" domain="[('is_work','=',True)]" help="Works Partners"/>
                </filter>
             </field>
-       </record>
+        </record>
 
         <record id="view_marble_partner_property_form" model="ir.ui.view">
             <field name="name">res.partner.purchase.property.form.inherit</field>
@@ -51,12 +50,30 @@
 		<field name="lang" position="attributes">
 			<attribute name="attrs">{'invisible': True}</attribute>
 		</field> 
+		<field name="property_stock_customer" position="attributes">
+			<attribute name="attrs">{'invisible': True}</attribute>
+		</field> 
+		<field name="property_stock_supplier" position="attributes">
+			<attribute name="attrs">{'invisible': True}</attribute>
+		</field> 
+		<field name="vat" position="attributes">
+			<attribute name="attrs">{'invisible': True}</attribute>
+		</field> 
+
+		<field name="title" position="attributes">
+		  	<attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+		</field> 
 		<page name="sales_purchases" position="attributes">
-		  <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+		  	<attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
 		</page>
                 <page string="Accounting" position="attributes">
-                    <attribute name="groups">account.group_account_invoice,product_marble.group_sale_adminis,product_marble.group_pruchase_adminis,product_marble.group_stock_mger</attribute>
+		   	 <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+                   	 <attribute name="groups">account.group_account_invoice,product_marble.group_sale_adminis,product_marble.group_pruchase_adminis,product_marble.group_stock_mger</attribute>
                 </page>
+
+               <xpath expr="//div[@name='buttons']" position="attributes">
+		  	<attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+                </xpath>
         
                <xpath expr="//page[@name='sales_purchases']//group//group//field[@name='customer']" position="after">
                    <field name="is_work" invisible="1"/> <!-- flag que me indica si este Partner es un Work (child of a Partner). -->
@@ -147,10 +164,6 @@
                                     <field name="use_parent_address"/><label for="use_parent_address"/>
                                 </div>
                                 <group>
-                                    <label for="type"/>
-                                    <div name="div_type">
-                                        <field class="oe_inline" name="type"/>
-                                    </div>
                                     <label for="street" string="Address" attrs="{'invisible': [('use_parent_address','=', True)]}"/>
                                     <div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
                                         <field name="street" placeholder="Street..."/>
