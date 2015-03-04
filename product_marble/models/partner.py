@@ -38,6 +38,7 @@ class res_partner(osv.osv):
     _defaults = {
         'has_works' : False,
         'is_work'   : api.model(lambda self: self.env.context.get('is_work',False)),
+        'is_company': api.model(lambda self: True if self.env.context.get('is_work',False) else False),
         'works_ids' : [],
     }
 

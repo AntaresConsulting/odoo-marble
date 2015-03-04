@@ -4981,3 +4981,68 @@ msgstr "- Marmeta"
 #: model:ir.ui.menu,name:product_marble.menu_product_marble_dimension_leftover
 msgid "- Leftover"
 msgstr "- Recorte"
+
+#. module: product_marble
+#: model:ir.actions.act_window,name:product_marble.act_open_works_view
+#: model:ir.ui.menu,name:product_marble.menu_works
+#: view:product.template:0
+#: view:res.partner:0
+#: field:res.partner,works_ids:0
+msgid "Works"
+msgstr "Obras"
+
+#. module: product_marble
+#: view:res.partner:0
+msgid "Works Partners"
+msgstr "Obras de Empresas"
+
+#. module: product_marble
+#: model:product.category,name:product_marble.prod_categ_raw_material
+#: view:product.template:0
+msgid "Raw Material"
+msgstr "Materia Prima"
+
+#. module: product_marble
+#: view:product.template:0
+msgid "Raw Material products"
+msgstr "Productos Materia Prima"
+
+#. module: product_marble
+#: model:product.category,name:product_marble.prod_categ_inputs
+#: view:product.template:0
+msgid "Inputs"
+msgstr "Insumos"
+
+#. module: product_marble
+#: view:product.template:0
+msgid "Inputs products"
+msgstr "Productos Insumos"
+
+
+
+#. module: product_marble
+#: help:res.partner,has_works:0
+msgid "Check this box if this contact has works."
+msgstr "Marque la casilla si la empresa tiene obras."
+
+#. module: product_marble
+#: field:res.partner,has_works:0
+msgid "Has works"
+msgstr "Tiene Obras"
+
+#. module: product_marble
+#: view:product.template:0
+msgid "Bacha"
+msgstr "Bacha"
+
+#. module: product_marble
+#: model:product.category,name:product_marble.prod_categ_bachas
+#: view:product.template:0
+msgid "Bachas"
+msgstr "Bachas"
+
+#. module: product_marble
+#: view:product.template:0
+msgid "Bachas products"
+msgstr "Productos Bachas"
+

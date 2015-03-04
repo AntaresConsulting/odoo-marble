@@ -62,7 +62,6 @@
         <!-- Purchases > Picking Move -->
         <record id="purchase.menu_action_picking_tree_in_move" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
-                                                 ref('base.group_erp_manager'),
                                                  ref('purchase.group_purchase_manager'),
                                                  ref('purchase.group_purchase_user'),
             ])]"/>
@@ -103,6 +102,12 @@
                                                  ref('product_marble.group_purchase_adminis'),
             ])]"/>
         </record>
+
+        <!-- Sales > Sales > Works -->
+        <menuitem   id="menu_works"             name="Works" 
+                parent="base.menu_sales"               sequence="30" 
+                action="act_open_works_view" 
+        />
 
         <!-- Purchases > Products > Product Variants -->
         <menuitem 

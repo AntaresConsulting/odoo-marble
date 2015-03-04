@@ -14,6 +14,7 @@
                     <filter string="Bachas"   domain="[('prod_type','=','bacha')]" help="Bachas products" />
                     <filter string="Inputs"   domain="[('prod_type','=','input')]" help="Inputs products" />
                     <filter string="Services" domain="[('prod_type','=','service')]" help="Services products" />
+                    <filter string="Works" domain="[('is_works','=','True')]" help="Works" />
                 </group>
                 <group string="Group by..." position="inside">
                     <filter name="prod_type" string="Product Type" domain="[]" context="{'group_by':'prod_type'}" />
