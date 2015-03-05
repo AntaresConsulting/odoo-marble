@@ -56,9 +56,18 @@
 		<field name="property_stock_supplier" position="attributes">
 			<attribute name="attrs">{'invisible': True}</attribute>
 		</field> 
-		<field name="vat" position="attributes">
+		<field name="property_account_position" position="attributes">
 			<attribute name="attrs">{'invisible': True}</attribute>
 		</field> 
+
+
+               <xpath expr="//div[@name='vat_info']" position="attributes">
+			<attribute name="attrs">{'invisible': True}</attribute>
+               </xpath>
+
+               <xpath expr="//label[@for='vat']" position="attributes">
+			<attribute name="attrs">{'invisible': True}</attribute>
+               </xpath>
 
 		<field name="title" position="attributes">
 		  	<attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>

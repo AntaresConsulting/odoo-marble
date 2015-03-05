@@ -4961,12 +4961,6 @@ msgstr "Dirección del almacén:"
 msgid "Optional localization details, for information purpose only"
 msgstr "Detalles de ubicación opcionales, sólo para fines de información."
 
-
-#. module: product_marble
-#: model:ir.ui.menu,name:product_marble.menu_product_marble_dimensions
-msgid "Dimensions"
-msgstr "Dimensiones"
-
 #. module: product_marble
 #: model:ir.ui.menu,name:product_marble.menu_product_marble_dimension_plaque
 msgid "- Plaque"

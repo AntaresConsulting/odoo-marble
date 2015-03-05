@@ -56,6 +56,73 @@ class product_category(models.Model):
 
 product_category()
 
+class product_product(osv.osv):
+    _name = 'product.product'
+    _inherit = 'product.product'
+
+    @api.onchange('categ_id')
+    def _onchange_category_id(self):
+        if not self.categ_id:
+            return
+        #cid = self.categ_id.id
+        self.prod_type         = self.categ_id.prod_type
+        #self.is_raw           = False
+        #self.is_bacha         = False
+        #self.is_input         = False
+        #self.uom_readonly     = False
+
+        self.raw_material     = False
+        self.raw_color        = False
+        self.raw_finished     = False
+
+        self.bacha_material   = False
+        self.bacha_marca      = False
+        self.bacha_acero      = False
+        self.bacha_colocacion = False
+        self.bacha_tipo       = False
+        self.bacha_ancho      = False
+        self.bacha_largo      = False
+        self.bacha_prof       = False
+        self.bacha_diam       = False
+
+        #if comm.is_raw_material(self, cid):
+        #    self.type         = 'product'
+        #    self.is_raw       = True
+        #    self.uom_readonly = True
+        #    self.uom_id       = comm.get_uom_m2_id(self)
+        #elif comm.is_bachas(self, cid):
+        #    self.type         = 'product'
+        #    self.is_bacha     = True
+        #    self.uom_readonly = True
+        #    self.uom_id       = comm.get_uom_units_id(self)
+        #elif comm.is_inputs(self, cid):
+        #    self.type         = 'consu'
+        #    self.is_input     = True
+        #    self.uom_readonly = True
+        #    self.uom_id       = comm.get_uom_units_id(self)
+        #elif comm.is_services(self, cid):
+        #    self.type         = 'service'
+
+        if self.prod_type == comm.RAW:
+            self.type         = 'product'
+        #    self.is_raw       = True
+        #    self.uom_readonly = True
+            self.uom_id       = comm.get_uom_m2_id(self)
+        elif self.prod_type == comm.BACHA:
+            self.type         = 'product'
+        #    self.is_bacha     = True
+        #    self.uom_readonly = True
+            self.uom_id       = comm.get_uom_units_id(self)
+        elif self.prod_type == comm.INPUT:
+            self.type         = 'consu'
+        #    self.is_input     = True
+        #    self.uom_readonly = True
+            self.uom_id       = comm.get_uom_units_id(self)
+        elif self.prod_type == comm.SERVICE:
+            self.type         = 'service'
+
+
+product_product()
 
 class product_template(osv.osv):
     _name = 'product.template'
