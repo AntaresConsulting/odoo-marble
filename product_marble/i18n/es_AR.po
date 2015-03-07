@@ -2716,10 +2716,6 @@ msgstr "Método de Entrega"
 msgid "Stock and Expected Variations"
 msgstr "Existencias y variaciones esperadas"
 
-#. module: product_marble
-#: selection:product.marble.dimension,type:0
-msgid "Plaque"
-msgstr "Placa"
 
 #. module: stock
 #: view:board.board:0
@@ -5071,11 +5067,6 @@ msgstr "Tipo de Producto"
 
 #. module: product_marble
 #: view:product.marble.dimension:0
-msgid "Plaque"
-msgstr "Placa"
-
-#. module: product_marble
-#: view:product.marble.dimension:0
 msgid "Plaque dimensions"
 msgstr "Dimensiones de Placas"
 
@@ -5104,4 +5095,40 @@ msgstr "Terminado"
 #: field:product.template,raw_material:0
 msgid "Category"
 msgstr "Categoria"
+
+
+
+#. module: product_marble
+#: view:product.marble.dimension:0
+#: selection:product.marble.dimension,state:0
+msgid "Dimensioned"
+msgstr "Dimensionado"
+
+#. module: product_marble
+#: view:product.marble.dimension:0
+#: selection:product.marble.dimension,state:0
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: product_marble
+#: code:addons/product_marble/models/product_marble_dimension.py:40
+#: view:product.marble.dimension:0
+#, python-format
+msgid "Leftover"
+msgstr "Recortes"
+
+#. module: product_marble
+#: code:addons/product_marble/models/product_marble_dimension.py:40
+#: view:product.marble.dimension:0
+#, python-format
+msgid "Plaque"
+msgstr "Placa"
+
+#. module: product_marble
+#: code:addons/product_marble/models/product_marble_dimension.py:40
+#: view:product.marble.dimension:0
+#, python-format
+msgid "Marmeta"
+msgstr "Marmeta"
+
 

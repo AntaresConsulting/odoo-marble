@@ -430,8 +430,8 @@ class stock_move(osv.osv):
         # bal_list = [mov for mov in obj_mov if stock_loc in [mov.location_id.id, mov.location_dest_id.id]]
         bal_list = [mov for mov in obj_mov if self.stock_move(cr, uid, mov) != 0]
 
-        # _logger.info(">> _action_done >> 02 >> stock_loc = %s", stock_loc)
-        # _logger.info(">> _action_done >> 03 >> bal_list = %s", bal_list)
+        #_logger.info(">> _action_done >> 02 >> stock_loc = %s", stock_loc)
+        _logger.info(">> _action_done >> 03 >> bal_list = %s", bal_list)
         for mov in bal_list:
 
             # valid data required
@@ -450,10 +450,10 @@ class stock_move(osv.osv):
                 # 'typeMove': 'in' if stock_loc == mov.location_dest_id.id else 'out'
                 'typeMove': 'in' if self.stock_move(cr, uid, mov) > 0 else 'out'
             }
-            # _logger.info(">> _action_done >> 04- val = %s", val)
+            _logger.info(">> _action_done >> 04- val = %s", val)
             obj_bal.register_balance(cr, uid, val, context)
 
-        # _logger.info(">> _action_done >> 05- OK >> val = %s", val)
+        _logger.info(">> _action_done >> 05- OK >> val = %s", val)
         return True
 
     _columns = {

@@ -47,10 +47,10 @@
                 </page>
             </field>
         </record>
-
         <record id="view_product_marble_form" model="ir.ui.view">
             <field name="name">product.marble.form</field>
             <field name="model">product.template</field>
+            <field name="priority">16</field>
             <field name="inherit_id" ref="product.product_template_form_view"/>
             <field name="arch" type="xml">
                <!-- 2014.09.21 - arosenbrock - bug in v8.0 Final -->
@@ -59,6 +59,97 @@
                </field>
                <!--page string="Variants" position="replace"/-->
                <page string="Information" position="replace">
+                <page string="Information">
+                    <group colspan="4">
+                        <group>
+                            <field name="categ_id" widget="radio"/>
+                            <field name="prod_type" invisible="1"/>
+                            <field name="type" attrs="{'readonly':[('prod_type','in',['raw','bacha','input'])]}"/>
+                            <field name="uom_id" 
+                                  attrs="{'readonly':[('prod_type','in',['raw','bacha'])]}" 
+                                  on_change="onchange_uom(uom_id,uom_po_id)"
+                                  groups="product.group_uom"
+                            />
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="list_price"/>
+                        </group>
+                    </group>
+                    <group colspan="4">
+                        <field name="company_id" groups="base.group_multi_company" widget="selection"/>
+                    </group>
+                    <field name="description" placeholder="describe the product characteristics..."/>
+                    <!--field name="is_raw" invisible="1"/>
+                    <field name="is_bacha" invisible="1"/>
+                    <field name="is_input" invisible="1"/>
+                    <field name="uom_readonly" invisible="1"/-->
+                </page>
+                <page string="Raw Material" attrs="{'invisible':[('prod_type','!=','raw')]}">
+                    <group colspan="4">
+                        <group>
+                            <field name="raw_material"/>
+                            <field name="raw_color"/>
+                        </group>
+                        <group>
+                            <field name="raw_finished"/>
+                        </group>
+                    </group>
+                </page>
+                <page string="Bacha" attrs="{'invisible':[('prod_type','!=','bacha')]}">
+                    <group colspan="4">
+                        <group>
+                            <field name="bacha_tipo"/>
+                            <field name="bacha_marca"/>
+                            <field name="bacha_material"/>
+                            <field name="bacha_acero"/>
+                            <field name="bacha_colocacion"/>
+                        </group>
+                        <group>
+                            <field name="bacha_ancho"/>
+                            <field name="bacha_largo"/>
+                            <field name="bacha_prof"/>
+                            <field name="bacha_diam"/>
+                        </group>
+                    </group>
+                </page>
+            </page>
+            
+           </field>
+        </record>
+
+        <record id="product_template_only_form_marble_view" model="ir.ui.view">
+            <field name="name">product.template.product.form</field>
+            <field name="model">product.template</field>
+            <field name="mode">primary</field>
+            <field name="priority" eval="7" />
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <page name="variants" position="attributes">
+                    <attribute name="attrs">{'invisible':[('prod_type','!=','input')]}</attribute>
+                </page>
+            </field>
+        </record>
+
+        <record id="product_template_hide_inventory_marble_view" model="ir.ui.view">
+            <field name="name">product.template.inventory.form</field>
+            <field name="model">product.template</field>
+            <field name="priority" eval="9" />
+            <field name="inherit_id" ref="stock.view_template_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='store'][2]" position="attributes">
+			<attribute name="attrs">{'invisible': True}</attribute>					
+                </xpath>		
+            </field>
+        </record>
+
+        <record id="view_product_product_marble_form" model="ir.ui.view">
+            <field name="name">product.product.dim.form</field>
+            <field name="model">product.product</field>
+            <field name="priority">18</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+   <page string="Information" position="replace">
                 <page string="Information">
                     <group colspan="4">
                         <group>
@@ -115,7 +206,6 @@
                             <field name="stock_move_ids">
                                 <tree string="Stock Moves">
                                     <field name="date"/>
-                                    <!--field name="is_raw" invisible="1"/-->
                                     <field name="description"/>
                                     <field name="qty_dimension" string="Units"/>
                                     <field name="qty_product"/>
@@ -126,6 +216,7 @@
                             </field>
                         </page>
                     </notebook>
+
                 </page>
                 <page string="Bacha" attrs="{'invisible':[('prod_type','!=','bacha')]}">
                     <group colspan="4">
@@ -145,34 +236,9 @@
                     </group>
                 </page>
             </page>
-            
            </field>
         </record>
 
-        <record id="product_template_only_form_marble_view" model="ir.ui.view">
-            <field name="name">product.template.product.form</field>
-            <field name="model">product.template</field>
-            <field name="mode">primary</field>
-            <field name="priority" eval="7" />
-            <field name="inherit_id" ref="product.product_template_only_form_view"/>
-            <field name="arch" type="xml">
-                <page name="variants" position="attributes">
-                    <attribute name="attrs">{'invisible':[('prod_type','!=','input')]}</attribute>
-                </page>
-            </field>
-        </record>
-
-        <record id="product_template_hide_inventory_marble_view" model="ir.ui.view">
-            <field name="name">product.template.inventory.form</field>
-            <field name="model">product.template</field>
-            <field name="priority" eval="9" />
-            <field name="inherit_id" ref="stock.view_template_property_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//group[@name='store'][2]" position="attributes">
-			<attribute name="attrs">{'invisible': True}</attribute>					
-                </xpath>		
-            </field>
-        </record>
 
   </data>
 </openerp>

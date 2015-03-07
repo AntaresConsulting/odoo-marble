@@ -35,15 +35,9 @@ class product_marble_dimension(osv.osv):
     _name = 'product.marble.dimension'
     _description = "Dimension"
 
-    _type = [
-            ('pla', 'Plaque'),
-            ('lef', 'Leftover'),
-            ('mar', 'Marmeta'),
-    ]
-
     @api.model
     def _get_type(self):
-        return sorted(self._type, key=itemgetter(1))
+        return sorted((('pla', _("Plaque")),('lef', _("Leftover")),('mar', _("Marmeta"))), key=itemgetter(1))
 
 # --- Migracion -------------------------
 #
