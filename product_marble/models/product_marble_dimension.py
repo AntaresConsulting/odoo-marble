@@ -160,7 +160,7 @@ class product_marble_dimension(osv.osv):
 #        return res
 
     def _get_dimension(self, ty, hi, wi, th, m2):
-        ty_dim = dict(self._type).get(ty, '<N/I>')
+        ty_dim = dict((('pla', _("Plaque")),('lef', _("Leftover")),('mar', _("Marmeta")))).get(ty, '<N/I>')
         dim = "%s: [%5.2fm](%5.2fm x %5.2fm) = %5.2fm2" % (ty_dim, th, hi, wi, m2)
         # _logger.info(">> _get_dimension >> 3 >> dim = %s", dim)
         return dim
