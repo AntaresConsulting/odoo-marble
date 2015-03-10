@@ -535,7 +535,7 @@ class product_template(osv.osv):
 
     @api.model
     def _validate_data_movile(self, data):
-        #_logger.info(">> _validate_data_movile >> 1 >> data = %s", data)
+        _logger.info(">> _validate_data_movile >> 1 >> data = %s", data)
         # --- determino categ_id ---
         categ_list = [comm.RAW, comm.BACHA, comm.SERVICE, comm.INPUT]
         field_inp  = 'movile_categ_name'
@@ -544,12 +544,12 @@ class product_template(osv.osv):
             field_val = data.pop(field_inp)
             cid = comm.get_prop(self, field_val)
             data.update({field_out:cid})
-        #_logger.info(">> _validate_data_movile >> 2 >> data = %s", data)
+        _logger.info(">> _validate_data_movile >> 2 >> data = %s", data)
         return
 
     @api.model
     def _check_data_before_save(self, data):
-        #_logger.info(">> check_before >> 1 >> data = %s", data)
+        _logger.info(">> check_before >> 1 >> data = %s", data)
 
         # valido datos proveniente de 'disp. movi'
         self._validate_data_movile(data)
@@ -562,13 +562,13 @@ class product_template(osv.osv):
 
         if comm.is_raw_material(self, cid):
             res['type']   = data.get('type', 'product')
-            res['uom_id'] = data.get('uom_id', comm.get_uom_m2_id(self))
-            res['uom_po_id'] = data.get('uom_po_id', comm.get_uom_m2_id(self))
+            res['uom_id'] =  comm.get_uom_m2_id(self)
+            res['uom_po_id'] = comm.get_uom_m2_id(self)
 
         elif comm.is_bachas(self, cid):
             res['type']   = data.get('type', 'product')
-            res['uom_id'] = data.get('uom_id', comm.get_uom_units_id(self))
-            res['uom_po_id'] = data.get('uom_po_id', comm.get_uom_units_id(self))
+            res['uom_id'] =  comm.get_uom_units_id(self)
+            res['uom_po_id'] = comm.get_uom_units_id(self)
 
         elif comm.is_inputs(self, cid):
             res['type']   = data.get('type', 'consu')
@@ -595,7 +595,7 @@ class product_template(osv.osv):
 
         data.update(res)
 
-        #_logger.info(">> check_before >> 2 >> data = %s", data)
+        _logger.info(">> check_before >> 2 >> data = %s", data)
         return
 
     @api.model

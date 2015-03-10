@@ -163,7 +163,7 @@ class stock_change_product_qty(osv.osv_memory):
         @param context: A standard dictionary
         @return:
         """
-        # _logger.info(">> change_product_qty >> 1- ids = %s", ids)
+        _logger.info(">> change_product_qty >> 1- ids = %s", ids)
         if context is None:
             context = {}
 
@@ -205,7 +205,7 @@ class stock_change_product_qty(osv.osv_memory):
                 'dimension_unit_theoretical': data.dimension_unit_theoretical,  # old units (existing units registered [x system])
                 'dimension_m2_theoretical': data.dimension_m2_theoretical,      # old m2 (existing m2 registered [x system])
             }
-            # _logger.info(">> change_product_qty >> 3- line_data = %s", line_data)
+            _logger.info(">> change_product_qty >> 3- line_data = %s", line_data)
 
             inventory_line_obj.create(cr, uid, line_data, context=context)
             inventory_obj.action_done(cr, uid, [inventory_id], context=context)
