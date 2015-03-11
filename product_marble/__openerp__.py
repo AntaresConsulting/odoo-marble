@@ -47,7 +47,8 @@
         'views/res_partner_view.xml',
         'views/stock_view.xml',
         'views/stock_change_product_qty_view.xml',
-        'views/stock_transfer_details.xml',
+        'views/stock_transfer_details.xml',        
+        'views/hide_fields_view.xml',
 
         'views/marble_actions.xml',
         'views/marble_menu.xml',

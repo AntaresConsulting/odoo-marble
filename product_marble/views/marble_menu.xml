@@ -95,12 +95,57 @@
 
         <!-- Purchases > Products > Product -->
         <record id="purchase.menu_procurement_partner_contact_form" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
-                                                 ref('base.group_erp_manager'),
-                                                 ref('purchase.group_purchase_manager'),
-                                                 ref('purchase.group_purchase_user'),
-                                                 ref('product_marble.group_purchase_adminis'),
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
+        </record>
+        <record id="purchase.menu_product_by_category_purchase_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
+            ])]"/>
+        </record>
+        <record id="product_marble.menu_purchase_product_variants" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
+            ])]"/>
+        </record>
+
+        <!-- Purchases > Products  -->
+  
+        <!-- Purchases > Products > Raw -->
+        <menuitem   id="menu_purchase_raw"             name="Raw Material" 
+                parent="purchase.menu_procurement_management_product"               sequence="11" 
+                action="act_open_raw_view" 
+        />
+
+        <!-- Purchases > Products > Bacha -->
+        <menuitem   id="menu_purchase_bacha"             name="Bacha" 
+                parent="purchase.menu_procurement_management_product"               sequence="12" 
+                action="act_open_bacha_view" 
+        />
+
+        <!-- Purchases > Products > Input -->
+        <menuitem   id="menu_purchase_input"             name="Input" 
+                parent="purchase.menu_procurement_management_product"               sequence="13" 
+                action="act_open_input_view" 
+        />
+
+        <!-- Purchases > Products > Input Variant -->
+        <menuitem   id="menu_purchase_inputv"             name="Input Variant" 
+                parent="purchase.menu_procurement_management_product"               sequence="14" 
+                action="act_open_inputv_view" 
+        />
+
+        <!-- Purchases > Products > Service -->
+        <menuitem   id="menu_purchase_service"             name="Service" 
+                parent="purchase.menu_procurement_management_product"               sequence="15" 
+                action="act_open_service_view" 
+        />
+
+ 
+        <!-- SALES -->
+
+
+        <!-- Top Menu > Sales -->
+        <record id="base.menu_base_partner" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4,ref('product_marble.group_sale_adminis'))]"/>
         </record>
 
         <!-- Sales > Sales > Works -->
@@ -109,36 +154,35 @@
                 action="act_open_works_view" 
         />
 
-        <!-- Purchases > Products > Product Variants -->
-        <menuitem 
-            name="Product Variants" id="menu_purchase_product_variants" sequence="10"
-            action="act_open_product_variant_puchased" parent="purchase.menu_procurement_management_product"/>
+        <!-- Sales > Products > Raw -->
+        <menuitem   id="menu_sale_raw"             name="Raw Material" 
+                parent="base.menu_product"               sequence="11" 
+                action="act_open_raw_view" 
+        />
 
-        <record id="product_marble.menu_purchase_product_variants" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
-                                                 ref('product_marble.group_purchase_adminis'),
-            ])]"/>
-        </record>
- 
-        <!-- Purchases > Products > Dimensions -->
-        <menuitem 
-            name="Dimensions" id="menu_purchase_product_dimensions" sequence="11"
-            action="act_open_product_marble_dimension_view" parent="purchase.menu_procurement_management_product"/>
+        <!-- Sales > Products > Bacha -->
+        <menuitem   id="menu_sale_bacha"             name="Bacha" 
+                parent="base.menu_product"               sequence="12" 
+                action="act_open_bacha_view" 
+        />
 
-        <record id="product_marble.menu_purchase_product_dimensions" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
-                                                 ref('base.group_erp_manager'),
-                                                 ref('purchase.group_purchase_manager'),
-                                                 ref('purchase.group_purchase_user'),
-            ])]"/>
-        </record>
- 
-        <!-- SALES -->
+        <!-- Sales > Products > Input -->
+        <menuitem   id="menu_sale_input"             name="Input" 
+                parent="base.menu_product"               sequence="13" 
+                action="act_open_input_view" 
+        />
 
-        <!-- Top Menu > Sales -->
-        <record id="base.menu_base_partner" model="ir.ui.menu">
-            <field name="groups_id" eval="[(4,ref('product_marble.group_sale_adminis'))]"/>
-        </record>
+        <!-- Sales > Products > Input Variant -->
+        <menuitem   id="menu_sale_inputv"             name="Input Variant" 
+                parent="base.menu_product"               sequence="14" 
+                action="act_open_inputv_view" 
+        />
+
+        <!-- Sales > Products > Service -->
+        <menuitem   id="menu_sale_service"             name="Service" 
+                parent="base.menu_product"               sequence="15" 
+                action="act_open_service_view" 
+        />
 
         <!-- Sales > Customers -->
         <record id="base.menu_partner_form" model="ir.ui.menu">
@@ -161,9 +205,20 @@
         <!-- Product Variants > Product Variants -->
         <record id="product.menu_products" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
-                                                 ref('product_marble.group_sale_adminis'),
             ])]"/>
         </record>
+        <record id="product.menu_products_category" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
+            ])]"/>
+        </record>
+        <record id="product.menu_product_template_action" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
+            ])]"/>
+        </record>
+
+
+
+
 
         <!-- STOCK -->
 
@@ -174,6 +229,53 @@
                                                  ref('product_marble.group_menu_stock'),
             ])]"/>
         </record>
+
+        <!-- Purchases > Products > Product -->
+        <record id="product_marble.menu_stock_product_variants" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
+            ])]"/>
+        </record>
+        <record id="stock.menu_product_by_category_stock_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
+            ])]"/>
+        </record>
+        <record id="stock.menu_stock_products_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
+            ])]"/>
+        </record>
+
+        <!-- Warehouse > Products  -->
+  
+        <!-- Warehouse > Products > Raw -->
+        <menuitem   id="menu_stock_raw"             name="Raw Material" 
+                parent="stock.menu_stock_product"               sequence="11" 
+                action="act_open_raw_view" 
+        />
+
+        <!-- Warehouse > Products > Bacha -->
+        <menuitem   id="menu_stock_bacha"             name="Bacha" 
+                parent="stock.menu_stock_product"               sequence="12" 
+                action="act_open_bacha_view" 
+        />
+
+        <!-- Warehouse > Products > Input -->
+        <menuitem   id="menu_stock_input"             name="Input" 
+                parent="stock.menu_stock_product"               sequence="13" 
+                action="act_open_input_view" 
+        />
+
+        <!-- Warehouse > Products > Input Variant -->
+        <menuitem   id="menu_stock_inputv"             name="Input Variant" 
+                parent="stock.menu_stock_product"               sequence="14" 
+                action="act_open_inputv_view" 
+        />
+
+        <!-- Warehouse > Products > Service -->
+        <menuitem   id="menu_stock_service"             name="Service" 
+                parent="stock.menu_stock_product"               sequence="15" 
+                action="act_open_service_view" 
+        />
+
 
         <!-- Warehouse > Products > Products by Category -->
         <record id="stock.menu_product_by_category_stock_form" model="ir.ui.menu">
@@ -202,20 +304,10 @@
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
         </record>
 
-        <!-- Warehouse > Product > Product Variants -->
-        <menuitem 
-            name="Product Variants" id="menu_stock_product_variants" sequence="10"
-            action="act_open_product_variant_stock" parent="stock.menu_stock_product"/>
-
-        <record id="product_marble.menu_stock_product_variants" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
-                                                 ref('product_marble.group_purchase_adminis'),
-            ])]"/>
-        </record>
 
         <!-- Warehouse > Product > Dimensions -->
         <menuitem   id="menu_product_marble_dimensions"             name="Dimensions" 
-                parent="stock.menu_stock_product"               sequence="11" 
+                parent="stock.menu_stock_product"               sequence="19" 
                 action="act_open_product_marble_dimension_view" 
         />
 
