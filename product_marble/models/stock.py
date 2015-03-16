@@ -51,6 +51,12 @@ class stock_picking(osv.osv):
                 res.update({pick.id : pick.move_lines[0].prod_type})
         return res
 
+    @api.cr_uid_ids_context
+    def do_enter_transfer_details_marble(self, cr, uid, picking, context=None):
+	resp = super(stock_picking, self).do_enter_transfer_details(cr, uid, picking, context=context)	
+	return resp['res_id']	
+
+
     _columns = {
         'move_prod_type': fields.selection(_get_tipo_de_move, string='Product Type picking', select=True),
         'prod_type': fields.function(_get_types, type='char', string='Product Type', store=False),
@@ -450,10 +456,10 @@ class stock_move(osv.osv):
                 # 'typeMove': 'in' if stock_loc == mov.location_dest_id.id else 'out'
                 'typeMove': 'in' if self.stock_move(cr, uid, mov) > 0 else 'out'
             }
-            _logger.info(">> _action_done >> 04- val = %s", val)
+#            _logger.info(">> _action_done >> 04- val = %s", val)
             obj_bal.register_balance(cr, uid, val, context)
 
-        _logger.info(">> _action_done >> 05- OK >> val = %s", val)
+#        _logger.info(">> _action_done >> 05- OK >> val = %s", val)
         return True
 
     _columns = {

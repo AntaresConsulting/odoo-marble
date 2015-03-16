@@ -941,3 +941,8 @@ msgstr "{'invisible': [('is_work','=',True)]}"
 msgid "{'invisible':[('prod_type','!=','input')]}"
 msgstr "{'invisible':[('prod_type','!=','input')]}"
 
+#. module: product_marble
+#: model:ir.actions.act_window,name:product_marble.act_open_input_deliver_view
+#: model:ir.ui.menu,name:product_marble.menu_stock_move_inputs
+msgid "Inputs Deliver"
+msgstr "Entrega de Insumos"

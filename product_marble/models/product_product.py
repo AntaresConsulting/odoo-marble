@@ -285,7 +285,7 @@ class product_product(osv.osv):
                 continue
 
             sql = "SELECT id, dimension_id FROM stock_move"\
-                  " WHERE product_id = %s ORDER BY date DESC" % (pid,)
+                  " WHERE product_id = %s and state = 'done' ORDER BY date DESC" % (pid,)
 
             cr.execute(sql)
             for r in cr.fetchall():
@@ -296,15 +296,18 @@ class product_product(osv.osv):
                     res[pid]['dimension_ids'].append(r[1])
             _logger.info(">> _get_stock_moves >> 6 >> res = %s", res)
             _logger.info(">> _get_stock_moves >> 6 >> pid = %s", pid)
+            filter_dims = []
             if res[pid]['dimension_ids']:
                 dim_obj = self.pool.get('product.marble.dimension.balance')
-                dim_ids = dim_obj.search(cr, uid, [('product_id','=',pid)])
+                dim_ids = dim_obj.search(cr, uid, [('product_id','=',pid),('qty_unit','>',0)])
 
                 res[pid]['dimension_total_m2'] = 0.000
                 for d in dim_obj.browse(cr, uid, dim_ids, context):
+                    filter_dims.append(d.dimension_id.id)
                     res[pid]['dimension_total_m2'] += d.qty_m2
-
-        # _logger.info(">> _get_stock_moves >> 4 >> res = %s", res)
+            _logger.info(">> _get_stock_moves >> 4 >> res = %s", filter_dims)
+            res[pid]['dimension_ids'] = list(set(res[pid]['dimension_ids']) & set(filter_dims))
+            _logger.info(">> _get_stock_moves >> 5 >> res = %s", res)
         return res
 
     _columns = {

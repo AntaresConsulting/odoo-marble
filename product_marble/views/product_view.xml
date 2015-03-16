@@ -138,7 +138,7 @@
             <field name="arch" type="xml">
 
    		<page string="Information" position="after">
-                <page string="Stock Materia Prima" attrs="{'invisible':[('prod_type','!=','raw')]}">
+                <page string="Inventario Materia Prima" attrs="{'invisible':[('prod_type','!=','raw')]}">
                     <notebook>
                         <page string="Dimensions">
                             <field name="dimension_ids" context="{'product_id':id}">

@@ -299,6 +299,18 @@
             ])]"/>
         </record>
 
+        <!-- Warehouse > Traceability > Inputs View -->
+        <menuitem   id="menu_stock_move_inputs"             name="Inputs Deliver" 
+                parent="stock.menu_traceability"               sequence="18" 
+                action="act_open_input_deliver_view" 
+        />
+
+        <record id="product_marble.menu_stock_move_inputs" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_stock_adminis'),
+                                                 ref('product_marble.group_stock_mger')
+            ])]"/>
+        </record>
+
         <!-- Warehouse > Traceability > Stock Quants -->
         <record id="stock.menu_quants" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>

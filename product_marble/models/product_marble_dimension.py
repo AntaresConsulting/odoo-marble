@@ -51,11 +51,11 @@ class product_marble_dimension(osv.osv):
         pid = context.get('product_id') if context else 0
 
         obj = self.pool.get('product.marble.dimension.balance')
-        bids = obj.search(cr, uid, [('product_id','=',pid),('dimension_id','in', ids)], context=context)
+        bids = obj.search(cr, uid, [('qty_unit','>',0),('product_id','=',pid),('dimension_id','in', ids)], context=context)
         data = obj.browse(cr, uid, bids)
 
-        # _logger.info(">> _compute_totals >> 2 >> bds = %s", bids)
-        # _logger.info(">> _compute_totals >> 3 >> data = %s", data)
+        _logger.info(">> _compute_totals >> 2 >> bds = %s", bids)
+        _logger.info(">> _compute_totals >> 3 >> data = %s", data)
         for d in data:
             res[d.dimension_id.id] = {'total_units': d.qty_unit, 'total_m2': d.qty_m2}
 
@@ -160,8 +160,8 @@ class product_marble_dimension(osv.osv):
 #        return res
 
     def _get_dimension(self, ty, hi, wi, th, m2):
-        ty_dim = dict((('pla', _("Plaque")),('lef', _("Leftover")),('mar', _("Marmeta")))).get(ty, '<N/I>')
-        dim = "%s: [%5.2fm](%5.2fm x %5.2fm) = %5.2fm2" % (ty_dim, th, hi, wi, m2)
+        ty_dim = dict((('pla', _('Placa')),('lef', _('Recorte')),('mar', _('Marmeta')))).get(ty, '<N/I>')
+        dim = "%s: [%5.3fm](%5.3fm x %5.3fm) = %5.3fm2" % (ty_dim, th, hi, wi, m2)
         # _logger.info(">> _get_dimension >> 3 >> dim = %s", dim)
         return dim
 

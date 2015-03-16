@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
 	<data>
+
+     <!-- - - - - - - - - - - - - - Searchs - - - - - - - - - -->
+       <record id="search_marble_input_filter" model="ir.ui.view">
+            <field name="name">stock.move.search.inputs</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_search"/>
+            <field eval="16" name="priority"/>
+            <field name="arch" type="xml">
+               <filter string="Ready" position="after">
+                   <filter string="Inputs" name="input_deliver" domain="[('location_dest_id.name','ilike','insumos')]" help="Find Input moves"/>
+               </filter>
+            </field>
+        </record>
        
         <!-- stock moves -->
 
@@ -199,6 +212,22 @@
  
             </field>
         </record>
+       
+	<record id="view_marble_stock_move_tree" model="ir.ui.view">
+            <field name="name">stock.move.tree.marble</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree"/>
+            <field eval="14" name="priority"/>
+            <field name="arch" type="xml">
+                <field name="origin" position="replace"/>
+                <field name="picking_type_id" position="replace"/>
+                <field name="product_uom_qty" position="before">
+                    <field name="prod_type" invisible="1"/>
+                    <field name="dimension_id" attrs="{'invisible':[('prod_type','!=','raw')]}"/>
+                    <field name="dimension_unit" attrs="{'invisible':[('prod_type','!=','raw')]}"/>
+                </field>
+           </field>
+        </record>
 
         <record id="view_marble_move_picking_tree" model="ir.ui.view">
             <field name="name">stock.move.tree</field>
@@ -214,17 +243,44 @@
            </field>
         </record>
 
+        <record id="view_move_inputs_tree" model="ir.ui.view">
+            <field name="name">stock.move.inputs.tree</field>
+            <field name="model">stock.move</field>
+            <field name="mode" >primary</field>
+            <field eval="4" name="priority"/>
+            <field name="arch" type="xml">
+		<tree colors="grey:state == 'cancel';red:(state not in ('cancel','done')) and date &gt; current_date" string="Moves">
+                    <field name="name"/>
+                    <field name="picking_id" string="Reference"/>
+                    <field name="employee_id" string="Employee"/>
+                    <field name="product_id" on_change="onchange_product_id(product_id,location_id,location_dest_id, False)"/>
+                    <field name="product_uom_qty" on_change="onchange_quantity(product_id, product_uom_qty, product_uom, product_uos)"/>
+                    <field name="product_uom" string="Unit of Measure" groups="product.group_uom"/>
+                    <field name="product_uos_qty" groups="product.group_uos"/>
+                    <field name="product_uos" groups="product.group_uos"/>
+                    <button name="306" string="Scrap Products" type="action" icon="terp-gtk-jump-to-ltr" context="{'scrap': True}" states="draft,waiting,confirmed,assigned" groups="stock.group_stock_user"/>
+                    <field name="location_id" groups="stock.group_locations"/>
+                    <field name="location_dest_id" groups="stock.group_locations"/>
+                    <field name="date_expected"/>
+                    <field name="state"/>
+                    <button name="action_done" states="confirmed,assigned" string="Process" type="object" groups="stock.group_stock_user" icon="gtk-go-forward" help="Done"/>
+                </tree>
+           </field>
+        </record>
+
+
+
         <record id="view_marble_picking_form" model="ir.ui.view">
             <field name="name">stock.picking.form</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field eval="12" name="priority"/>
             <field name="arch" type="xml">
-
+<!--
                 <field name="backorder_id" position="after">
                     <field name="prod_type"/>
                 </field>
-
+-->
                 <xpath expr="//page[@string='Operations']//field//tree//field[@name='product_id']" position="after" >
                     <field name="prod_type" invisible="1"/>
                     <field name="dimension_id" attrs="{'invisible':[('prod_type','!=','raw')]}"/>
