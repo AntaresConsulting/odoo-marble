@@ -37,9 +37,79 @@
 
 <!-- Locations Definition -->
 
+        <record id="location_stock_deposito" model="stock.location">
+            <field name="name">Deposito</field>
+            <field name="location_id" ref="stock.stock_location_locations"/>
+            <field name="usage">view</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_despacho" model="stock.location">
+            <field name="name">Despacho</field>
+            <field name="location_id" ref="product_marble.location_stock_deposito"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock" model="stock.location">
+            <field name="name">Stock</field>
+            <field name="location_id" ref="product_marble.location_stock_deposito"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock_propio" model="stock.location">
+            <field name="name">Propio</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock_propio_a" model="stock.location">
+            <field name="name">Sector A</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock_propio_b" model="stock.location">
+            <field name="name">Sector B</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock_propio_c" model="stock.location">
+            <field name="name">Sector C</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock_propio_d" model="stock.location">
+            <field name="name">Sector D</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+        <record id="location_deposito_stock_clientes" model="stock.location">
+            <field name="name">Clientes</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
 	
 
+        <record id="location_stock_insumos" model="stock.location">
+            <field name="name">Insumos</field>
+            <field name="location_id" ref="stock.stock_location_locations_virtual"/>
+            <field name="usage">inventory</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_stock_servicios" model="stock.location">
+            <field name="name">Servicios</field>
+            <field name="location_id" ref="stock.stock_location_locations_virtual"/>
+            <field name="usage">inventory</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
 <!-- Picking Sequence -->
+
 
         <record id="seq_picking_internal" model="ir.sequence">
             <field name="name">Picking INT</field>

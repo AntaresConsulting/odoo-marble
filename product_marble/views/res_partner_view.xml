@@ -55,6 +55,9 @@
                    <field name="is_work" invisible="1"/> <!-- flag que me indica si este Partner es un Work (child of a Partner). -->
                    <field name="has_works" attrs="{'invisible':['|',('is_company','=',False),'|',('customer','=',False),('is_work','=',True)]}"/>
                 </xpath>
+		<field name="active" position="before">
+			<field name="has_local_stock" attrs="{'invisible':[('customer','=',False)]}"/>
+		</field> 		
 
                <page string="Contacts" position="after">
                 <page string="Works" attrs="{'invisible': [('has_works','=',False)]}">

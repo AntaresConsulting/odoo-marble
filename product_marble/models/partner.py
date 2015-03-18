@@ -20,7 +20,7 @@
 ##############################################################################
 from openerp import api, exceptions
 from openerp.osv import fields, osv
-
+import _common as comm
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -31,6 +31,8 @@ class res_partner(osv.osv):
         'website': fields.char('Website', size=64, help="Website of Partner or Company", select=True),
         'has_works': fields.boolean('Has works', help="Check this box if this contact has works."),
         'is_work': fields.boolean('Is a Work', help="This contact is a work."),
+        'has_local_stock': fields.boolean('Does de Customer provides products', help="This contact is a work."),
+        'customer_location_id': fields.many2one('stock.location','Internal Stock', select=True, states={'done': [('readonly', True)]}, domain=[('active','=',True)]),
         'child_ids': fields.one2many('res.partner', 'parent_id', 'Contacts', domain=[('active','=',True),('is_work','=',False)]), # force "active_test" domain to bypass _search() override
         'works_ids': fields.one2many('res.partner', 'parent_id', 'Works', domain=[('active','=',True),('is_work','=',True)]), # force "active_test" domain to bypass _search() override
     }
@@ -61,6 +63,30 @@ class res_partner(osv.osv):
                         'title': 'Waring',
                         'message': 'This Partner has Works assigned so you do not disable "Customer" or "Has Work".',
             } }
+
+    def _create_location(self,cr, uid,nameCustomer,context=None):
+        location_obj = self.pool.get('stock.location')
+        vals = {
+            "name":nameCustomer,
+            "location_id":comm.get_location_customers_id(self, cr, uid),
+            "usage":"internal",
+            "company_id":comm.get_main_company_id(self, cr, uid),
+        }
+        return location_obj.create(cr, uid, vals, context=context)
+
+
+    def create(self, cr, uid, data, context=None):  
+        if data['has_local_stock']:
+            data['customer_location_id'] = self._create_location(cr, uid,data['name'])
+        return super(res_partner, self).create(cr, uid, data, context=context)
+
+    def write(self, cr, uid, ids, vals, context=None):
+        data = self.read(cr,uid,ids,['name','has_local_stock']);
+        if ('has_local_stock' in vals ) and (vals['has_local_stock'] == True):
+            vals['customer_location_id'] = self._create_location(cr, uid,data[0]['name'])
+        return super(res_partner, self).write(cr, uid, ids, vals, context=context)
+
+
 
 res_partner()
 

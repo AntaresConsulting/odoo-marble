@@ -39,7 +39,9 @@ M2          = 'm2'
 AREA        = 'area'
 UNITS       = 'units'
 LOC_STOCK   = 'stock'
-
+LOC_OWN_STOCK   = 'own'
+LOC_CUSTOMERS   = 'customers'
+MAIN_COMPANY   = 'company'
 _xml_data   = {
     # ---- Prod Categ -----
     RAW     : 'product_marble.prod_categ_raw_material',
@@ -52,6 +54,10 @@ _xml_data   = {
     UNITS   : 'product.product_uom_categ_unit',
     # ---- Warehouse location Stock -----
     LOC_STOCK   : 'stock.stock_location_stock',
+    LOC_OWN_STOCK   : 'product_marble.location_deposito_stock_propio',
+    LOC_CUSTOMERS   : 'product_marble.location_deposito_stock_clientes',
+    # ---- Base Company -----
+    MAIN_COMPANY   : 'base.main_company',
 }
 _prop   = {}
 
@@ -148,6 +154,18 @@ def get_uom_units_id(self):
 @api.model
 def get_location_stock(self):
     return get_prop(self, LOC_STOCK)
+
+@api.model
+def get_location_own_id(self):
+    return get_prop(self, LOC_OWN_STOCK)
+
+@api.model
+def get_location_customers_id(self):
+    return get_prop(self, LOC_CUSTOMERS)
+
+@api.model
+def get_main_company_id(self):
+    return get_prop(self, MAIN_COMPANY)
 # ----------------------------------------
 
 # --- Migracion -------------------------

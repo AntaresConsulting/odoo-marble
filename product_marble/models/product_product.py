@@ -64,12 +64,7 @@ class product_product(osv.osv):
     def _onchange_category_id(self):
         if not self.categ_id:
             return
-        #cid = self.categ_id.id
         self.prod_type         = self.categ_id.prod_type
-        #self.is_raw           = False
-        #self.is_bacha         = False
-        #self.is_input         = False
-        #self.uom_readonly     = False
 
         self.raw_material     = False
         self.raw_color        = False
@@ -85,38 +80,14 @@ class product_product(osv.osv):
         self.bacha_prof       = False
         self.bacha_diam       = False
 
-        #if comm.is_raw_material(self, cid):
-        #    self.type         = 'product'
-        #    self.is_raw       = True
-        #    self.uom_readonly = True
-        #    self.uom_id       = comm.get_uom_m2_id(self)
-        #elif comm.is_bachas(self, cid):
-        #    self.type         = 'product'
-        #    self.is_bacha     = True
-        #    self.uom_readonly = True
-        #    self.uom_id       = comm.get_uom_units_id(self)
-        #elif comm.is_inputs(self, cid):
-        #    self.type         = 'consu'
-        #    self.is_input     = True
-        #    self.uom_readonly = True
-        #    self.uom_id       = comm.get_uom_units_id(self)
-        #elif comm.is_services(self, cid):
-        #    self.type         = 'service'
-
         if self.prod_type == comm.RAW:
             self.type         = 'product'
-        #    self.is_raw       = True
-        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_m2_id(self)
         elif self.prod_type == comm.BACHA:
             self.type         = 'product'
-        #    self.is_bacha     = True
-        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_units_id(self)
         elif self.prod_type == comm.INPUT:
             self.type         = 'consu'
-        #    self.is_input     = True
-        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_units_id(self)
         elif self.prod_type == comm.SERVICE:
             self.type         = 'service'
@@ -445,21 +416,6 @@ class product_template(osv.osv):
         # _logger.info("11 >> _get_readonly >> res = %s", res)
         return res
 
-#    def _is_raw_material(self, cr, uid, ids, field_name, arg, context=None):
-#       return comm.is_raw_material_by_product_id(self, cr, uid, ids)
-
-#    @api.multi
-#    def _is_raw_material(self, value):
-#        return { rec.id:(rec.prod_type == comm.RAW) for rec in self }
-
-#    @api.multi
-#    def _is_bacha(self, value):
-#       return { rec.id:(rec.prod_type == comm.BACHA) for rec in self }
-
-#    @api.multi
-#    def _is_input(self, value):
-#       return { rec.id:(rec.prod_type == comm.INPUT) for rec in self }
-
     def _get_categ_raw_material_id(self, cr, uid, ids, field_name, arg, context=None):
         cid = comm.get_raw_material_id(self, cr, uid)
         res = {}.fromkeys(ids,[cid])
@@ -479,13 +435,8 @@ class product_template(osv.osv):
     def _onchange_category_id(self):
         if not self.categ_id:
             return
-        #cid = self.categ_id.id
-        self.prod_type         = self.categ_id.prod_type
-        #self.is_raw           = False
-        #self.is_bacha         = False
-        #self.is_input         = False
-        #self.uom_readonly     = False
 
+        self.prod_type         = self.categ_id.prod_type
         self.raw_material     = False
         self.raw_color        = False
         self.raw_finished     = False
@@ -500,38 +451,14 @@ class product_template(osv.osv):
         self.bacha_prof       = False
         self.bacha_diam       = False
 
-        #if comm.is_raw_material(self, cid):
-        #    self.type         = 'product'
-        #    self.is_raw       = True
-        #    self.uom_readonly = True
-        #    self.uom_id       = comm.get_uom_m2_id(self)
-        #elif comm.is_bachas(self, cid):
-        #    self.type         = 'product'
-        #    self.is_bacha     = True
-        #    self.uom_readonly = True
-        #    self.uom_id       = comm.get_uom_units_id(self)
-        #elif comm.is_inputs(self, cid):
-        #    self.type         = 'consu'
-        #    self.is_input     = True
-        #    self.uom_readonly = True
-        #    self.uom_id       = comm.get_uom_units_id(self)
-        #elif comm.is_services(self, cid):
-        #    self.type         = 'service'
-
         if self.prod_type == comm.RAW:
             self.type         = 'product'
-        #    self.is_raw       = True
-        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_m2_id(self)
         elif self.prod_type == comm.BACHA:
             self.type         = 'product'
-        #    self.is_bacha     = True
-        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_units_id(self)
         elif self.prod_type == comm.INPUT:
             self.type         = 'consu'
-        #    self.is_input     = True
-        #    self.uom_readonly = True
             self.uom_id       = comm.get_uom_units_id(self)
         elif self.prod_type == comm.SERVICE:
             self.type         = 'service'
@@ -708,66 +635,15 @@ class product_template(osv.osv):
         'bacha_prof': fields.float('Profundidad', digits=(5, 2), type="float"),
         'bacha_diam': fields.float('Diametro', digits=(5, 2), type="float"),
 
-#        'categ_name': fields.related('categ_id', 'name', relation='product.category', type='char', readonly=True, string='Category'),
         'prod_type': fields.related('categ_id', 'prod_type', relation='product.category', type='char', readonly=True, string='Prod Type', store=True),
-
-#        'is_raw': fields.function(_is_raw_material, type='boolean', string='Is Raw Material'),
-#        'is_bacha': fields.function(_is_bacha, type='boolean', string='Is Bacha'),
-#        'is_input': fields.function(_is_input, type='boolean', string='Is Insumo'),
-
-#        'uom_readonly': fields.function(_get_uom_readonly, type='boolean', string='Is Raw or Bacha'),
         'attrs_material': fields.function(_attrs_material, type='char', string='Details'),
 
         'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
         'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
         'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),
+        'location_id': fields.many2one('stock.location','Stock Location', select=True, states={'done': [('readonly', True)]}, domain=[('active','=',True)]),
     }
 
 product_template()
-
-
-#class product_product(osv.osv):
-#    _name = 'product.product'
-#    _inherit = 'product.product'
-#
-#    def _get_stock_moves(self, cr, uid, ids, field_name, arg, context=None):
-#        res = {}.fromkeys(ids, {'stock_move_ids':[], 'dimension_ids':[]})
-#        if not ids:
-#            return res
-#
-#        raws = comm.is_raw_material_by_product_id(self, cr, uid, ids)
-#        for pid in ids:
-#            if not raws[pid]:
-#                continue
-#
-#            sql = "SELECT id, dimension_id FROM stock_move"\
-#                  " WHERE product_id = %s ORDER BY date DESC" % (pid,)
-#
-#            cr.execute(sql)
-#            for r in cr.fetchall():
-#                if r and r[0] and (not r[0] in res[pid]['stock_move_ids']):
-#                    res[pid]['stock_move_ids'].append(r[0])
-#
-#                if r and r[1] and (not r[1] in res[pid]['dimension_ids']):
-#                    res[pid]['dimension_ids'].append(r[1])
-#
-#            if res[pid]['dimension_ids']:
-#                dim_obj = self.pool.get('product.marble.dimension.balance')
-#                dim_ids = dim_obj.search(cr, uid, [('product_id','=',pid)])
-#
-#                res[pid]['dimension_total_m2'] = 0.000
-#                for d in dim_obj.browse(cr, uid, dim_ids, context):
-#                    res[pid]['dimension_total_m2'] += d.qty_m2
-#
-#        # _logger.info(">> _get_stock_moves >> 4 >> res = %s", res)
-#        return res
-#
-#    _columns = {
-#        'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
-#        'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
-#        'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),
-#    }
-#
-#product_product()
-
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+

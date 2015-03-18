@@ -472,6 +472,8 @@ class stock_move(osv.osv):
         'prod_type' : fields.related('product_id', 'prod_type', type='char', relation='product.template', string='Product Type'),
 
         'employee_id': fields.many2one('hr.employee', 'Empleado', select=True, states={'done': [('readonly', True)]}, domain=[('active','=',True)]),
+        'employee_image': fields.related('employee_id', 'image_small', type='binary', relation='hr.employee', string='Part Number', store=True, readonly=True),
+
         #'employee': fields.many2one('hr.employee', 'Empleado', select=True, states={'done': [('readonly', True)]}, domain=[('active','=',True)]),
 
         'partner_picking_id': fields.related('picking_id', 'partner_id', type='many2one', relation='res.partner', string='Patern', store=False),
