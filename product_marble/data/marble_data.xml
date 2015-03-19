@@ -37,27 +37,28 @@
 
 <!-- Locations Definition -->
 
-        <record id="location_stock_deposito" model="stock.location">
-            <field name="name">Deposito</field>
-            <field name="location_id" ref="stock.stock_location_locations"/>
-            <field name="usage">view</field>
-            <field name="company_id" ref="base.main_company"/>
-        </record>
+
         <record id="location_deposito_despacho" model="stock.location">
             <field name="name">Despacho</field>
-            <field name="location_id" ref="product_marble.location_stock_deposito"/>
-            <field name="usage">internal</field>
-            <field name="company_id" ref="base.main_company"/>
-        </record>
-        <record id="location_deposito_stock" model="stock.location">
-            <field name="name">Stock</field>
-            <field name="location_id" ref="product_marble.location_stock_deposito"/>
+            <field name="location_id" ref="stock.stock_location_locations"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
         <record id="location_deposito_stock_propio" model="stock.location">
             <field name="name">Propio</field>
-            <field name="location_id" ref="product_marble.location_deposito_stock"/>
+            <field name="location_id" ref="stock.stock_location_stock"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock_propio_bachas" model="stock.location">
+            <field name="name">Sector Bachas</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock_propio_cuarto" model="stock.location">
+            <field name="name">Cuartito</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
@@ -88,7 +89,7 @@
 
         <record id="location_deposito_stock_clientes" model="stock.location">
             <field name="name">Clientes</field>
-            <field name="location_id" ref="product_marble.location_deposito_stock"/>
+            <field name="location_id" ref="stock.stock_location_stock"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>

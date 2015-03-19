@@ -32,7 +32,7 @@
             <field name="arch" type="xml">
                 <group name="inventory" position="inside">
 			<group string="Stock Location" attrs="{'invisible': [('type', '=', 'service')]}" >
-				<field name="location_id" width="200" domain="[('location_id','=', %(product_marble.location_deposito_stock_propio)d)]"/>
+				<field name="stock_location_id" width="200" domain="[('location_id','=', %(product_marble.location_deposito_stock_propio)d)]"/>
 	                </group>
                 </group>
                 <page string="Accounting" position="replace">
