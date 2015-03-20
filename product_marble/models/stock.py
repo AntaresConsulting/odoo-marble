@@ -60,24 +60,7 @@ class stock_picking(osv.osv):
     _columns = {
         'move_prod_type': fields.selection(_get_tipo_de_move, string='Product Type picking', select=True),
         'prod_type': fields.function(_get_types, type='char', string='Product Type', store=False),
-        #'prod_type' : fields.related('product_id', 'prod_type', type='char', relation='product.template', string='Product Type'),
     }
-
-#    @api.cr_uid_ids_context
-#    def do_prepare_partial(self, cr, uid, picking_ids, context=None):
-#        super(stock_picking, self).do_prepare_partial(cr, uid, picking_ids, context=context)
-#        _logger.info('>> do_prepare_partial >> 1- picking_ids = %s', picking_ids)
-
-#    def _prepare_values_extra_move(self, cr, uid, op, product, remaining_qty, context=None):
-#        res = super(stock_picking, self)._prepare_values_extra_move(cr, uid, op, product, remaining_qty, context)
-#        _logger.info('>> _prepare_values_extra_move >> 1- res = %s', res)
-#        res.update({
-#            'dimension_id': op.dimension_id.id,
-#            'dimension_unit': op.dimension_unit,
-#           })
-#        _logger.info('>> _prepare_values_extra_move >> 2- res = %s', res)
-#        return res
-
 stock_picking()
 
 class stock_pack_operation(osv.osv):
@@ -468,19 +451,19 @@ class stock_move(osv.osv):
         'dimension_unit': fields.integer('Units', size=3, states={'done': [('readonly', True)]}),
 
         'is_raw': fields.function(_is_raw, type='boolean', string='Is Marble'),
-        #'prod_type': fields.function(_get_types, type='char', string='Product Type', store=False),
+
         'prod_type' : fields.related('product_id', 'prod_type', type='char', relation='product.template', string='Product Type'),
 
         'employee_id': fields.many2one('hr.employee', 'Empleado', select=True, states={'done': [('readonly', True)]}, domain=[('active','=',True)]),
         'employee_image': fields.related('employee_id', 'image_small', type='binary', relation='hr.employee', string='Part Number', store=True, readonly=True),
-
-        #'employee': fields.many2one('hr.employee', 'Empleado', select=True, states={'done': [('readonly', True)]}, domain=[('active','=',True)]),
 
         'partner_picking_id': fields.related('picking_id', 'partner_id', type='many2one', relation='res.partner', string='Patern', store=False),
 
         'qty_dimension': fields.function(_get_sign_qty, string='Unidades', multi="sign"),
         'qty_product': fields.function(_get_sign_qty, string='Area (m2)', multi="sign"),
         'qty_balance': fields.function(_get_sign_qty, string='Balance (m2)', multi="sign"),
+
+        'use_client_location': fields.boolean('Does the customer provides the products?', readonly=True),
     }
 
     _defaults = {
