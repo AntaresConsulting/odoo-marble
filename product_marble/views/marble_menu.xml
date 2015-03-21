@@ -322,6 +322,9 @@
                 parent="stock.menu_stock_product"               sequence="19" 
                 action="act_open_product_marble_dimension_view" 
         />
+        <record id="product_marble.menu_product_marble_dimensions" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
+        </record>
 
         <!-- Warehouse > Schedulers > Run Schedulers -->
         <record id="stock.menu_stock_proc_schedulers" model="ir.ui.menu">

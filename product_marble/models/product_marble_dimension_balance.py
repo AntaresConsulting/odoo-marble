@@ -48,7 +48,7 @@ class product_marble_dimension_balance(osv.osv):
 #        return 0
 
     def register_balance(self, cr, uid, data, context=None):
-        # _logger.info(">> register_balance >> 1- data = %s", data)
+        _logger.info(">> register_balance >> 1- data = %s", data)
 
         pro_id = data.get('prod_id', 0)
         dim_id = data.get('dim_id', 0)
@@ -56,6 +56,7 @@ class product_marble_dimension_balance(osv.osv):
         dim_m2 = data.get('dimension_m2', 0.000)
 
         tyMove = data.get('typeMove','')
+        _logger.info(">> register_balance >> 2- data = %s", tyMove)
         if (tyMove not in ['in','out']):
             raise osv.except_osv(_('Error!'), _('Type-Move is not [\'in\',\'out\'].'))
 
@@ -67,12 +68,14 @@ class product_marble_dimension_balance(osv.osv):
                 sQty = str(bal.qty_unit) + operacion + str(dim_qty)
                 sM2 = str(bal.qty_m2) + operacion + str(dim_m2)
                 val = {'qty_unit': eval(sQty), 'qty_m2': eval(sM2)}
+                _logger.info(">> register_balance >> 3- data = %s", val)
                 self.write(cr, uid, bid, val)
         else:
             # New...
             sQty = operacion + str(dim_qty)
             sM2 = operacion + str(dim_m2)
             val = {'dimension_id': dim_id, 'product_id': pro_id, 'qty_unit': eval(sQty), 'qty_m2': eval(sM2)}
+            _logger.info(">> register_balance >> 4- data = %s", val)
             self.create(cr, uid, val)
 
         return True

@@ -53,7 +53,7 @@ _xml_data   = {
     AREA    : 'product_marble.product_uom_categ_area',
     UNITS   : 'product.product_uom_categ_unit',
     # ---- Warehouse location Stock -----
-    LOC_STOCK   : 'stock.stock_location_stock',
+    LOC_STOCK   : 'product_marble.location_deposito_stock_propio',
     LOC_OWN_STOCK   : 'product_marble.location_deposito_stock_propio',
     LOC_CUSTOMERS   : 'product_marble.location_deposito_stock_clientes',
     # ---- Base Company -----

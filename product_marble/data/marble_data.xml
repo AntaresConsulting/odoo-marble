@@ -86,16 +86,24 @@
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
-
-        <record id="location_deposito_stock_clientes" model="stock.location">
-            <field name="name">Clientes</field>
-            <field name="location_id" ref="stock.stock_location_stock"/>
+        <record id="location_deposito_stock_propio_recortes_g" model="stock.location">
+            <field name="name">Recortes Granito</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
-
-	
-
+        <record id="ation_deposito_stock_propio_recortes_m" model="stock.location">
+            <field name="name">Recortes Marmoles</field>
+            <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
+            <field name="usage">internal</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+        <record id="location_deposito_stock_clientes" model="stock.location">
+            <field name="name">Clientes</field>
+            <field name="location_id" ref="stock.stock_location_stock"/>
+            <field name="usage">view</field>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
         <record id="location_stock_insumos" model="stock.location">
             <field name="name">Insumos</field>
             <field name="location_id" ref="stock.stock_location_locations_virtual"/>

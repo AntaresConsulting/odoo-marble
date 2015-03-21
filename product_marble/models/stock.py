@@ -119,9 +119,9 @@ class stock_move(osv.osv):
         if not mov:
             return 0   # none
         stock_loc = comm.get_location_stock(self, cr, uid)
-        if stock_loc == mov.location_dest_id.id:
+        if stock_loc == mov.location_dest_id.location_id.id:
             return 1   # input to Stock
-        if stock_loc == mov.location_id.id:
+        if stock_loc == mov.location_id.location_id.id:
             return -1  # output to Stock
         return 0  # none
 
@@ -405,13 +405,13 @@ class stock_move(osv.osv):
     def action_done(self, cr, uid, ids, context=None):
         if not super(stock_move, self).action_done(cr, uid, ids, context=context):
             return False
-
+        _logger.info(">> _action_done >> 01 >> ids = %s", ids)
         obj_bal = self.pool.get('product.marble.dimension.balance')
         #obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
         obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and (move.product_id.prod_type == comm.RAW)]
         if not obj_mov:
             return True
-
+        _logger.info(">> _action_done >> 02 >> obj_mov = %s", obj_mov)
         # obj_mov is raw -> verifico:
         # >> si (move.location = stock_loc or move.location_dest = stock_loc)
         #    >> registro en Balance.

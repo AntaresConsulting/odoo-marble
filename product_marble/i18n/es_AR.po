@@ -946,3 +946,20 @@ msgstr "{'invisible':[('prod_type','!=','input')]}"
 #: model:ir.ui.menu,name:product_marble.menu_stock_move_inputs
 msgid "Inputs Deliver"
 msgstr "Entrega de Insumos"
+
+#. module: product_marble
+#: field:res.partner,has_local_stock:0
+msgid "Does de Customer provides products"
+msgstr "El cliente provee productos?"
+
+#. module: product_marble
+#: field:stock.move,use_client_location:0
+msgid "Does the customer provides the products?"
+msgstr "El cliente provee productos?"
+
+#. module: product_marble
+#: view:product.template:0
+#: field:product.template,stock_location_id:0
+msgid "Stock Location"
+msgstr "Ubicacion de Stock"
+
