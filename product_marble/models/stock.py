@@ -119,9 +119,10 @@ class stock_move(osv.osv):
         if not mov:
             return 0   # none
         stock_loc = comm.get_location_stock(self, cr, uid)
-        if stock_loc == mov.location_dest_id.location_id.id:
+        stock_rec_loc = comm.get_location_recortes_stock(self, cr, uid)
+        if (stock_loc == mov.location_dest_id.location_id.id) or (stock_rec_loc == mov.location_dest_id.location_id.id):
             return 1   # input to Stock
-        if stock_loc == mov.location_id.location_id.id:
+        if (stock_loc == mov.location_id.location_id.id) or (stock_rec_loc == mov.location_id.location_id.id):
             return -1  # output to Stock
         return 0  # none
 

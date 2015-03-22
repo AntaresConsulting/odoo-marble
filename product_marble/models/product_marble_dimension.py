@@ -37,7 +37,7 @@ class product_marble_dimension(osv.osv):
 
     @api.model
     def _get_type(self):
-        return sorted((('pla', _("Plaque")),('lef', _("Leftover")),('mar', _("Marmeta"))), key=itemgetter(1))
+        return sorted((('pla', _("Placa")),('lef', _("Recorte")),('mar', _("Marmeta"))), key=itemgetter(1))
 
 # --- Migracion -------------------------
 #

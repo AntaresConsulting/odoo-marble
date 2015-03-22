@@ -39,6 +39,7 @@ M2          = 'm2'
 AREA        = 'area'
 UNITS       = 'units'
 LOC_STOCK   = 'stock'
+LOC_REC_STOCK  = 'rec_stock'
 LOC_OWN_STOCK   = 'own'
 LOC_CUSTOMERS   = 'customers'
 MAIN_COMPANY   = 'company'
@@ -56,6 +57,8 @@ _xml_data   = {
     LOC_STOCK   : 'product_marble.location_deposito_stock_propio',
     LOC_OWN_STOCK   : 'product_marble.location_deposito_stock_propio',
     LOC_CUSTOMERS   : 'product_marble.location_deposito_stock_clientes',
+    LOC_REC_STOCK   : 'product_marble.location_deposito_stock_propio_recortes',
+
     # ---- Base Company -----
     MAIN_COMPANY   : 'base.main_company',
 }
@@ -154,6 +157,11 @@ def get_uom_units_id(self):
 @api.model
 def get_location_stock(self):
     return get_prop(self, LOC_STOCK)
+
+@api.model
+def get_location_recortes_stock(self):
+    return get_prop(self, LOC_REC_STOCK)
+
 
 @api.model
 def get_location_own_id(self):
