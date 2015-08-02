@@ -32,6 +32,8 @@
             'sale',
             'purchase',
             'hr',
+            'l10n_ar_base',
+            'l10n_ar_base_vat',
     ],
     'data'       :[
         'security/groups_security.xml',

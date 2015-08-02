@@ -102,10 +102,10 @@
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
         </record>
-        <record id="product_marble.menu_purchase_product_variants" model="ir.ui.menu">
+        <!--record id="product_marble.menu_purchase_product_variants" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
-        </record>
+        </record-->
 
         <!-- Purchases > Products  -->
   
@@ -231,10 +231,10 @@
         </record>
 
         <!-- Purchases > Products > Product -->
-        <record id="product_marble.menu_stock_product_variants" model="ir.ui.menu">
+        <!-- record id="product_marble.menu_stock_product_variants" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
-        </record>
+        </record -->
         <record id="stock.menu_product_by_category_stock_form" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
