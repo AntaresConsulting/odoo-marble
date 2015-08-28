@@ -21,7 +21,7 @@
 			<xpath expr="//div[@class='oe_single_form_logo']" position="replace">
 				<div class="oe_single_form_logo">
 					<img src="/product_marble/static/src/img/logo.png" alt="Marmoles Anton Logo"
-						title="Marmoles Anton  Logo" />
+						title="Marmoles Anton Logo" />
 				</div>
 			</xpath>
 		</template>

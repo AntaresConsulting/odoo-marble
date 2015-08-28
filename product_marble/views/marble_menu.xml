@@ -101,11 +101,16 @@
         <record id="purchase.menu_product_by_category_purchase_form" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
+<<<<<<< HEAD
         </record><!--
         <record id="product_marble.menu_purchase_product_variants" model="ir.ui.menu">
+=======
+        </record>
+        <!--record id="product_marble.menu_purchase_product_variants" model="ir.ui.menu">
+>>>>>>> 2dc747e478abaac625ce5757c044271a2aff5745
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
-        </record>
+        </record-->
 
          Purchases > Products  -->
   
@@ -230,12 +235,13 @@
             ])]"/>
         </record>
 
-        <!-- Purchases > Products > Product 
-        <record id="product_marble.menu_stock_product_variants" model="ir.ui.menu">
+
+        <!-- Purchases > Products > Product -->
+        <!-- record id="product_marble.menu_stock_product_variants" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
-        </record>
--->
+        </record -->
+
         <record id="stock.menu_product_by_category_stock_form" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
