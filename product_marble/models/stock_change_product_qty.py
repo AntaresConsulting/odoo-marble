@@ -22,7 +22,7 @@
 from openerp.osv import fields, osv
 import _common as comm
 from openerp.tools.translate import _
-from openerp import tools
+from openerp import tools, exceptions
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -81,7 +81,23 @@ class stock_change_product_qty(osv.osv_memory):
         res = self.calculate_dim(cr, uid, data, context)
         return super(stock_change_product_qty, self).create(cr, uid, res, context=context)
 
+    # valido dimension, que haya sido CONFIRMDA...
+    def is_valid_dim(self, cr, uid, dim_id, context=None):
+        obj_dim = self.pool.get('product.marble.dimension')
+        dim = obj_dim.browse(cr, uid, [dim_id], context=context)
+        return (not dim_id) or (dim.id and dim.state == 'done')
+
     def onchange_calculate_dim(self, cr, uid, ids, pro_id, dim_id, dim_un, context=None):
+
+        if not self.is_valid_dim(cr, uid, dim_id, context):
+            msg = "La 'Dimension' seleccionada NO FUE CONFIRMADA.\nFavor de CONFIRMAR la Dimensión para su uso.\nSe cancela la selección."
+            res = {
+                    'value'   : {'dimension_id' : False},
+                    'warning' : {'title' : 'Atención!!!', 'message' : msg}
+            }
+            _logger.info(">> res = %s", res)
+            return res
+        
         val = {
             'product_id':                   pro_id or False,   # requerido
             'dimension_id':                 dim_id or False,   # opcional
@@ -112,7 +128,22 @@ class stock_change_product_qty(osv.osv_memory):
             _logger.warning(">> calculate_dim >> No se puede Calcular Dimension, no existe product_id >> val = %s", val)
             return val
 
-        # misc...
+#        msg = False 
+#        if not dim_id:
+#            msg = "Debe indicar 'Dimension'. \nOperacion cancelada."
+#        else:
+#            obj_dim = self.pool.get('product.marble.dimension')
+#            dim = obj_dim.browse(cr, uid, [dim_id], context=context)
+#            if not dim:
+#                msg = "La 'Dimension' seleccionada NO EXISTE. \nOperacion cancelada."
+#            elif dim.state != 'done':
+#                msg = "La 'Dimension' seleccionada NO FUE CONFIRMADA. \nOperacion cancelada."
+#
+#        if msg:
+#            raise exceptions.ValidationError(msg)
+#        else:
+
+       # misc...
         data = self.pool.get('product.product').browse(cr, uid, [pro_id], context=None)[0]
         #is_raw = data.is_raw
         is_raw = (data.prod_type == comm.RAW)

@@ -54,8 +54,8 @@ class product_marble_dimension(osv.osv):
         bids = obj.search(cr, uid, [('qty_unit','>',0),('product_id','=',pid),('dimension_id','in', ids)], context=context)
         data = obj.browse(cr, uid, bids)
 
-        _logger.info(">> _compute_totals >> 2 >> bds = %s", bids)
-        _logger.info(">> _compute_totals >> 3 >> data = %s", data)
+        #_logger.info(">> _compute_totals >> 2 >> bds = %s", bids)
+        #_logger.info(">> _compute_totals >> 3 >> data = %s", data)
         for d in data:
             res[d.dimension_id.id] = {'total_units': d.qty_unit, 'total_m2': d.qty_m2}
 

@@ -78,7 +78,8 @@ class res_partner(osv.osv):
     def create(self, cr, uid, data, context=None):  
         #_logger.info('>> create >> data = %s', data)
         if ('has_local_stock' in data ) and (data['has_local_stock'] == True):
-            data['customer_location_id'] = self._create_location(cr, uid, data[0]['name'])
+            #data['customer_location_id'] = self._create_location(cr, uid, data[0]['name'])
+            data['customer_location_id'] = self._create_location(cr, uid, data['name'])
 
         return super(res_partner, self).create(cr, uid, data, context=context)
 

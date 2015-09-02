@@ -101,19 +101,8 @@
         <record id="purchase.menu_product_by_category_purchase_form" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
             ])]"/>
-<<<<<<< HEAD
-        </record><!--
-        <record id="product_marble.menu_purchase_product_variants" model="ir.ui.menu">
-=======
         </record>
-        <!--record id="product_marble.menu_purchase_product_variants" model="ir.ui.menu">
->>>>>>> 2dc747e478abaac625ce5757c044271a2aff5745
-            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one'),
-            ])]"/>
-        </record-->
 
-         Purchases > Products  -->
-  
         <!-- Purchases > Products > Raw -->
         <menuitem   id="menu_purchase_raw"             name="Raw Material" 
                 parent="purchase.menu_procurement_management_product"               sequence="11" 
@@ -155,7 +144,7 @@
 
         <!-- Sales > Sales > Works -->
         <menuitem   id="menu_works"             name="Works" 
-                parent="base.menu_sales"               sequence="3" 
+                parent="base.menu_sales"    sequence="3" 
                 action="act_open_works_view" 
         />
 
@@ -189,6 +178,16 @@
                 action="act_open_service_view" 
         />
 
+        <!-- Sales > Product > Dimensions -->
+        <menuitem   id="menu_sale_dimensions"                       name="Dimensions" 
+                parent="base.menu_product"                      sequence="16" 
+                action="act_open_product_marble_dimension_view" 
+        />
+        <!--record id="product_marble.menu_product_marble_dimensions" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
+        </record-->
+
+
         <!-- Sales > Customers -->
         <record id="base.menu_partner_form" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
@@ -202,10 +201,10 @@
 
         <!-- Sales > Quatations -->
         <record id="sale.menu_sale_quotations" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('base.group_system'),
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('base.group_system'),
             ])]"/>
         </record>
-
 
         <!-- Product Variants > Product Variants -->
         <record id="product.menu_products" model="ir.ui.menu">
