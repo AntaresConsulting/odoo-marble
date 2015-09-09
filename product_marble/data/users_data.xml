@@ -113,7 +113,7 @@
         <record id="user_ana" model="res.users">
             <field name="partner_id" ref="product_marble.anton_ana"/>
             <field name="login">ana</field>
-            <field name="password">ana</field>
+            <field name="password">ana1</field>
             <field name="signature">Ana</field>
             <field name="company_id" ref="base.main_company"/>
             <field name="groups_id" eval="[(6,0,[

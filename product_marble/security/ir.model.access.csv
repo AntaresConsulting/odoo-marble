@@ -90,4 +90,4 @@ access_sale_order_stock_mger,sale_order_stock_mger,sale.model_sale_order,group_s
 access_sale_order_line_stock_mger,sale_order_line_stock_mger,sale.model_sale_order_line,group_stock_mger,1,0,0,0
 access_stock_pack_operation_stock_mger,stock_pack_operation_stock_mger,stock.model_stock_pack_operation,group_stock_mger,1,1,1,1
 access_stock_move_operation_link_stock_mger,stock_move_operation_link_stock_mger,stock.model_stock_move_operation_link,group_stock_mger,0,0,1,1
-
+access_cutter_report_salesman,sale.report.cutter,sale.model_sale_report,group_stock_adminis,1,1,1,0

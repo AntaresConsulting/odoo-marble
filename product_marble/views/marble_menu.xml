@@ -329,7 +329,10 @@
                 action="act_open_product_marble_dimension_view" 
         />
         <record id="product_marble.menu_product_marble_dimensions" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/>
+            <!-- field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/ -->
+            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_stock_adminis'),
+                                                 ref('product_marble.group_stock_mger')
+            ])]"/>
         </record>
 
         <!-- Warehouse > Schedulers > Run Schedulers -->
