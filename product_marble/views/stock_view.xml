@@ -84,8 +84,20 @@
                 <group name="destination_grp" position="inside">
                     <field name="employee_id"/>
                 </group>
-            </field>
 
+                <!--field name="location_id" position="replace">
+                    <field name="location_id" groups="stock.group_locations" required="True"
+                         domain="[('location_id','=', %(product_marble.location_deposito_stock_propio)d)]"
+                    />
+                </field-->
+
+                <!--field name="location_dest_id" position="replace">
+                    <field name="location_dest_id" required="True"
+                         domain="[('location_dest_id','=', %(product_marble.location_deposito_stock_propio)d)]"
+                    />
+                </field-->
+
+            </field>
         </record>
             
         <!-- Inventory -->
@@ -249,7 +261,7 @@
             <field name="mode" >primary</field>
             <field eval="4" name="priority"/>
             <field name="arch" type="xml">
-		<tree colors="grey:state == 'cancel';red:(state not in ('cancel','done')) and date &gt; current_date" string="Moves">
+                <tree colors="grey:state == 'cancel';red:(state not in ('cancel','done')) and date &gt; current_date" string="Moves">
                     <field name="name"/>
                     <field name="picking_id" string="Reference"/>
                     <field name="employee_image" string="" widget="image" height="48"/>

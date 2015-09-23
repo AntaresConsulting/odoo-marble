@@ -285,6 +285,8 @@ class product_product(osv.osv):
         'dimension_ids': fields.function(_get_stock_moves, relation='product.marble.dimension', type="one2many", string='Dimensions', multi="*"),
         'stock_move_ids': fields.function(_get_stock_moves, relation='stock.move', type="one2many", string='Stock Moves', multi="*"),
         'dimension_total_m2': fields.function(_get_stock_moves, type="float", digits=(5,2), string='Area Total [m2]', multi="*"),
+
+
     }
 product_product()
 

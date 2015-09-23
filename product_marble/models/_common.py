@@ -38,14 +38,18 @@ OTHER       = '*'
 M2          = 'm2'
 AREA        = 'area'
 UNITS       = 'units'
-LOC_STOCK   = 'stock'
-LOC_REC_STOCK  = 'rec_stock'
+
+LOC_DESPACHO    = 'loc_despacho'
+LOC_STOCK       = 'stock'
+LOC_REC_STOCK   = 'rec_stock'
 LOC_OWN_STOCK   = 'own'
 LOC_CUSTOMERS   = 'customers'
-MAIN_COMPANY   = 'company'
+
+MAIN_COMPANY    = 'company'
+
 _xml_data   = {
     # ---- Prod Categ -----
-    RAW     : 'product_marble.prod_categ_raw_material',
+    RAW    : 'product_marble.prod_categ_raw_material',
     BACHA  : 'product_marble.prod_categ_bachas',
     SERVICE: 'product_marble.prod_categ_services',
     INPUT  : 'product_marble.prod_categ_inputs',
@@ -54,11 +58,11 @@ _xml_data   = {
     AREA    : 'product_marble.product_uom_categ_area',
     UNITS   : 'product.product_uom_categ_unit',
     # ---- Warehouse location Stock -----
-    LOC_STOCK   : 'product_marble.location_deposito_stock_propio',
+    LOC_DESPACHO    : 'product_marble.location_deposito_despacho',
+    LOC_STOCK       : 'product_marble.location_deposito_stock_propio',
     LOC_OWN_STOCK   : 'product_marble.location_deposito_stock_propio',
     LOC_CUSTOMERS   : 'product_marble.location_deposito_stock_clientes',
     LOC_REC_STOCK   : 'product_marble.location_deposito_stock_propio_recortes',
-
     # ---- Base Company -----
     MAIN_COMPANY   : 'base.main_company',
 }
@@ -153,6 +157,10 @@ def get_uom_m2_id(self):
 @api.model
 def get_uom_units_id(self):
     return get_prop(self, UNITS)
+
+@api.model
+def get_location_despacho(self):
+    return get_prop(self, LOC_DESPACHO)
 
 @api.model
 def get_location_stock(self):
@@ -416,6 +424,12 @@ def print_dict(msg, val):
 
 
 # -------------------------------------------------------
+
+def get_loc_parents(self, loc, res):
+    res += (loc and loc.id and [loc.id]) or []
+    if loc and loc.location_id:
+        get_loc_parents(self, loc.location_id, res)
+    return res
 
 
 

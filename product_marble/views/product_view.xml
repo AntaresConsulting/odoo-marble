@@ -31,9 +31,12 @@
             <field name="inherit_id" ref="account.product_template_form_view"/>
             <field name="arch" type="xml">
                 <group name="inventory" position="inside">
-			<group string="Stock Location" attrs="{'invisible': [('type', '=', 'service')]}" >
-				<field name="stock_location_id" width="200" domain="[('location_id','=', %(product_marble.location_deposito_stock_propio)d)]"/>
-	                </group>
+                    <group string="Stock Location" attrs="{'invisible': [('type', '=', 'service')]}" >
+                        <field name="stock_location_id" width="200" 
+                             domain="[('location_id','=', %(product_marble.location_deposito_stock_propio)d)]"
+                           required="True"
+                        />
+                    </group>
                 </group>
                 <page string="Accounting" position="replace">
                     <page string="Accounting" groups="account.group_account_invoice">

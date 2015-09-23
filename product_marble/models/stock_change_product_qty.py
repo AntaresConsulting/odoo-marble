@@ -79,6 +79,8 @@ class stock_change_product_qty(osv.osv_memory):
     def create(self, cr, uid, data, context=None):
         data['product_id'] = context.get('active_id', False)
         res = self.calculate_dim(cr, uid, data, context)
+
+        _logger.info(">> create >> res = %s", res)
         return super(stock_change_product_qty, self).create(cr, uid, res, context=context)
 
     # valido dimension, que haya sido CONFIRMDA...
@@ -95,7 +97,7 @@ class stock_change_product_qty(osv.osv_memory):
                     'value'   : {'dimension_id' : False},
                     'warning' : {'title' : 'Atención!!!', 'message' : msg}
             }
-            _logger.info(">> res = %s", res)
+            #_logger.info(">> res = %s", res)
             return res
         
         val = {
@@ -128,22 +130,7 @@ class stock_change_product_qty(osv.osv_memory):
             _logger.warning(">> calculate_dim >> No se puede Calcular Dimension, no existe product_id >> val = %s", val)
             return val
 
-#        msg = False 
-#        if not dim_id:
-#            msg = "Debe indicar 'Dimension'. \nOperacion cancelada."
-#        else:
-#            obj_dim = self.pool.get('product.marble.dimension')
-#            dim = obj_dim.browse(cr, uid, [dim_id], context=context)
-#            if not dim:
-#                msg = "La 'Dimension' seleccionada NO EXISTE. \nOperacion cancelada."
-#            elif dim.state != 'done':
-#                msg = "La 'Dimension' seleccionada NO FUE CONFIRMADA. \nOperacion cancelada."
-#
-#        if msg:
-#            raise exceptions.ValidationError(msg)
-#        else:
-
-       # misc...
+        # misc...
         data = self.pool.get('product.product').browse(cr, uid, [pro_id], context=None)[0]
         #is_raw = data.is_raw
         is_raw = (data.prod_type == comm.RAW)
@@ -180,7 +167,11 @@ class stock_change_product_qty(osv.osv_memory):
         # set uom >> m2
         val['dimension_uom_theoretical'] = uom
 
-        # _logger.info(">> calculate_dim >> 3- val = %s", val)
+        #_logger.info(">> calculate_dim >> 1- val = %s", val)
+        #_logger.info(">> calculate_dim >> 2- dimension_unit_new = %s", val['dimension_unit_new'])
+        #_logger.info(">> calculate_dim >> 3- dimension_m2_new   = %s", val['dimension_m2_new'])
+        #_logger.info(">> calculate_dim >> 4- dimension_unit_th  = %s", val['dimension_unit_theoretical'])
+        #_logger.info(">> calculate_dim >> 5- dimension_m2_th    = %s", val['dimension_m2_theoretical'])
         return val
 
     # overwrite: stock > stock_inventory_line - odoo v8.0 - line: 75 - 114
@@ -194,7 +185,7 @@ class stock_change_product_qty(osv.osv_memory):
         @param context: A standard dictionary
         @return:
         """
-        _logger.info(">> change_product_qty >> 1- ids = %s", ids)
+        #_logger.info(">> change_product_qty >> 1- ids = %s", ids)
         if context is None:
             context = {}
 
@@ -236,7 +227,13 @@ class stock_change_product_qty(osv.osv_memory):
                 'dimension_unit_theoretical': data.dimension_unit_theoretical,  # old units (existing units registered [x system])
                 'dimension_m2_theoretical': data.dimension_m2_theoretical,      # old m2 (existing m2 registered [x system])
             }
-            _logger.info(">> change_product_qty >> 3- line_data = %s", line_data)
+            #_logger.info(">> ch >> 1- line_data         = %s", line_data)
+            #_logger.info(">> ch >> 2- is_raw            = %s", line_data['is_raw'])
+            #_logger.info(">> ch >> 3- dimension_id      = %s", line_data['dimension_id'])
+            #_logger.info(">> ch >> 4- dimension_unit    = %s", line_data['dimension_unit'])
+            #_logger.info(">> ch >> 5- dimension_m2      = %s", line_data['dimension_m2'])
+            #_logger.info(">> ch >> 6- dimension_unit_th = %s", line_data['dimension_unit_theoretical'])
+            #_logger.info(">> ch >> 7- dimension_m2_th   = %s", line_data['dimension_m2_theoretical'])
 
             inventory_line_obj.create(cr, uid, line_data, context=context)
             inventory_obj.action_done(cr, uid, [inventory_id], context=context)

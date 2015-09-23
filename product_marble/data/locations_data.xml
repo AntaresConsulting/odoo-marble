@@ -2,164 +2,103 @@
 <openerp>
     <data noupdate="1">
 
-        <!-- Product UOM Category -->
-        <record id="product_uom_categ_area" model="product.uom.categ">
-            <field name="name">Surface / Area</field>
-        </record>
-
-        <!-- Product UOM -->
-        <record id="product_uom_square_meter" model="product.uom">
-            <field name="category_id" ref="product_marble.product_uom_categ_area"/>
-            <field name="name">m2</field>
-            <field name="factor" eval="1.0"/>
-        </record>
-
-        <!-- Product Category -->
-        <record id="prod_categ_raw_material" model="product.category">
-            <field name="name">Raw Material</field>
-            <field name="prod_type">raw</field>
-        </record>
- 
-        <record id="prod_categ_bachas" model="product.category">
-            <field name="name">Bachas</field>
-            <field name="prod_type">bacha</field>
-        </record>
- 
-         <record id="prod_categ_services" model="product.category">
-            <field name="name">Services</field>
-            <field name="prod_type">service</field>
-        </record>
- 
-        <record id="prod_categ_inputs" model="product.category">
-            <field name="name">Inputs</field>
-            <field name="prod_type">input</field>
-        </record>
-
-<!-- Locations Definition -->
-
-
+       <!-- Locations Definition -->
         <record id="location_deposito_despacho" model="stock.location">
             <field name="name">Despacho</field>
             <field name="location_id" ref="stock.stock_location_locations"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+
         <record id="location_deposito_stock_propio" model="stock.location">
             <field name="name">Propio</field>
             <field name="location_id" ref="stock.stock_location_stock"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_bachas" model="stock.location">
             <field name="name">Sector Bachas</field>
             <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_cuarto" model="stock.location">
             <field name="name">Cuartito</field>
             <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_a" model="stock.location">
             <field name="name">Sector A</field>
             <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_b" model="stock.location">
             <field name="name">Sector B</field>
             <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_c" model="stock.location">
             <field name="name">Sector C</field>
             <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_d" model="stock.location">
             <field name="name">Sector D</field>
             <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_recortes" model="stock.location">
             <field name="name">Recortes</field>
             <field name="location_id" ref="product_marble.location_deposito_stock_propio"/>
             <field name="usage">view</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_recortes_g" model="stock.location">
             <field name="name">Recortes Granito</field>
             <field name="location_id" ref="location_deposito_stock_propio_recortes"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_propio_recortes_m" model="stock.location">
             <field name="name">Recortes Marmoles</field>
             <field name="location_id" ref="location_deposito_stock_propio_recortes"/>
             <field name="usage">internal</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_deposito_stock_clientes" model="stock.location">
             <field name="name">Clientes</field>
             <field name="location_id" ref="stock.stock_location_stock"/>
             <field name="usage">view</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_stock_insumos" model="stock.location">
             <field name="name">Insumos</field>
             <field name="location_id" ref="stock.stock_location_locations_virtual"/>
             <field name="usage">inventory</field>
             <field name="company_id" ref="base.main_company"/>
         </record>
+        
         <record id="location_stock_servicios" model="stock.location">
             <field name="name">Servicios</field>
             <field name="location_id" ref="stock.stock_location_locations_virtual"/>
             <field name="usage">inventory</field>
             <field name="company_id" ref="base.main_company"/>
-        </record>
-
-<!-- Picking Sequence -->
-
-
-        <record id="seq_picking_internal" model="ir.sequence">
-            <field name="name">Picking INT</field>
-            <field name="code">stock.picking</field>
-            <field name="prefix">PROD/</field>
-            <field name="padding">5</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <record id="stock.picking_type_internal" model="stock.picking.type">
-            <field name="sequence_id" ref="product_marble.seq_picking_internal" />
-        </record>
-
-        <record id="seq_picking_outgoing" model="ir.sequence">
-            <field name="name">Picking OUT</field>
-            <field name="code">stock.picking.out</field>
-            <field name="prefix">REMITO/</field>
-            <field name="padding">5</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <record id="stock.picking_type_out" model="stock.picking.type">
-            <field name="sequence_id" ref="product_marble.seq_picking_outgoing" />
-        </record>
-
-        <record id="seq_picking_incoming" model="ir.sequence">
-            <field name="name">Picking IN</field>
-            <field name="code">stock.picking.in</field>
-            <field name="prefix">PEDIDO/</field>
-            <field name="padding">5</field>
-            <field name="company_id" eval="False"/>
-        </record>
-
-        <record id="stock.picking_type_in" model="stock.picking.type">
-            <field name="sequence_id" ref="product_marble.seq_picking_incoming" />
         </record>
 
  </data>

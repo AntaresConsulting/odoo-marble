@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="0">
+
+        <!-- Users -->
+        <record id="user_david" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_david"/>
+            <field name="login">david</field>
+            <field name="password">david</field>
+            <field name="signature">David</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('group_manager'),
+            ])]"/>
+        </record>
+
+        <record id="user_erica" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_erica"/>
+            <field name="login">erica</field>
+            <field name="password">erica</field>
+            <field name="signature">Erica</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('group_manager'),
+            ])]"/>
+        </record>
+      
+        <record id="user_ana" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_ana"/>
+            <field name="login">ana</field>
+            <field name="password">ana1</field>
+            <field name="signature">Ana</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('group_administrative'),
+            ])]"/>
+       </record>
+      
+        <record id="user_test" model="res.users">
+            <field name="partner_id" ref="product_marble.anton_test"/>
+            <field name="login">test</field>
+            <field name="password">test</field>
+            <field name="signature">Test</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('group_cutter'),
+            ])]"/>
+       </record>
+
+
+ </data>
+</openerp>

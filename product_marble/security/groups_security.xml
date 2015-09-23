@@ -2,14 +2,19 @@
 <openerp>
 
 <!-- Module Category -->
-<data noupdate="1">
-    <record id="module_marble_category" model="ir.module.category">
-        <field name="name">Product Marble</field>
+<data noupdate="0">
+    <record id="module_marble_menu" model="ir.module.category">
+        <field name="name">Marble Web Menues Profiles</field>
+        <field name="description">Products marbles definition.</field>
+        <field name="parent_id" ref="base.module_category_warehouse_management"/>
+    </record>
+    <record id="module_marble_web" model="ir.module.category">
+        <field name="name">Marble Web Profiles</field>
         <field name="description">Products marbles definition.</field>
         <field name="parent_id" ref="base.module_category_warehouse_management"/>
     </record>
     <record id="module_marble_tablet" model="ir.module.category">
-        <field name="name">Tablet Profiles</field>
+        <field name="name">Marble Tablet Profiles</field>
         <field name="description">ACL for tablet</field>
         <field name="parent_id" ref="base.module_category_warehouse_management"/>
     </record>
@@ -18,90 +23,101 @@
 <!-- Groups -->
 <data noupdate="0">
 
-    <!-- ROOTS MENUS -->
-
-    <record id="group_menu_reporting" model="res.groups">
-        <field name="name">Reporting Menu</field>
-        <field name="category_id" ref="module_marble_category"/>
-    </record>
-
-    <record id="group_menu_stock" model="res.groups">
-        <field name="name">Stock Menu</field>
-        <field name="category_id" ref="module_marble_category"/>
-    </record>
- 
-    <record id="group_menu_accounting" model="res.groups">
-        <field name="name">Accounting Menu</field>
-        <field name="category_id" ref="module_marble_category"/>
-    </record>
- 
-    <!-- GROUPS OF USERS -->
-
-    <!--record id="group_marble_user" model="res.groups">
-        <field name="name">User Marble</field>
-        <field name="category_id" ref="module_marble_category"/>
-    </record>
-    
-    <record id="group_marble_resp" model="res.groups">
-        <field name="name">Responsable Marble</field>
-        <field name="category_id" ref="module_marble_category"/>
-    </record>
-    
-    <record id="group_marble_cutt" model="res.groups">
-        <field name="name">Cutter Marble</field>
-        <field name="category_id" ref="module_marble_category"/>
-    </record-->
-    
-    <record id="group_stock_mger" model="res.groups">
-        <field name="name">Manager Stock</field>
-        <field name="category_id" ref="module_marble_category"/>
-        <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
-    </record>
-    
-    <!--record id="group_marble_adminis" model="res.groups">
-        <field name="name">Administrative Marble</field>
-        <field name="category_id" ref="module_marble_category"/>
-        <field name="implied_ids" eval="[(4, ref('base.group_hr_manager'))]"/>
-                                                ref('group_menu_reporting'),
-                                               ref('group_menu_accounting'),
-    </record-->
-
-    <record id="group_purchase_adminis" model="res.groups">
-        <field name="name">Administrative Purchase</field>
-        <field name="category_id" ref="module_marble_category"/>
-        <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
-    </record>
- 
-    <record id="group_sale_adminis" model="res.groups">
-        <field name="name">Administrative Sale</field>
-        <field name="category_id" ref="module_marble_category"/>
-        <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
-    </record>
- 
-    <record id="group_stock_adminis" model="res.groups">
-        <field name="name">Administrative Stock</field>
-        <field name="category_id" ref="module_marble_category"/>
-        <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
-    </record>
-
     <!-- Tablet Profiles -->
-
     <record id="group_tablet_responsable" model="res.groups">
         <field name="name">Warehouse Responsable</field>
         <field name="category_id" ref="module_marble_tablet"/>
-        <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
     </record>
 
     <record id="group_tablet_cutter" model="res.groups">
         <field name="name">Warehouse Cutter</field>
         <field name="category_id" ref="module_marble_tablet"/>
-        <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
     </record>
 
     <record id="group_tablet_manager" model="res.groups">
         <field name="name">Warehouse Manager</field>
         <field name="category_id" ref="module_marble_tablet"/>
-        <field name="implied_ids" eval="[(6,0,[ref('base.group_user')])]"/>
+    </record>
+
+    <!-- ROOTS MENUS -->
+    <record id="group_menu_sale" model="res.groups">
+        <field name="name">Sale Menu</field>
+        <field name="category_id" ref="module_marble_menu"/>
+    </record>
+
+    <record id="group_menu_purchase" model="res.groups">
+        <field name="name">Purchase Menu</field>
+        <field name="category_id" ref="module_marble_menu"/>
+    </record>
+
+    <record id="group_menu_stock" model="res.groups">
+        <field name="name">Stock Menu</field>
+        <field name="category_id" ref="module_marble_menu"/>
+    </record>
+
+   <record id="group_menu_reporting" model="res.groups">
+        <field name="name">Reporting Menu</field>
+        <field name="category_id" ref="module_marble_menu"/>
+    </record>
+
+    <record id="group_menu_accounting" model="res.groups">
+        <field name="name">Accounting Menu</field>
+        <field name="category_id" ref="module_marble_menu"/>
+    </record>
+
+    <!-- GROUPS OF USERS -->
+    <record id="group_responsable" model="res.groups">
+        <field name="name">Responsable Marble</field>
+        <field name="category_id" ref="module_marble_web"/>
+        <field name="implied_ids" eval="[(6,0,[
+                                            ref('base.group_user'),
+                                            ref('base.group_hr_user'),
+                                            ref('stock.group_locations'),
+                                            ref('product.group_uom'),
+
+                                            ref('group_menu_stock'),
+                                            ref('group_tablet_responsable'),
+        ])]"/>
+    </record>
+
+    <record id="group_cutter" model="res.groups">
+        <field name="name">Cutter Marble</field>
+        <field name="category_id" ref="module_marble_web"/>
+        <field name="implied_ids" eval="[(6,0,[
+                                            ref('base.group_user'),
+                                            ref('base.group_hr_user'),
+                                            ref('stock.group_locations'),
+                                            ref('product.group_uom'),
+
+                                            ref('group_menu_stock'),
+                                            ref('group_tablet_cutter'),
+        ])]"/>
+   </record>
+
+    <record id="group_administrative" model="res.groups">
+        <field name="name">Administrative Marble</field>
+        <field name="category_id" ref="module_marble_web"/>
+        <field name="implied_ids" eval="[(6,0,[
+                                            ref('base.group_user'),
+                                            ref('base.group_hr_manager'),
+                                            ref('stock.group_locations'),
+                                            ref('product.group_uom'),
+
+                                            ref('group_menu_sale'),
+                                            ref('group_menu_purchase'),
+                                            ref('group_menu_reporting'),
+                                            ref('group_menu_accounting'),
+                                            ref('group_menu_stock'),
+        ])]"/>
+    </record>
+
+    <record id="group_manager" model="res.groups">
+        <field name="name">Manager Marble</field>
+        <field name="category_id" ref="module_marble_web"/>
+        <field name="implied_ids" eval="[(6,0,[
+                                            ref('group_administrative'),
+                                            ref('group_tablet_manager'),
+        ])]"/>
     </record>
 
 </data>

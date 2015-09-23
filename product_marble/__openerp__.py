@@ -36,12 +36,15 @@
             'l10n_ar_base_vat',
     ],
     'data'       :[
-        'security/groups_security.xml',
-        'security/ir.model.access.csv',
-
         'data/heavy_data.xml',
         'data/users_data.xml',
-        'data/marble_data.xml',
+        'data/products_data.xml',
+        'data/locations_data.xml',
+        'data/picking_data.xml',
+
+        'security/groups_security.xml',
+        'security/users_security.xml',
+        'security/ir.model.access.csv',
 
         'views/marble_login_view.xml',
         'views/product_dimension_view.xml',

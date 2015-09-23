@@ -6,9 +6,10 @@
 
         <!-- Top Menu > Reporting -->
         <record id="base.menu_reporting" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_menu_reporting'),
+            <field name="groups_id" eval="[(6,0,[
                                                  ref('base.group_system'),
-                                                 ref('base.group_erp_manager')
+                                                 ref('base.group_erp_manager'),
+                                                 ref('group_menu_reporting'),
             ])]"/>
         </record>
 
@@ -19,7 +20,7 @@
             <field name="groups_id" eval="[(6,0,[ref('account.group_account_user'),
                                                  ref('account.group_account_invoice'),
                                                  ref('account.group_account_manager'),
-                                                 ref('product_marble.group_menu_accounting'),
+                                                 ref('group_menu_accounting'),
             ])]"/>
         </record>
 
@@ -27,7 +28,7 @@
 
         <!-- Top Menu > Purchases -->
         <record id="base.menu_purchase_root" model="ir.ui.menu">
-            <field name="groups_id" eval="[(4,ref('product_marble.group_purchase_adminis'))]"/>
+            <field name="groups_id" eval="[(4,ref('group_menu_purchase'))]"/>
         </record>
 
         <!-- Purchases > Suppliers -->
@@ -36,7 +37,7 @@
                                                  ref('base.group_erp_manager'),
                                                  ref('purchase.group_purchase_manager'),
                                                  ref('purchase.group_purchase_user'),
-                                                 ref('product_marble.group_purchase_adminis'),
+                                                 ref('group_administrative'),
             ])]"/>
         </record>
 
@@ -136,10 +137,13 @@
  
         <!-- SALES -->
 
-
         <!-- Top Menu > Sales -->
         <record id="base.menu_base_partner" model="ir.ui.menu">
-            <field name="groups_id" eval="[(4,ref('product_marble.group_sale_adminis'))]"/>
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('base.group_sale_manager'),
+                                                ref('base.group_sale_salesman'),
+                                                ref('group_menu_sale'),
+            ])]"/>
         </record>
 
         <!-- Sales > Sales > Works -->
@@ -195,7 +199,7 @@
                                                  ref('base.group_sale_manager'),
                                                  ref('base.group_sale_salesman'),
                                                  ref('base.group_sale_salesman_all_leads'),
-                                                 ref('product_marble.group_sale_adminis'),
+                                                 ref('group_administrative'),
             ])]"/>
         </record>
 
@@ -230,7 +234,7 @@
         <record id="stock.menu_stock_root" model="ir.ui.menu">
             <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_user'),
                                                  ref('stock.group_stock_manager'),
-                                                 ref('product_marble.group_menu_stock'),
+                                                 ref('group_menu_stock'),
             ])]"/>
         </record>
 
@@ -300,8 +304,9 @@
 
         <!-- Warehouse > Traceability > Stock Moves -->
         <record id="stock.menu_action_move_form2" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_stock_adminis'),
-                                                 ref('product_marble.group_stock_mger')
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('group_administrative'),
+                                                ref('group_responsable'),
             ])]"/>
         </record>
 
@@ -311,9 +316,10 @@
                 action="act_open_input_deliver_view" 
         />
 
-        <record id="product_marble.menu_stock_move_inputs" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_stock_adminis'),
-                                                 ref('product_marble.group_stock_mger')
+        <record id="menu_stock_move_inputs" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('group_administrative'),
+                                                ref('group_responsable'),
             ])]"/>
         </record>
 
@@ -328,10 +334,11 @@
                 parent="stock.menu_stock_product"               sequence="19" 
                 action="act_open_product_marble_dimension_view" 
         />
-        <record id="product_marble.menu_product_marble_dimensions" model="ir.ui.menu">
-            <!-- field name="groups_id" eval="[(6,0,[ref('base.group_no_one')])]"/ -->
-            <field name="groups_id" eval="[(6,0,[ref('product_marble.group_stock_adminis'),
-                                                 ref('product_marble.group_stock_mger')
+        <record id="menu_product_marble_dimensions" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('group_administrative'),
+                                                ref('group_responsable'),
+                                                ref('group_manager'),
             ])]"/>
         </record>
 
@@ -342,7 +349,9 @@
 
         <!-- Warehouse > Schedulers > Procurements -->
         <record id="stock.menu_stock_procurement_action" model="ir.ui.menu">
-            <field name="groups_id" eval="[(6,0,[ref('stock.group_stock_manager')])]"/>
+            <field name="groups_id" eval="[(6,0,[
+                                                ref('stock.group_stock_manager'),
+            ])]"/>
         </record>
 
         <!-- Warehouse > Configuracion > Warehouses  -->

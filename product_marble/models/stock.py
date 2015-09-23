@@ -100,10 +100,10 @@ class stock_pack_operation(osv.osv):
         return super(stock_pack_operation, self).create(cr, uid, vals, context=context)
 
     def write(self, cr, uid, ids, vals, context=None):
-        _logger.info('>> stock_pack_opetarion >> write >> 20- vals = %s', vals)
+        #_logger.info('>> stock_pack_opetarion >> write >> 20- vals = %s', vals)
         self._before_save(cr, uid, vals, context)
 
-        _logger.info('>> stock_pack_opetarion >> write >> 21- vals = %s', vals)
+        #_logger.info('>> stock_pack_opetarion >> write >> 21- vals = %s', vals)
         return super(stock_pack_operation, self).write(cr, uid, ids, vals, context=context)
 
 stock_pack_operation()
@@ -111,20 +111,52 @@ stock_pack_operation()
 class stock_move(osv.osv):
     _inherit = "stock.move"
 
+
     # defino tipo de movimiento en Locacion de Stock:
     # return 0 = no afecta a Stock,
     #        1 = entra prod. en Stock (in: input),
     #       -1 = sale prod. en Stock (out: output)
-    def stock_move(self, cr, uid, mov=None):
+    def stock_move(self, cr, uid, mov=None, zeroVal=None):
+
+        zeroValue = 0 if zeroVal == None else zeroVal
         if not mov:
-            return 0   # none
-        stock_loc = comm.get_location_stock(self, cr, uid)
-        stock_rec_loc = comm.get_location_recortes_stock(self, cr, uid)
-        if (stock_loc == mov.location_dest_id.location_id.id) or (stock_rec_loc == mov.location_dest_id.location_id.id):
-            return 1   # input to Stock
-        if (stock_loc == mov.location_id.location_id.id) or (stock_rec_loc == mov.location_id.location_id.id):
-            return -1  # output to Stock
-        return 0  # none
+            _logger.info(">> stock_move >> Stock.Move no definido.")
+            return zeroValue
+
+        loc_propio = [comm.get_location_stock(self, cr, uid), \
+                      comm.get_location_recortes_stock(self, cr, uid)]
+
+        loc_orig_parents = comm.get_loc_parents(self, mov.location_id, [])
+        loc_dest_parents = comm.get_loc_parents(self, mov.location_dest_id, [])
+
+        loc_orig_propio = (loc_propio[0] in loc_orig_parents) or (loc_propio[1] in loc_orig_parents)
+        loc_dest_propio = (loc_propio[0] in loc_dest_parents) or (loc_propio[1] in loc_dest_parents)
+
+        #_logger.info(">> stock_move >> 1- loc_propio = %s", loc_propio)
+        #_logger.info(">> stock_move >> 2- loc_orig_parents = %s", loc_orig_parents)
+        #_logger.info(">> stock_move >> 3- loc_orig_propio = %s", loc_orig_propio)
+        #_logger.info(">> stock_move >> 4- loc_dest_parents = %s", loc_dest_parents)
+        #_logger.info(">> stock_move >> 5- loc_dest_propio = %s", loc_dest_propio)
+
+        if loc_orig_propio and loc_dest_propio:
+            _logger.info(">> stock_move = 0 (NULO): movimiento interno en sectores propios.")
+            return zeroValue
+
+        if not loc_orig_propio and not loc_dest_propio:
+            _logger.info(">> stock_move = 0 (NULO): movimiento interno en sectores no propios.")
+            return zeroValue
+
+        if not loc_orig_propio and loc_dest_propio:
+            _logger.info(">> stock_move = 1 (IN): ingreso de mercaderia en almacen/sector.")
+            return 1
+
+        if loc_orig_propio and not loc_dest_propio:
+            _logger.info(">> stock_move = -1 (OUT): egreso de mercaderia en almacen/sector.")
+            return -1
+
+        _logger.warning(">> ERROR >> stock_move = 0 >> ¿Entrada o Salida? operación no definida...")
+        return zeroValue
+
 
     def _get_sign_qty(self, cr, uid, ids, field_name, arg, context=None):
         if not ids:
@@ -135,8 +167,9 @@ class stock_move(osv.osv):
         ids_by_date = self.search(cr, uid, [('id','in',ids)], order='date')
         for m in self.browse(cr, uid, ids_by_date):
             fields = {}
+
             # sign = self._get_sign(m)
-            sign = self.stock_move(cr, uid, m)
+            sign = self.stock_move(cr, uid, m, 1)
 
             fields['qty_dimension'] = sign * m.dimension_unit
             fields['qty_product'] = sign * m.product_qty
@@ -406,22 +439,23 @@ class stock_move(osv.osv):
     def action_done(self, cr, uid, ids, context=None):
         if not super(stock_move, self).action_done(cr, uid, ids, context=context):
             return False
-        _logger.info(">> _action_done >> 01 >> ids = %s", ids)
+        #_logger.info(">> _action_done >> 01 >> ids = %s", ids)
         obj_bal = self.pool.get('product.marble.dimension.balance')
         #obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and move.product_id.is_raw]
         obj_mov = [move for move in self.browse(cr, uid, ids, context=context) if move.state == 'done' and (move.product_id.prod_type == comm.RAW)]
         if not obj_mov:
             return True
-        _logger.info(">> _action_done >> 02 >> obj_mov = %s", obj_mov)
+        #_logger.info(">> _action_done >> 02 >> obj_mov = %s", obj_mov)
         # obj_mov is raw -> verifico:
         # >> si (move.location = stock_loc or move.location_dest = stock_loc)
         #    >> registro en Balance.
         # stock_loc = comm.get_location_stock(self, cr, uid)
         # bal_list = [mov for mov in obj_mov if stock_loc in [mov.location_id.id, mov.location_dest_id.id]]
-        bal_list = [mov for mov in obj_mov if self.stock_move(cr, uid, mov) != 0]
+        # bal_list = [mov for mov in obj_mov if self.stock_move(cr, uid, mov) != 0]
+        bal_list = [mov for mov in obj_mov]
 
         #_logger.info(">> _action_done >> 02 >> stock_loc = %s", stock_loc)
-        _logger.info(">> _action_done >> 03 >> bal_list = %s", bal_list)
+        #_logger.info(">> _action_done >> 03 >> bal_list = %s", bal_list)
         for mov in bal_list:
 
             # valid data required
@@ -431,6 +465,7 @@ class stock_move(osv.osv):
             if msg:
                 raise osv.except_osv(_('Error'), _(msg))
 
+            #_logger.info(">> _action_done >> 888- stock_move  = %s", self.stock_move(cr, uid, mov))
             # set data..
             val = {
                 'prod_id': mov.product_id.id,
@@ -440,10 +475,10 @@ class stock_move(osv.osv):
                 # 'typeMove': 'in' if stock_loc == mov.location_dest_id.id else 'out'
                 'typeMove': 'in' if self.stock_move(cr, uid, mov) > 0 else 'out'
             }
-#            _logger.info(">> _action_done >> 04- val = %s", val)
+            #_logger.info(">> _action_done >> 04- val = %s", val)
             obj_bal.register_balance(cr, uid, val, context)
 
-#        _logger.info(">> _action_done >> 05- OK >> val = %s", val)
+        #_logger.info(">> _action_done >> 05- OK >> val = %s", val)
         return True
 
     _columns = {
@@ -540,7 +575,9 @@ class stock_inventory_line(osv.osv):
             vals['product_uom_qty'] = diff                                      # dim >> m2 [excedente]
             vals['dimension_unit'] = (inventory_line.is_raw and diff_unit) or 0  # dim >> unidades [excedente]
 
-        _logger.info(">> _resolve_inventory_line >> 01- vals = %s", vals)
+        #_logger.info(">> _inv >> 01- vals = %s", vals)
+        #_logger.info(">> _inv >> 02- uom_qty = %s", vals['product_uom_qty'])
+        #_logger.info(">> _inv >> 03- dim_uni = %s", vals['dimension_unit'])
         return stock_move_obj.create(cr, uid, vals, context=context)
 
 stock_inventory_line()
