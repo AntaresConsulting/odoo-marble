@@ -10,7 +10,7 @@
                 <group string="Group by..." position="before">
                     <newline/>
                     <field name="prod_type"/>
-                    <filter sring="Raw Material" name="raw" domain="[('prod_type','=','raw')]" help="Raw Material products" /> 
+                    <filter sring="Raw Material" name="raw" domain="[('prod_type','=','raw')]" help="Raw Material products" />
                     <filter string="Bachas"   name="bacha" domain="[('prod_type','=','bacha')]" help="Bachas products" />
                     <filter string="Inputs"   name="input" domain="[('prod_type','=','input')]" help="Inputs products" />
                     <filter string="Services" name="service" domain="[('prod_type','=','service')]" help="Services products" />
@@ -32,7 +32,7 @@
             <field name="arch" type="xml">
                 <group name="inventory" position="inside">
                     <group string="Stock Location" attrs="{'invisible': [('type', '=', 'service')]}" >
-                        <field name="stock_location_id" width="200" 
+                        <field name="stock_location_id" width="200"
                              domain="[('location_id','=', %(product_marble.location_deposito_stock_propio)d)]"
                            required="True"
                         />
@@ -62,7 +62,7 @@
             <field name="arch" type="xml">
                <!-- 2014.09.21 - arosenbrock - bug in v8.0 Final -->
                <field name="is_product_variant" position="after">
-                   <field name="product_variant_count" invisible="1"/> 
+                   <field name="product_variant_count" invisible="1"/>
                </field>
                <!--page string="Variants" position="replace"/-->
                <page string="Information" position="replace">
@@ -72,8 +72,8 @@
                             <field name="categ_id" widget="radio"/>
                             <field name="prod_type" invisible="1"/>
                             <field name="type" attrs="{'readonly':[('prod_type','in',['raw','bacha','input'])]}"/>
-                            <field name="uom_id" 
-                                  attrs="{'readonly':[('prod_type','in',['raw','bacha'])]}" 
+                            <field name="uom_id"
+                                  attrs="{'readonly':[('prod_type','in',['raw','bacha'])]}"
                                   on_change="onchange_uom(uom_id,uom_po_id)"
                                   groups="product.group_uom"
                             />
@@ -121,7 +121,7 @@
                     </group>
                 </page>
             </page>
-            
+
            </field>
         </record>
 

@@ -1,174 +1,178 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-    <data>
-      <!-- - - - - - - - - - - - - - Searchs - - - - - - - - - -->
-       <record id="view_marble_res_partner_filter" model="ir.ui.view">
-            <field name="name">res.partner.select</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="base.view_res_partner_filter"/>
-            <field name="arch" type="xml">
-               <filter string="Suppliers" position="after">
-                   <filter string="Works" name="is_work" domain="[('is_work','=',True)]" help="Works Partners"/>
-               </filter>
-            </field>
-        </record>
-
-        <record id="view_marble_partner_property_form" model="ir.ui.view">
-            <field name="name">res.partner.purchase.property.form.inherit</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="purchase.view_partner_property_form"/>
-            <!--field name="priority">36</field-->
-            <field name="arch" type="xml">
-
-
-		<xpath expr="//form[@string='Partners']//sheet//div[@class='oe_title oe_left']//div[@class='oe_edit_only']" position="replace">
-			<div class="oe_edit_only">
-				<label for="name"/>
-				<span attrs="{'invisible':[('is_work','=',True)]}"> ( </span>
-				<field name="is_company" on_change="onchange_type(is_company)" class="oe_inline" attrs="{'invisible':[('is_work','=',True)]}"/> 
-				<label for="is_company" string="Is a Company?" attrs="{'invisible':[('is_work','=',True)]}"/>
-				<span attrs="{'invisible':[('is_work','=',True)]}"> ) </span>
-			</div>
-		</xpath>
-
-		<field name="is_company" position="attributes">
-			<attribute name="on_change" />
-			<attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
-		</field> 
-
-		<field name="title" position="attributes">
-		  	<attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
-		</field> 
-		<page name="sales_purchases" position="attributes">
-		  	<attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
-		</page>
-                <page string="Accounting" position="attributes">
-		   	 <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
-                   	 <attribute name="groups">account.group_account_invoice,product_marble.group_sale_adminis,product_marble.group_pruchase_adminis,product_marble.group_stock_mger</attribute>
-                </page>
-
-               <xpath expr="//div[@name='buttons']" position="attributes">
-		  	<attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
-                </xpath>
-        
-               <xpath expr="//page[@name='sales_purchases']//group//group//field[@name='customer']" position="after">
-                   <field name="is_work" invisible="1"/> <!-- flag que me indica si este Partner es un Work (child of a Partner). -->
-                   <field name="has_works" attrs="{'invisible':['|',('is_company','=',False),'|',('customer','=',False),('is_work','=',True)]}"/>
-                </xpath>
-		<field name="active" position="before">
-			<field name="has_local_stock" attrs="{'invisible':[('customer','=',False)]}"/>
-		</field> 		
-
-               <page string="Contacts" position="after">
-                <page string="Works" attrs="{'invisible': [('has_works','=',False)]}">
-                    <field name="works_ids" mode="kanban" context="{'is_company': True,'is_work': True,'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_customer': customer, 'default_use_parent_address': True}">
-                        <kanban>
-                            <field name="color"/>
-                            <field name="name"/>
-                            <field name="title"/>
-                            <field name="email"/>
-                            <field name="parent_id"/>
-                            <field name="is_company"/>
-                            <field name="function"/>
-                            <field name="phone"/>
-                            <field name="street"/>
-                            <field name="street2"/>
-                            <field name="zip"/>
-                            <field name="city"/>
-                            <field name="country_id"/>
-                            <field name="mobile"/>
-                            <field name="fax"/>
-                            <field name="state_id"/>
-                            <field name="has_image"/>
-                            <templates>
-                                <t t-name="kanban-box">
-                                    <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
-                                    <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '')" style="position: relative">
-                                        <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
-                                        <div class="oe_module_vignette">
-                                        <a type="open">
-                                            <t t-if="record.has_image.raw_value === true">
-                                                <img t-att-src="kanban_image('res.partner', 'image', record.id.value, {'preview_image': 'image_small'})" class="oe_avatar oe_kanban_avatar_smallbox"/>
-                                            </t>
-                                            <t t-if="record.image and record.image.raw_value !== false">
-                                                <img t-att-src="'data:image/png;base64,'+record.image.raw_value" class="oe_avatar oe_kanban_avatar_smallbox"/>
-                                            </t>
-                                            <t t-if="record.has_image.raw_value === false and (!record.image or record.image.raw_value === false)">
-                                                <t t-if="record.is_company.raw_value === true">
-                                                    <img t-att-src='_s + "/base/static/src/img/company_image.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
-                                                </t>
-                                                <t t-if="record.is_company.raw_value === false">
-                                                    <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
-                                                </t>
-                                            </t>
-                                        </a>
-                                            <div class="oe_module_desc">
-                                                <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border">
-                                                    <table class="oe_kanban_table">
-                                                        <tr>
-                                                            <td class="oe_kanban_title1" align="left" valign="middle">
-                                                                <h4><a type="open"><field name="name"/></a></h4>
-                                                                <i><div t-if="record.function.raw_value">
-                                                                    <field name="function"/></div></i>
-                                                                <div><a t-if="record.email.raw_value" title="Mail" t-att-href="'mailto:'+record.email.value">
-                                                                    <field name="email"/>
-                                                                </a></div>
-                                                                <div t-if="record.phone.raw_value">Phone: <field name="phone"/></div>
-                                                                <div t-if="record.mobile.raw_value">Mobile: <field name="mobile"/></div>
-                                                                <div t-if="record.fax.raw_value">Fax: <field name="fax"/></div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
+  <data>
+    <!-- - - - - - - - - - - - - - Searchs - - - - - - - - - -->
+    <record id="view_marble_res_partner_filter" model="ir.ui.view">
+      <field name="name">res.partner.select</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_res_partner_filter"/>
+      <field name="arch" type="xml">
+        <filter string="Suppliers" position="after">
+          <filter string="Works" name="is_work" domain="[('is_work','=',True)]" help="Works Partners"/>
+        </filter>
+      </field>
+    </record>
+    <record id="view_marble_partner_property_form" model="ir.ui.view">
+      <field name="name">res.partner.purchase.property.form.inherit</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <!--field name="priority">36</field-->
+      <field name="arch" type="xml">
+        <xpath expr="//form[@string='Partners']//sheet//div[@class='oe_title oe_left']//div[@class='oe_edit_only']" position="replace">
+          <div class="oe_edit_only">
+            <label for="name"/>
+            <span attrs="{'invisible':[('is_work','=',True)]}"> ( </span>
+            <field name="is_company" on_change="onchange_type(is_company)" class="oe_inline" attrs="{'invisible':[('is_work','=',True)]}"/>
+            <label for="is_company" string="Is a Company?" attrs="{'invisible':[('is_work','=',True)]}"/>
+            <span attrs="{'invisible':[('is_work','=',True)]}"> ) </span>
+          </div>
+        </xpath>
+        <field name="is_company" position="attributes">
+          <attribute name="on_change" />
+          <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+        </field>
+        <field name="title" position="attributes">
+          <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+        </field>
+        <page name="sales_purchases" position="attributes">
+          <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+        </page>
+        <page string="Accounting" position="attributes">
+          <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+          <attribute name="groups">account.group_account_invoice,product_marble.group_sale_adminis,product_marble.group_pruchase_adminis,product_marble.group_stock_mger</attribute>
+        </page>
+        <xpath expr="//div[@name='buttons']" position="attributes">
+          <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
+        </xpath>
+        <xpath expr="//page[@name='sales_purchases']//group//group//field[@name='customer']" position="after">
+          <field name="is_work" invisible="1"/>
+          <!-- flag que me indica si este Partner es un Work (child of a Partner). -->
+          <field name="has_works" attrs="{'invisible':['|',('is_company','=',False),'|',('customer','=',False),('is_work','=',True)]}"/>
+        </xpath>
+        <field name="active" position="before">
+          <field name="has_local_stock" attrs="{'invisible':[('customer','=',False)]}"/>
+        </field>
+        <page string="Contacts" position="after">
+          <page string="Works" attrs="{'invisible': [('has_works','=',False)]}">
+            <field name="works_ids" mode="kanban" context="{'is_company': True,'is_work': True,'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_supplier': supplier, 'default_customer': customer, 'default_use_parent_address': True}">
+              <kanban>
+                <field name="color"/>
+                <field name="name"/>
+                <field name="title"/>
+                <field name="email"/>
+                <field name="parent_id"/>
+                <field name="is_company"/>
+                <field name="function"/>
+                <field name="phone"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="country_id"/>
+                <field name="mobile"/>
+                <field name="fax"/>
+                <field name="state_id"/>
+                <field name="has_image"/>
+                <templates>
+                  <t t-name="kanban-box">
+                    <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                    <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '')" style="position: relative">
+                      <a t-if="! read_only_mode" type="delete" style="position: absolute; right: 0; padding: 4px; diplay: inline-block">X</a>
+                      <div class="oe_module_vignette">
+                        <a type="open">
+                          <t t-if="record.has_image.raw_value === true">
+                            <img t-att-src="kanban_image('res.partner', 'image', record.id.value, {'preview_image': 'image_small'})" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                          </t>
+                          <t t-if="record.image and record.image.raw_value !== false">
+                            <img t-att-src="'data:image/png;base64,'+record.image.raw_value" class="oe_avatar oe_kanban_avatar_smallbox"/>
+                          </t>
+                          <t t-if="record.has_image.raw_value === false and (!record.image or record.image.raw_value === false)">
+                            <t t-if="record.is_company.raw_value === true">
+                              <img t-att-src='_s + "/base/static/src/img/company_image.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                            </t>
+                            <t t-if="record.is_company.raw_value === false">
+                              <img t-att-src='_s + "/base/static/src/img/avatar.png"' class="oe_kanban_image oe_kanban_avatar_smallbox"/>
+                            </t>
+                          </t>
+                        </a>
+                        <div class="oe_module_desc">
+                          <div class="oe_kanban_box_content oe_kanban_color_bglight oe_kanban_color_border">
+                            <table class="oe_kanban_table">
+                              <tr>
+                                <td class="oe_kanban_title1" align="left" valign="middle">
+                                  <h4>
+                                    <a type="open">
+                                      <field name="name"/>
+                                    </a>
+                                  </h4>
+                                  <i>
+                                    <div t-if="record.function.raw_value">
+                                      <field name="function"/>
                                     </div>
-                                </t>
-                            </templates>
-                        </kanban>
-                        <form string="Works">
-                            <sheet>
-                                <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
-                                <div class="oe_title">
-                                    <label for="name" class="oe_edit_only"/>
-                                    <h1><field name="name" style="width: 70%%"/></h1>
-                                    <field name="category_id" widget="many2many_tags" placeholder="Tags..." style="width: 70%%"/>
+                                  </i>
+                                  <div>
+                                    <a t-if="record.email.raw_value" title="Mail" t-att-href="'mailto:'+record.email.value">
+                                      <field name="email"/>
+                                    </a>
+                                  </div>
+                                  <div t-if="record.phone.raw_value">Phone: <field name="phone"/>
                                 </div>
-                                <group>
-                                    <field name="email"/>
-                                    <field name="phone"/>
-                                    <field name="mobile"/>
-                                </group>
-                                <div>
-                                    <field name="use_parent_address"/><label for="use_parent_address"/>
-                                </div>
-                                <group>
-                                    <label for="street" string="Address" attrs="{'invisible': [('use_parent_address','=', True)]}"/>
-                                    <div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
-                                        <field name="street" placeholder="Street..."/>
-                                        <field name="street2"/>
-                                        <div class="address_format">
-                                            <field name="city" placeholder="City" style="width: 40%%"/>
-                                            <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)"/>
-                                            <field name="zip" placeholder="ZIP" style="width: 20%%"/>
-                                        </div>
-                                        <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}'/>
-                                    </div>
-                                </group>
-                                <field name="supplier" invisible="True"/>
-                                <field name="customer" invisible="True"/>
-                                <field name="is_work" invisible="True"/>
-                                <field name="is_company" invisible="True"/>
-                            </sheet>
-                        </form>
-                    </field>
-                </page>
-                </page>
-
-
-
-            </field>
-        </record>
-
-    </data>
+                                <div t-if="record.mobile.raw_value">Mobile: <field name="mobile"/>
+                              </div>
+                              <div t-if="record.fax.raw_value">Fax: <field name="fax"/>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+        <form string="Works">
+          <sheet>
+            <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+            <div class="oe_title">
+              <label for="name" class="oe_edit_only"/>
+              <h1>
+                <field name="name" style="width: 70%%"/>
+              </h1>
+              <field name="category_id" widget="many2many_tags" placeholder="Tags..." style="width: 70%%"/>
+            </div>
+            <group>
+              <field name="email"/>
+              <field name="phone"/>
+              <field name="mobile"/>
+            </group>
+            <div>
+              <field name="use_parent_address"/>
+              <label for="use_parent_address"/>
+            </div>
+            <group>
+              <label for="street" string="Address" attrs="{'invisible': [('use_parent_address','=', True)]}"/>
+              <div attrs="{'invisible': [('use_parent_address','=', True)]}" name="div_address">
+                <field name="street" placeholder="Street..."/>
+                <field name="street2"/>
+                <div class="address_format">
+                  <field name="city" placeholder="City" style="width: 40%%"/>
+                  <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)"/>
+                  <field name="zip" placeholder="ZIP" style="width: 20%%"/>
+                </div>
+                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True}'/>
+              </div>
+            </group>
+            <field name="supplier" invisible="True"/>
+            <field name="customer" invisible="True"/>
+            <field name="is_work" invisible="True"/>
+            <field name="is_company" invisible="True"/>
+          </sheet>
+        </form>
+      </field>
+    </page>
+  </page>
+</field>
+</record>
+</data>
 </openerp>
