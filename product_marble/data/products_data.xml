@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="1">
+        <delete model="product.category" id="product.product_category_1"/>
+        <record id="product.product_category_all" model="product.category">
+            <field name="type">view</field>
+        </record>
 
         <!-- Product UOM Category -->
         <record id="product_uom_categ_area" model="product.uom.categ">
@@ -19,17 +23,17 @@
             <field name="name">Raw Material</field>
             <field name="prod_type">raw</field>
         </record>
- 
+
         <record id="prod_categ_bachas" model="product.category">
             <field name="name">Bachas</field>
             <field name="prod_type">bacha</field>
         </record>
- 
+
          <record id="prod_categ_services" model="product.category">
             <field name="name">Services</field>
             <field name="prod_type">service</field>
         </record>
- 
+
         <record id="prod_categ_inputs" model="product.category">
             <field name="name">Inputs</field>
             <field name="prod_type">input</field>

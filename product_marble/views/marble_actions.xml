@@ -109,7 +109,7 @@
         <field name="res_model">product.product</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="view_type">form</field>
-        <field name="context">{"search_default_raw":1,"default_raw":1}</field>
+        <field name="context" eval="{'search_default_raw':1,'default_categ_id':ref('product_marble.prod_categ_raw_material')}" />
     </record>
 
     <!-- Input -->
@@ -119,7 +119,7 @@
         <field name="res_model">product.template</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="view_type">form</field>
-        <field name="context">{"search_default_input":1,"default_input":1}</field>
+        <field name="context" eval="{'search_default_input':1,'default_categ_id':ref('product_marble.prod_categ_inputs')}" />
     </record>
 
     <!-- Input Variant -->
@@ -129,7 +129,7 @@
         <field name="res_model">product.product</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="view_type">form</field>
-        <field name="context">{"search_default_input":1,"default_input":1}</field>
+        <field name="context" eval="{'search_default_input':1,'default_categ_id':ref('product_marble.prod_categ_inputs')}" />
     </record>
 
     <!-- Bacha -->
@@ -139,7 +139,7 @@
         <field name="res_model">product.product</field>
         <field name="view_mode">kanban,tree,form</field>
         <field name="view_type">form</field>
-        <field name="context">{"search_default_bacha":1,"default_prod_type":"bacha","default_categ_id":"_validate_data_movil"}</field>
+        <field name="context" eval="{'search_default_bacha':1,'default_categ_id':ref('product_marble.prod_categ_bachas')}" />
     </record>
 
     <!-- Service -->
@@ -150,6 +150,7 @@
         <field name="view_mode">kanban,tree,form</field>
         <field name="view_type">form</field>
         <field name="context">{"search_default_service":1,"default_service":1}</field>
+        <field name="context" eval="{'search_default_service':1,'default_categ_id':ref('product_marble.prod_categ_services')}" />
     </record>
 
     <!-- Input Moves -->
