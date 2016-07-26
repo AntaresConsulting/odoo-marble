@@ -741,6 +741,7 @@ msgstr "Calle..."
 
 #. module: product_marble
 #: view:res.partner:0
+#: model:ir.ui.menu,name:base.menu_procurement_management_supplier_name
 msgid "Suppliers"
 msgstr "Proveedores"
 
@@ -963,3 +964,13 @@ msgstr "El cliente provee productos?"
 msgid "Stock Location"
 msgstr "Ubicacion de Stock"
 
+#. module: purchase
+#: model:ir.actions.act_window,name:purchase.action_purchase_line_product_tree
+#: model:ir.ui.menu,name:purchase.menu_purchase_config
+#: model:ir.ui.menu,name:base.menu_purchase_root
+#: view:product.product:purchase.view_product_normal_purchase_buttons_from
+#: view:product.template:purchase.view_product_template_purchase_buttons_from
+#: view:res.partner:purchase.purchase_partner_kanban_view
+#: view:res.partner:purchase.res_partner_view_purchase_buttons
+msgid "Purchases"
+msgstr "Compras"

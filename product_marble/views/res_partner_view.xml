@@ -37,10 +37,12 @@
         <page name="sales_purchases" position="attributes">
           <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
         </page>
+        <!--
         <page string="Accounting" position="attributes">
           <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
           <attribute name="groups">account.group_account_invoice,product_marble.group_sale_adminis,product_marble.group_pruchase_adminis,product_marble.group_stock_mger</attribute>
         </page>
+      -->
         <xpath expr="//div[@name='buttons']" position="attributes">
           <attribute name="attrs">{'invisible': [('is_work','=',True)]}</attribute>
         </xpath>
