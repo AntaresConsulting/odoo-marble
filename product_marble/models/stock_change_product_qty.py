@@ -99,7 +99,7 @@ class stock_change_product_qty(osv.osv_memory):
             }
             #_logger.info(">> res = %s", res)
             return res
-        
+
         val = {
             'product_id':                   pro_id or False,   # requerido
             'dimension_id':                 dim_id or False,   # opcional
@@ -199,10 +199,12 @@ class stock_change_product_qty(osv.osv_memory):
             ctx = context.copy()
             ctx['location'] = data.location_id.id
             ctx['lot_id'] = data.lot_id.id
+            _logger.info(">> calculate_dim >> 5- dimension_m2_th    = %s", data)
             inventory_id = inventory_obj.create(cr, uid, {
                 'name': _('INV: %s') % tools.ustr(data.product_id.name),
                 'product_id': data.product_id.id,
                 'location_id': data.location_id.id,
+                'filter': 'product',
                 'lot_id': data.lot_id.id}, context=context)
 
             product = data.product_id.with_context(location=data.location_id.id)
