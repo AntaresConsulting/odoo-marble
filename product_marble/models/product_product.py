@@ -62,6 +62,7 @@ class product_product(osv.osv):
 
     @api.onchange('categ_id')
     def _onchange_category_id(self):
+        _logger.info(">> _onchange_categoy_id >> 1 >> self = %s", self)
         if not self.categ_id:
             return
         self.prod_type         = self.categ_id.prod_type
@@ -91,6 +92,8 @@ class product_product(osv.osv):
             self.uom_id       = comm.get_uom_units_id(self)
         elif self.prod_type == comm.SERVICE:
             self.type         = 'service'
+        _logger.info(">> _onchange_categoy_id >> 2 >> self = %s", self)
+
     def get_product_available(self, cr, uid, ids, context=None):
         """ Finds whether product is available or not in particular warehouse.
         @return: Dictionary of values
@@ -243,13 +246,18 @@ class product_product(osv.osv):
         return dict((str(key), value) for key, value in results.items())
 
     def _get_stock_moves(self, cr, uid, ids, field_name, arg, context=None):
+        
+        # inicializo
+        _logger.info(">> _get_stock_moves >> 1 >> ids (products) = %s", ids)
         res = {}.fromkeys(ids, {'stock_move_ids':[], 'dimension_ids':[]})
         if not ids:
             return res
 
         #raws = comm.is_raw_material_by_product_id(self, cr, uid, ids)
+
+        # recupero los Prod (ids) del tipo Materia Prima
         raws = { rec.id : (rec.prod_type == comm.RAW) for rec in self.pool.get('product.product').browse(cr, uid, ids)}
-        _logger.info(">> _get_stock_moves >> 3 >> raws = %s", raws)
+        _logger.info(">> _get_stock_moves >> 2 >> Prod (raw) = %s", raws)
 
         for pid in ids:
             if not raws[pid]:
@@ -260,25 +268,33 @@ class product_product(osv.osv):
 
             cr.execute(sql)
             for r in cr.fetchall():
+
                 if r and r[0] and (not r[0] in res[pid]['stock_move_ids']):
                     res[pid]['stock_move_ids'].append(r[0])
 
                 if r and r[1] and (not r[1] in res[pid]['dimension_ids']):
                     res[pid]['dimension_ids'].append(r[1])
-            _logger.info(">> _get_stock_moves >> 6 >> res = %s", res)
-            _logger.info(">> _get_stock_moves >> 6 >> pid = %s", pid)
+
+            _logger.info(">> _get_stock_moves >> 3 >> res = %s", res)
+            _logger.info(">> _get_stock_moves >> 4 >> pid = %s", pid)
+            
             filter_dims = []
             if res[pid]['dimension_ids']:
+
                 dim_obj = self.pool.get('product.marble.dimension.balance')
                 dim_ids = dim_obj.search(cr, uid, [('product_id','=',pid),('qty_unit','>',0)])
 
                 res[pid]['dimension_total_m2'] = 0.000
                 for d in dim_obj.browse(cr, uid, dim_ids, context):
+            
                     filter_dims.append(d.dimension_id.id)
                     res[pid]['dimension_total_m2'] += d.qty_m2
-            _logger.info(">> _get_stock_moves >> 4 >> res = %s", filter_dims)
+
+            _logger.info(">> _get_stock_moves >> 5 >> res = %s", filter_dims)
+
             res[pid]['dimension_ids'] = list(set(res[pid]['dimension_ids']) & set(filter_dims))
-            _logger.info(">> _get_stock_moves >> 5 >> res = %s", res)
+            _logger.info(">> _get_stock_moves >> 6 >> res = %s", res)
+
         return res
 
     _columns = {
@@ -435,6 +451,7 @@ class product_template(osv.osv):
 
     @api.onchange('categ_id')
     def _onchange_category_id(self):
+        _logger.info(">> _onchange_categoy_id >> 1 >> self = %s", self)
         if not self.categ_id:
             return
 
@@ -464,6 +481,7 @@ class product_template(osv.osv):
             self.uom_id       = comm.get_uom_units_id(self)
         elif self.prod_type == comm.SERVICE:
             self.type         = 'service'
+        _logger.info(">> _onchange_categoy_id >> 2 >> self = %s", self)
 
     @api.model
     def _validate_data_movile(self, data):
@@ -493,20 +511,24 @@ class product_template(osv.osv):
         cid = data['categ_id']
 
         if comm.is_raw_material(self, cid):
-            res['type']   = data.get('type', 'product')
+            res['type']   = 'product'
+            #res['type']   = data.get('type', 'product')
             res['uom_id'] =  comm.get_uom_m2_id(self)
             res['uom_po_id'] = comm.get_uom_m2_id(self)
 
         elif comm.is_bachas(self, cid):
-            res['type']   = data.get('type', 'product')
+            res['type']   = 'product'
+            #res['type']   = data.get('type', 'product')
             res['uom_id'] =  comm.get_uom_units_id(self)
             res['uom_po_id'] = comm.get_uom_units_id(self)
 
         elif comm.is_inputs(self, cid):
-            res['type']   = data.get('type', 'consu')
+            res['type']   = 'consu'
+            #res['type']   = data.get('type', 'consu')
 
         elif comm.is_services(self, cid):
-            res['type']   = data.get('type', 'service')
+            res['type']   = 'service'
+            #res['type']   = data.get('type', 'service')
 
         is_raw   = comm.is_raw_material(self, cid)
         is_bacha = comm.is_bachas(self, cid)

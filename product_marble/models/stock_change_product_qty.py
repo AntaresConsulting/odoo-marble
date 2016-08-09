@@ -52,6 +52,7 @@ class stock_change_product_qty(osv.osv_memory):
         'dimension_unit_theoretical': 0,
         'dimension_m2_theoretical':   0.000,
         'dimension_uom_theoretical':  False,
+        'location_id':                False,
     }
 
     def default_get(self, cr, uid, fields, context):
@@ -65,6 +66,7 @@ class stock_change_product_qty(osv.osv_memory):
         res['dimension_m2_theoretical'] =   0.000
         res['dimension_uom_theoretical'] =  False
         res['new_quantity'] =               0.000
+        res['location_id'] =                False
 
         pid = res.get('product_id',0) or context.get('active_id') or 0
         for prod in self.pool.get('product.product').browse(cr, uid, [pid], context=context):
@@ -73,7 +75,7 @@ class stock_change_product_qty(osv.osv_memory):
             res['product_uom'] = prod.uom_id.id
             res['dimension_uom_theoretical'] = res['product_uom']
 
-        # _logger.info(">> default_get >> 1 >> res = %s", res)
+        #_logger.info(">> default_get >> 1 >> res = %s", res)
         return res
 
     def create(self, cr, uid, data, context=None):

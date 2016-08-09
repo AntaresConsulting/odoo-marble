@@ -80,14 +80,14 @@ def set_prop(self):
 
 @api.model
 def get_prod_types(self):
-    #_logger.info(">> get_prod_type >> 1- self = %s", self)
+    _logger.info(">> get_prod_type >> 1- self = %s", self)
     types = {
         get_prop(self, RAW)     : RAW,
         get_prop(self, BACHA)   : BACHA,
         get_prop(self, SERVICE) : SERVICE,
         get_prop(self, INPUT)   : INPUT,
     }
-    #_logger.info(">> get_prod_type >> 2- types = %s", types)
+    _logger.info(">> get_prod_type >> 2- types = %s", types)
     return types
 
 # --- Migracion -------------------------
