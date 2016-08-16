@@ -85,7 +85,7 @@
                     <field name="employee_id"/>
                 </group>
 
-                <!--field name="location_id" position="replace">
+               <!--field name="location_id" position="replace">
                     <field name="location_id" groups="stock.group_locations" required="True"
                          domain="[('location_id','=', %(product_marble.location_deposito_stock_propio)d)]"
                     />
@@ -221,6 +221,15 @@
                        <field name="description" readonly="1"/>
                    </group>
                </group>
+ 
+                <field name="location_id" position="attributes">
+			<attribute name="domain">[('location_id','=', %(product_marble.location_deposito_stock_propio)d)]</attribute>
+		</field> 
+
+                 <field name="location_dest_id" position="attributes">
+			<!--attribute name="domain">[('location_dest_id','=', %(product_marble.location_deposito_stock_propio)d)]</attribute-->
+			<attribute name="domain">[('location_dest_id','=', 19)]</attribute>
+		</field> 
  
             </field>
         </record>

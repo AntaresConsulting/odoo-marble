@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="1">
-        <delete model="product.category" id="product.product_category_1"/>
+        <!--delete model="product.category" id="product.product_category_1"/-->
         <record id="product.product_category_all" model="product.category">
             <field name="type">view</field>
         </record>
